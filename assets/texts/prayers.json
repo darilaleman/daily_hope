@@ -1,0 +1,182 @@
+[
+  {
+    "id": "p1",
+    "title": "Oración Por La Fortaleza Interior",
+    "content": "Hoy pido fuerza para enfrentar los desafíos que vienen. Que pueda encontrar en mi interior la valentía necesaria para seguir adelante, incluso cuando todo parezca difícil. Que cada obstáculo sea una oportunidad de crecimiento y cada caída un aprendizaje. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p2",
+    "title": "Oración Por La Paz Del Corazón",
+    "content": "En este momento de incertidumbre, busco la paz que calma mi corazón. Que pueda soltar las preocupaciones que me atan y confiar en que todo estará bien. Que la serenidad inunde mi ser y me permita ver con claridad el camino a seguir. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p3",
+    "title": "Oración Por Nuevos Comienzos",
+    "content": "Hoy dejo atrás lo que fue y abrazo lo que será. Que tenga el coraje de empezar de nuevo, la sabiduría de aprender del pasado y la esperanza de construir un futuro mejor. Que cada día sea una oportunidad de ser mejor persona. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p4",
+    "title": "Oración Por La Sanación Emocional",
+    "content": "Pido sanación para las heridas que cargo, visibles e invisibles. Que pueda perdonar, soltar y liberarme de lo que me pesa. Que el tiempo y el amor propio curen lo que duele y me permitan avanzar con el corazón ligero. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p5",
+    "title": "Oración Por La Confianza En Uno Mismo",
+    "content": "Hoy elijo creer en mí, en mis capacidades, en mi valor. Que pueda silenciar las voces que me dicen que no puedo y escuchar solo la que me impulsa a seguir. Que la confianza en mí mismo sea mi guía en cada decisión. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p6",
+    "title": "Oración Por La Gratitud Diaria",
+    "content": "Hoy agradezco por todo lo que tengo y por todo lo que vendrá. Por las bendiciones visibles e invisibles, por las lecciones aprendidas y por las oportunidades que llegan. Que la gratitud sea mi actitud constante ante la vida. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p7",
+    "title": "Oración Por La Paciencia En La Adversidad",
+    "content": "En los momentos difíciles, pido paciencia para esperar el momento adecuado. Que pueda entender que todo tiene su tiempo y que la perseverancia será recompensada. Que la paciencia me dé la fuerza para no rendirme antes de tiempo. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p8",
+    "title": "Oración Por El Amor Propio",
+    "content": "Hoy me comprometo a amarme tal como soy, con mis virtudes y mis defectos. Que pueda tratarme con la misma compasión que trato a los demás. Que el amor propio sea la base desde la cual construya una vida plena y feliz. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p9",
+    "title": "Oración Por La Liberación Del Miedo",
+    "content": "Hoy suelto los miedos que me paralizan y me impiden avanzar. Que pueda enfrentar mis temores con valentía y descubrir que son más pequeños de lo que imaginaba. Que la libertad del miedo me permita vivir plenamente. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p10",
+    "title": "Oración Por La Sabiduría En Las Decisiones",
+    "content": "Pido sabiduría para tomar las decisiones correctas en mi vida. Que pueda escuchar mi intuición, analizar con claridad y elegir el camino que me lleve hacia mi mejor versión. Que cada decisión me acerque más a mis sueños. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p11",
+    "title": "Oración Por La Resiliencia",
+    "content": "Hoy pido la capacidad de levantarme cada vez que caiga. Que pueda ver los obstáculos como oportunidades de crecimiento y las dificultades como maestras de vida. Que la resiliencia sea mi compañera en cada desafío. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p12",
+    "title": "Oración Por La Esperanza Renovada",
+    "content": "Cuando la esperanza flaquea, pido que se renueve en mi corazón. Que pueda ver la luz incluso en la oscuridad y creer que los días mejores están por venir. Que la esperanza sea el motor que me impulse a seguir adelante. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p13",
+    "title": "Oración Por El Perdón Y La Liberación",
+    "content": "Hoy elijo perdonar, a otros y a mí mismo. Que pueda soltar el resentimiento que me ata al pasado y liberarme para vivir el presente. Que el perdón sea el puente que me lleve hacia la paz interior. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p14",
+    "title": "Oración Por La Fortaleza En La Debilidad",
+    "content": "Cuando me siento débil, pido fuerza para seguir. Que pueda encontrar en mi vulnerabilidad una fuente de poder y en mis limitaciones una oportunidad de crecimiento. Que la fortaleza nazca de la aceptación de quien soy. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p15",
+    "title": "Oración Por La Claridad Mental",
+    "content": "En medio de la confusión, pido claridad para ver el camino. Que pueda despejar mi mente de pensamientos negativos y enfocarme en lo que realmente importa. Que la claridad me guíe hacia las decisiones correctas. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p16",
+    "title": "Oración Por La Aceptación De Lo Que Es",
+    "content": "Hoy acepto la realidad tal como es, sin resistirme ni luchar contra ella. Que pueda encontrar paz en la aceptación y fuerza para cambiar lo que está en mis manos. Que la serenidad me acompañe en este proceso. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p17",
+    "title": "Oración Por El Coraje De Ser Auténtico",
+    "content": "Pido el valor de ser yo mismo, sin máscaras ni pretensiones. Que pueda mostrar mi verdadera esencia al mundo y encontrar aceptación en mi autenticidad. Que ser fiel a mí mismo sea mi mayor acto de valentía. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p18",
+    "title": "Oración Por La Capacidad De Soltar",
+    "content": "Hoy aprendo a soltar lo que no me sirve, lo que me pesa, lo que me limita. Que pueda liberarme de apegos, expectativas y miedos. Que soltar sea mi forma de abrir espacio para lo nuevo y maravilloso que viene. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p19",
+    "title": "Oración Por La Conexión Con El Presente",
+    "content": "En este momento, elijo estar presente, aquí y ahora. Que pueda dejar de vivir en el pasado o en el futuro y disfrutar el ahora. Que la plenitud del momento presente sea mi hogar y mi refugio. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p20",
+    "title": "Oración Por La Confianza En El Futuro",
+    "content": "Aunque no sepa qué depara el mañana, confío en que será bueno. Que pueda soltar el control y permitir que la vida me sorprenda. Que la confianza en el futuro me dé la paz que necesito hoy. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p21",
+    "title": "Oración Por La Capacidad De Asombrarse",
+    "content": "Hoy recupero la capacidad de asombrarme ante la vida. Que pueda ver la belleza en las cosas simples, la magia en lo cotidiano y el milagro en cada respiración. Que el asombro renueve mi espíritu cada día. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p22",
+    "title": "Oración Por La Humildad De Aprender",
+    "content": "Reconozco que siempre hay algo nuevo que aprender, de todos y de todo. Que pueda mantener mi mente abierta y mi corazón dispuesto a crecer. Que la humildad sea mi maestra y el aprendizaje mi camino. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p23",
+    "title": "Oración Por La Valentía De Cambiar",
+    "content": "Cuando es necesario cambiar, pido el valor para hacerlo. Que pueda dejar atrás lo que ya no me sirve y atreverme a construir algo nuevo. Que el cambio sea mi aliado y no mi enemigo. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p24",
+    "title": "Oración Por La Compasión Hacia Uno Mismo",
+    "content": "Hoy me trato con la misma compasión que trato a los demás. Que pueda perdonarme mis errores, aceptar mis limitaciones y amarme en mi proceso. Que la autocompasión sea mi refugio en los momentos difíciles. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p25",
+    "title": "Oración Por La Capacidad De Fluír",
+    "content": "Aprendo a fluir con la vida, sin resistirme a sus cambios. Que pueda adaptarme con gracia a las circunstancias y encontrar oportunidades en cada situación. Que fluir sea mi forma de navegar la existencia. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p26",
+    "title": "Oración Por La Gratitud En Lo Simple",
+    "content": "Hoy agradezco por las cosas simples que a menudo paso por alto: el aire que respiro, el sol que me calienta, el techo que me cobija. Que la gratitud por lo simple llene mi vida de abundancia. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p27",
+    "title": "Oración Por La Fortaleza En La Soledad",
+    "content": "Cuando la soledad me visite, pido la fuerza para estar conmigo mismo. Que pueda encontrar en la soledad una oportunidad de autoconocimiento y no un vacío. Que mi propia compañía sea suficiente y reconfortante. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p28",
+    "title": "Oración Por La Capacidad De Sorprenderme",
+    "content": "Hoy me abro a las sorpresas que la vida tiene para mí. Que pueda recibir con alegría lo inesperado y encontrar belleza en lo imprevisto. Que la sorpresa sea mi compañera de viaje y no mi enemiga. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p29",
+    "title": "Oración Por La Determinación De Seguir",
+    "content": "Cuando quiera rendirme, pido la determinación de dar un paso más. Que pueda encontrar en mi interior la fuerza para continuar, incluso cuando el camino sea difícil. Que la determinación sea mi motor hacia mis sueños. Amén.",
+    "category": "oracion"
+  },
+  {
+    "id": "p30",
+    "title": "Oración Por La Plenitud Del Ahora",
+    "content": "Hoy elijo vivir plenamente este momento, sin prisas ni distracciones. Que pueda saborear cada instante y encontrar la felicidad en el presente. Que la plenitud del ahora sea mi mayor tesoro. Amén.",
+    "category": "oracion"
+  }
+]
