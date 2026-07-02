@@ -32,16 +32,35 @@ class HiveService {
     return DailyTextModel.fromJson(jsonDecode(data));
   }
 
-  /// Obtiene todo el historial
+  /// Obtiene SOLO los textos que el usuario realmente vio (historial real)
   static List<DailyTextModel> getHistory() {
     final box = Hive.box(_dailyBox);
     final texts = <DailyTextModel>[];
+    final today = DateTime.now();
+    final todayNormalized = DateTime(today.year, today.month, today.day);
+
     for (final key in box.keys) {
+      final keyStr = key.toString();
+
+      // Solo incluir entradas con prefijo "history_"
+      if (!keyStr.startsWith('history_')) continue;
+
       try {
         final data = jsonDecode(box.get(key));
-        texts.add(DailyTextModel.fromJson(data));
+        final text = DailyTextModel.fromJson(data);
+
+        // Solo incluir textos de hoy o anteriores (nunca futuros)
+        final textDate = DateTime(
+          text.date.year,
+          text.date.month,
+          text.date.day,
+        );
+        if (textDate.isAfter(todayNormalized)) continue;
+
+        texts.add(text);
       } catch (_) {}
     }
+
     texts.sort((a, b) => b.date.compareTo(a.date));
     return texts;
   }

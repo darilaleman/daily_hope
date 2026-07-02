@@ -21,12 +21,12 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
   bool _isLoading = true;
   bool _isPrefetching = false;
   int _prefetchProgress = 0;
+  String? _lastLoadedLanguage;
 
   @override
   void initState() {
     super.initState();
     _setupPrefetchListener();
-    _loadText();
   }
 
   void _setupPrefetchListener() {
@@ -41,6 +41,11 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
   }
 
   Future<void> _loadText() async {
+    // Mostrar loading solo si es la primera carga
+    if (_dailyText == null) {
+      setState(() => _isLoading = true);
+    }
+
     final text = await _repository.getDailyText();
     if (!mounted) return;
 
@@ -48,6 +53,17 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
       _dailyText = text;
       _isLoading = false;
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Detectar cambio de idioma y recargar
+    final currentLang = ref.read(languageProvider);
+    if (_lastLoadedLanguage != currentLang) {
+      _lastLoadedLanguage = currentLang;
+      _loadText();
+    }
   }
 
   Future<void> _toggleFavorite() async {
