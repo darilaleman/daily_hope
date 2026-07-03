@@ -1,0 +1,20 @@
+[
+  {
+    "id": "p1",
+    "title": "Prayer For Inner Strength",
+    "content": "Today I ask for strength to face the challenges ahead. May I find within myself the courage needed to keep going, even when everything seems difficult. May every obstacle be an opportunity for growth and every fall a lesson. Amen.",
+    "category": "prayer"
+  },
+  {
+    "id": "p2",
+    "title": "Prayer For Peace Of Heart",
+    "content": "In this moment of uncertainty, I seek the peace that calms my heart. May I let go of the worries that bind me and trust that everything will be alright. May serenity flood my being and allow me to see the path ahead clearly. Amen.",
+    "category": "prayer"
+  },
+  {
+    "id": "p3",
+    "title": "Prayer For New Beginnings",
+    "content": "Today I leave behind what was and embrace what will be. May I have the courage to start over, the wisdom to learn from the past, and the hope to build a better future. May each day be an opportunity to be a better person. Amen.",
+    "category": "prayer"
+  }
+]

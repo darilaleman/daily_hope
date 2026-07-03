@@ -16,20 +16,40 @@ class HiveService {
 
   // ============ TEXTOS DIARIOS ============
 
-  /// Guarda el texto del día
+  /// Guarda el texto del día (ahora con idioma en la clave)
   static Future<void> saveDailyText(DailyTextModel text) async {
     final box = Hive.box(_dailyBox);
-    final key = '${text.date.year}-${text.date.month}-${text.date.day}';
+    // Clave con idioma: "2026-7-3_es" o "2026-7-3_en"
+    final key =
+        '${text.date.year}-${text.date.month}-${text.date.day}_${text.language}';
     await box.put(key, jsonEncode(text.toJson()));
   }
 
-  /// Obtiene el texto del día (si existe)
-  static DailyTextModel? getDailyText(DateTime date) {
+  /// Obtiene el texto del día para un idioma específico
+  static DailyTextModel? getDailyText(DateTime date, {String language = 'es'}) {
     final box = Hive.box(_dailyBox);
-    final key = '${date.year}-${date.month}-${date.day}';
+    final key = '${date.year}-${date.month}-${date.day}_$language';
     final data = box.get(key);
     if (data == null) return null;
     return DailyTextModel.fromJson(jsonDecode(data));
+  }
+
+  /// Obtiene todos los textos pre-generados para una fecha (ambos idiomas)
+  static List<DailyTextModel> getDailyTextsForDate(DateTime date) {
+    final box = Hive.box(_dailyBox);
+    final texts = <DailyTextModel>[];
+    final datePrefix = '${date.year}-${date.month}-${date.day}_';
+
+    for (final key in box.keys) {
+      if (key.toString().startsWith(datePrefix) &&
+          !key.toString().startsWith('history_')) {
+        try {
+          final data = jsonDecode(box.get(key));
+          texts.add(DailyTextModel.fromJson(data));
+        } catch (_) {}
+      }
+    }
+    return texts;
   }
 
   /// Obtiene SOLO los textos que el usuario realmente vio (historial real)

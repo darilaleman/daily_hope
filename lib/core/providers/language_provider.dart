@@ -22,12 +22,9 @@ class LanguageNotifier extends StateNotifier<String> {
     state = newLanguage;
     await HiveService.setSetting('language', newLanguage);
 
-    // Invalidar el texto de hoy para que se regenere en el nuevo idioma
-    final today = DateTime.now();
-    final todayKey = '${today.year}-${today.month}-${today.day}';
-    await HiveService.getDailyTextsBox().delete(todayKey);
-
-    print('🌐 Idioma cambiado a $newLanguage, caché de hoy invalidado');
+    // NO invalidamos el caché porque ahora tenemos ambos idiomas
+    // El DailyScreen solo necesita recargar para leer el texto en el nuevo idioma
+    print(' Idioma cambiado a $newLanguage (cambio instantáneo)');
   }
 
   String get currentLanguageName {

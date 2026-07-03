@@ -18,6 +18,7 @@ class DailyTextRepository {
     _reflections = null;
     _prayers = null;
 
+    // Reflexiones según idioma
     final reflectionsFile = language == 'en'
         ? 'assets/texts/en_reflections.json'
         : 'assets/texts/es_reflections.json';
@@ -26,15 +27,22 @@ class DailyTextRepository {
       final reflectionsJson = await rootBundle.loadString(reflectionsFile);
       _reflections =
           List<Map<String, dynamic>>.from(jsonDecode(reflectionsJson));
+      print(' Cargadas ${_reflections!.length} reflexiones en $language');
     } catch (_) {
       _reflections = [];
     }
 
+    // ✅ Oraciones según idioma (CORREGIDO)
+    final prayersFile = language == 'en'
+        ? 'assets/texts/en_prayers.json'
+        : 'assets/texts/es_prayers.json';
+
     try {
-      final prayersJson =
-          await rootBundle.loadString('assets/texts/prayers.json');
+      final prayersJson = await rootBundle.loadString(prayersFile);
       _prayers = List<Map<String, dynamic>>.from(jsonDecode(prayersJson));
+      print('🙏 Cargadas ${_prayers!.length} oraciones en $language');
     } catch (_) {
+      print('⚠️ No se pudo cargar $prayersFile, usando lista vacía');
       _prayers = [];
     }
   }
@@ -42,26 +50,26 @@ class DailyTextRepository {
   Future<DailyTextModel> getDailyText() async {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
-
     final language =
         HiveService.getSetting<String>('language', defaultValue: 'es') ?? 'es';
+
     await _loadTexts(language: language);
 
-    // Verificar si el texto en caché es del idioma correcto
-    final cached = HiveService.getDailyText(today);
-    if (cached != null && cached.language == language) {
+    // 1. ¿Ya existe texto para hoy en este idioma?
+    final cached = HiveService.getDailyText(today, language: language);
+    if (cached != null) {
+      // En background, asegurar que ambos idiomas estén pre-generados para el futuro
       _prefetchFutureTexts();
       return cached;
     }
 
-    // Si el caché es de otro idioma o no existe, regenerar
-    print('⚡ Generando texto para hoy en idioma: $language');
-    final localText = await _getLocalTextForDate(today);
+    // 2. No existe → generar local instantáneo
+    print('⚡ Generando texto local para hoy en $language');
+    final localText = await _getLocalTextForDate(today, language);
     await HiveService.saveDailyText(localText);
-
-    // SOLO agregar al historial el texto de HOY (no futuros)
     await _addToHistory(localText);
 
+    // 3. En background: pre-generar para AMBOS idiomas
     _prefetchFutureTexts();
 
     return localText;
@@ -75,72 +83,65 @@ class DailyTextRepository {
 
     Future.delayed(Duration.zero, () async {
       try {
-        await _loadTexts(language: _currentLanguage);
         final today = DateTime.now();
         final todayNormalized = DateTime(today.year, today.month, today.day);
-
-        // Solo pre-generar MAÑANA (1 día), no más
-        // Esto evita saturar la API y reduce errores 429
         final futureDate = todayNormalized.add(const Duration(days: 1));
 
-        onPrefetchStatusChanged?.call(true, 0);
+        // Generar para AMBOS idiomas
+        final languages = ['es', 'en'];
+        int progress = 0;
 
-        final existing = HiveService.getDailyText(futureDate);
-        if (existing != null && existing.language == _currentLanguage) {
-          print('✅ Mañana ya tiene texto en el idioma correcto');
-          onPrefetchStatusChanged?.call(false, 1);
-          return;
-        }
+        for (final lang in languages) {
+          await _loadTexts(language: lang);
 
-        print(
-            '🤖 Generando texto para mañana (${AppDateUtils.formatDateShort(futureDate, _currentLanguage)})...');
+          // Verificar si ya existe
+          final existing = HiveService.getDailyText(futureDate, language: lang);
+          if (existing != null) {
+            progress++;
+            onPrefetchStatusChanged?.call(true, progress);
+            continue;
+          }
 
-        // Retry con backoff para errores 429/502
-        DailyTextModel? aiText;
-        int attempts = 0;
-        const maxAttempts = 2;
+          print('🤖 Generando texto para mañana en $lang...');
 
-        while (attempts < maxAttempts && aiText == null) {
-          attempts++;
+          // Intentar con IA
+          DailyTextModel? aiText;
           try {
-            final aiData = await AITextService.generateReflection(
-                    language: _currentLanguage)
-                .timeout(const Duration(seconds: 30));
+            final aiData =
+                await AITextService.generateReflection(language: lang)
+                    .timeout(const Duration(seconds: 30));
 
-            if (aiData != null &&
-                aiData['content'] != null &&
-                aiData['content'].toString().isNotEmpty) {
+            if (aiData != null && aiData['content'] != null) {
               aiText = DailyTextModel(
-                id: 'ai_${AppDateUtils.dayOfYear(futureDate)}_${DateTime.now().millisecondsSinceEpoch}',
+                id: 'ai_${AppDateUtils.dayOfYear(futureDate)}_${lang}_${DateTime.now().millisecondsSinceEpoch}',
                 title: aiData['title'] ?? 'Reflexión del Día',
                 content: aiData['content'] ?? '',
                 reference: aiData['reference'],
-                language: _currentLanguage,
+                language: lang,
                 category: 'reflexion',
                 date: futureDate,
                 source: 'ai',
               );
             }
           } catch (e) {
-            print('⚠️ Intento $attempts falló: $e');
-            if (attempts < maxAttempts) {
-              // Esperar 5 segundos antes de reintentar
-              await Future.delayed(const Duration(seconds: 5));
-            }
+            print('️ IA falló para $lang: $e');
           }
+
+          if (aiText != null) {
+            await HiveService.saveDailyText(aiText);
+          } else {
+            final localText = await _getLocalTextForDate(futureDate, lang);
+            await HiveService.saveDailyText(localText);
+          }
+
+          progress++;
+          onPrefetchStatusChanged?.call(true, progress);
+
+          // Pausa entre idiomas
+          await Future.delayed(const Duration(milliseconds: 1000));
         }
 
-        if (aiText != null) {
-          await HiveService.saveDailyText(aiText);
-          // ⚠️ NO agregar al historial (solo cuando el usuario lo vea)
-          print('✅ Texto IA guardado para mañana');
-        } else {
-          final localText = await _getLocalTextForDate(futureDate);
-          await HiveService.saveDailyText(localText);
-          print('️ IA falló, guardando local para mañana');
-        }
-
-        onPrefetchStatusChanged?.call(false, 1);
+        onPrefetchStatusChanged?.call(false, 2);
       } catch (e) {
         print('❌ Error en pre-generación: $e');
         onPrefetchStatusChanged?.call(false, 0);
@@ -150,41 +151,34 @@ class DailyTextRepository {
     });
   }
 
-  Future<DailyTextModel> _getLocalTextForDate(DateTime date) async {
+  Future<DailyTextModel> _getLocalTextForDate(
+      DateTime date, String language) async {
+    // Cargar el JSON correcto según idioma
+    await _loadTexts(language: language);
+
     final allTexts = <Map<String, dynamic>>[];
     if (_reflections != null) allTexts.addAll(_reflections!);
     if (_prayers != null) allTexts.addAll(_prayers!);
 
-    if (allTexts.isEmpty) return _getFallbackText(date);
-
-    final history = HiveService.getHistory();
-    final shownIds = history
-        .where((item) => item.source == 'local' || item.source == 'fallback')
-        .map((item) => item.id)
-        .toSet();
-
-    final availableTexts =
-        allTexts.where((text) => !shownIds.contains(text['id'])).toList();
-
-    final textsToUse = availableTexts.isEmpty ? allTexts : availableTexts;
+    if (allTexts.isEmpty) return _getFallbackText(date, language);
 
     final dayOfYear = AppDateUtils.dayOfYear(date);
-    final index = dayOfYear % textsToUse.length;
-    final selected = textsToUse[index];
+    final index = dayOfYear % allTexts.length;
+    final selected = allTexts[index];
 
     return DailyTextModel(
       id: selected['id'] ?? 'local_$dayOfYear',
       title: selected['title'] ?? 'Reflexión',
       content: selected['content'] ?? '',
       reference: selected['reference'],
-      language: _currentLanguage,
+      language: language,
       category: selected['category'] ?? 'motivacion',
       date: date,
       source: 'local',
     );
   }
 
-  DailyTextModel _getFallbackText(DateTime date) {
+  DailyTextModel _getFallbackText(DateTime date, String language) {
     return DailyTextModel(
       id: 'fallback',
       title:
