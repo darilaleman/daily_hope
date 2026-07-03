@@ -21,12 +21,12 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
   bool _isLoading = true;
   bool _isPrefetching = false;
   int _prefetchProgress = 0;
-  String? _lastLoadedLanguage;
 
   @override
   void initState() {
     super.initState();
     _setupPrefetchListener();
+    _loadText();
   }
 
   void _setupPrefetchListener() {
@@ -40,31 +40,16 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
     };
   }
 
-  /// Carga el texto del día para el idioma actual
-  /// IMPORTANTE: Solo lee del cache, NO genera IA
+  /// Carga el texto del día UNA sola vez al iniciar
+  /// IMPORTANTE: NO se llama al cambiar idioma
   Future<void> _loadText() async {
-    if (_dailyText == null) {
-      setState(() => _isLoading = true);
-    }
-
+    setState(() => _isLoading = true);
     final text = await _repository.getDailyText();
     if (!mounted) return;
-
     setState(() {
       _dailyText = text;
       _isLoading = false;
     });
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // Detectar cambio de idioma y recargar desde cache
-    final currentLang = ref.read(languageProvider);
-    if (_lastLoadedLanguage != currentLang) {
-      _lastLoadedLanguage = currentLang;
-      _loadText();
-    }
   }
 
   Future<void> _toggleFavorite() async {
@@ -98,9 +83,9 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
 
   IconData _getCategoryIcon(String category) {
     switch (category) {
-      case 'oracion':
+      case 'prayer':
         return Icons.auto_awesome;
-      case 'versiculo':
+      case 'verse':
         return Icons.menu_book;
       default:
         return Icons.wb_sunny_outlined;
@@ -153,7 +138,7 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    '$_prefetchProgress/2',
+                    '$_prefetchProgress/1',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 8,
@@ -202,7 +187,7 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
           Container(width: 30, height: 1, color: const Color(0xFFB8996A)),
           const SizedBox(height: 16),
           Text(
-            _dailyText!.title,
+            _dailyText!.title(lang), // ← GETTER POR IDIOMA
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 24,
@@ -216,7 +201,7 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
           Container(width: 30, height: 1, color: const Color(0xFFB8996A)),
           const SizedBox(height: 16),
           Text(
-            _dailyText!.content,
+            _dailyText!.content(lang), // ← GETTER POR IDIOMA
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 16,
@@ -225,12 +210,12 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          if (_dailyText!.reference != null &&
-              _dailyText!.reference!.isNotEmpty)
+          if (_dailyText!.reference(lang) != null &&
+              _dailyText!.reference(lang)!.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(bottom: 12),
               child: Text(
-                '— ${_dailyText!.reference}',
+                '— ${_dailyText!.reference(lang)}', // ← GETTER POR IDIOMA
                 style: const TextStyle(
                   fontSize: 13,
                   fontStyle: FontStyle.italic,
@@ -280,9 +265,9 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
           onTap: () {
             if (_dailyText != null) {
               ShareUtils.shareText(
-                title: _dailyText!.title,
-                content: _dailyText!.content,
-                reference: _dailyText!.reference,
+                title: _dailyText!.title(lang),
+                content: _dailyText!.content(lang),
+                reference: _dailyText!.reference(lang),
               );
             }
           },

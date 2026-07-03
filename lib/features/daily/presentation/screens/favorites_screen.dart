@@ -90,9 +90,9 @@ class FavoritesScreen extends ConsumerWidget {
                       icon: const Icon(Icons.share_outlined, size: 20),
                       color: const Color(0xFF6B6B6B),
                       onPressed: () => ShareUtils.shareText(
-                        title: fav.title,
-                        content: fav.content,
-                        reference: fav.reference,
+                        title: fav.title(lang),
+                        content: fav.content(lang),
+                        reference: fav.reference(lang),
                       ),
                     ),
                     IconButton(
@@ -119,7 +119,7 @@ class FavoritesScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              fav.title,
+              fav.title(lang), // ← GETTER POR IDIOMA
               style: const TextStyle(
                 fontSize: 18,
                 fontStyle: FontStyle.italic,
@@ -129,7 +129,7 @@ class FavoritesScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              fav.content,
+              fav.content(lang), // ← GETTER POR IDIOMA
               maxLines: 4,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(

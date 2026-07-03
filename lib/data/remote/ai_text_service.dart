@@ -1,6 +1,12 @@
 import 'dart:math';
 import 'package:http/http.dart' as http;
 
+/// Servicio de IA para generar reflexiones en AMBOS idiomas simultáneamente.
+///
+/// Reglas:
+/// - Un solo request genera ES + EN
+/// - Nunca se usa para traducir (solo para generar contenido nuevo)
+/// - Nunca se llama al cambiar idioma
 class AITextService {
   static const String _baseUrl = 'https://text.pollinations.ai/';
 
@@ -106,58 +112,50 @@ class AITextService {
     'Scars That Tell Stories',
   ];
 
-  /// Genera una reflexión en el idioma especificado
-  static Future<Map<String, dynamic>?> generateReflection({
-    String? theme,
-    String language = 'es',
-  }) async {
+  /// Genera una reflexión en AMBOS idiomas (ES + EN) en un solo request.
+  ///
+  /// Retorna un Map con:
+  /// - 'titleEs', 'contentEs' (español)
+  /// - 'titleEn', 'contentEn' (inglés)
+  /// - 'source': 'ai'
+  static Future<Map<String, dynamic>?> generateReflectionBilingual() async {
     try {
-      final isEN = language == 'en';
-      final themes = isEN ? _themesEN : _themesES;
-      final fallbackTitles = isEN ? _fallbackTitlesEN : _fallbackTitlesES;
-
-      final selectedTheme = theme ?? themes[Random().nextInt(themes.length)];
+      final selectedThemeES = _themesES[Random().nextInt(_themesES.length)];
+      final selectedThemeEN = _themesEN[Random().nextInt(_themesEN.length)];
       final seed = Random().nextInt(999999);
-
-      final langName = isEN ? 'English' : 'Spanish';
 
       final prompt = Uri.encodeComponent(
         'You are a professional writer of motivational phrases.\n\n'
-        'THEME: $selectedTheme\n\n'
-        'Generate an inspiring reflection following this EXACT format:\n\n'
-        'TITLE: [A COMPLETE title of 5 to 8 words. '
-        'Use title case: first letter of each important word in UPPERCASE. '
-        'Examples: "The Strength Born From Pain", '
-        "Every Dawn Is A New Opportunity, "
-        '"The Courage To Keep Moving Forward"]\n\n'
-        'REFLECTION: [Write a motivational text of 80 to 120 words. '
-        'It must be warm, hopeful and direct. '
-        'Speak in second person (you). '
-        'Include a powerful metaphor or image. '
-        'End with a short and powerful phrase of encouragement.]\n\n'
+        'Generate an inspiring reflection in BOTH Spanish and English.\n\n'
+        'SPANISH THEME: $selectedThemeES\n'
+        'ENGLISH THEME: $selectedThemeEN\n\n'
+        'Generate TWO reflections following this EXACT format:\n\n'
+        'TITLE_ES: [A COMPLETE title in Spanish of 5 to 8 words]\n\n'
+        'REFLECTION_ES: [Write a motivational text in Spanish of 80 to 120 words. '
+        'It must be warm, hopeful and direct. Speak in second person (tú). '
+        'Include a powerful metaphor or image. End with a short and powerful phrase of encouragement.]\n\n'
+        'TITLE_EN: [A COMPLETE title in English of 5 to 8 words. Use title case]\n\n'
+        'REFLECTION_EN: [Write a motivational text in English of 80 to 120 words. '
+        'It must be warm, hopeful and direct. Speak in second person (you). '
+        'Include a powerful metaphor or image. End with a short and powerful phrase of encouragement.]\n\n'
         'ABSOLUTE RULES:\n'
-        '1. The TITLE must have BETWEEN 5 AND 8 COMPLETE WORDS\n'
-        '2. The TITLE must use title case format\n'
-        '3. The TITLE must be a COMPLETE phrase, never cut off\n'
-        '4. The TITLE must not end with loose words like "no", "is", "that", "of"\n'
-        '5. The REFLECTION must be between 80 and 120 words\n'
-        '6. The REFLECTION must be in $langName\n'
-        '7. Do NOT use biblical or religious references\n'
-        '8. Do NOT use the word "Amen"\n'
-        '9. Do NOT include quotes in the title\n'
-        '10. Return ONLY the TITLE/REFLECTION format, nothing else\n\n'
+        '1. Each TITLE must have BETWEEN 5 AND 8 COMPLETE WORDS\n'
+        '2. Each REFLECTION must be between 80 and 120 words\n'
+        '3. Do NOT use biblical or religious references\n'
+        '4. Do NOT use the word "Amen"\n'
+        '5. Do NOT include quotes in titles\n'
+        '6. Return ONLY the TITLE_ES/REFLECTION_ES/TITLE_EN/REFLECTION_EN format, nothing else\n\n'
         'Seed: $seed',
       );
 
-      print('🤖 Generating reflection about: $selectedTheme ($langName)');
-
+      print('🤖 Generating bilingual reflection...');
       final response = await http
           .get(Uri.parse('$_baseUrl$prompt'))
           .timeout(const Duration(seconds: 35));
 
       if (response.statusCode == 200) {
         final rawText = response.body.trim();
-        return _parseAIResponse(rawText, selectedTheme, fallbackTitles, isEN);
+        return _parseBilingualResponse(rawText);
       } else {
         print('❌ AI API error: ${response.statusCode}');
         return null;
@@ -168,40 +166,63 @@ class AITextService {
     }
   }
 
-  static Map<String, dynamic> _parseAIResponse(String rawText,
-      String fallbackTheme, List<String> fallbackTitles, bool isEN) {
-    String title = '';
-    String content = '';
+  /// Parsea la respuesta bilingüe de la IA
+  static Map<String, dynamic> _parseBilingualResponse(String rawText) {
+    String titleEs = '';
+    String contentEs = '';
+    String titleEn = '';
+    String contentEn = '';
 
-    final titleMatch = RegExp(r'TITLE:\s*(.+?)(?:\n|$)').firstMatch(rawText);
-    if (titleMatch != null) {
-      title = titleMatch.group(1)!.trim();
+    // Extraer TITLE_ES
+    final titleEsMatch =
+        RegExp(r'TITLE_ES:\s*(.+?)(?:\n|$)').firstMatch(rawText);
+    if (titleEsMatch != null) {
+      titleEs = titleEsMatch.group(1)!.trim();
     }
 
-    final reflexionMatch =
-        RegExp(r'REFLECTION:\s*([\s\S]+)').firstMatch(rawText);
-    if (reflexionMatch != null) {
-      content = reflexionMatch.group(1)!.trim();
+    // Extraer REFLECTION_ES
+    final reflectionEsMatch =
+        RegExp(r'REFLECTION_ES:\s*([\s\S]+?)(?=TITLE_EN:|$)')
+            .firstMatch(rawText);
+    if (reflectionEsMatch != null) {
+      contentEs = reflectionEsMatch.group(1)!.trim();
     }
 
-    if (content.isEmpty) {
-      content = rawText;
+    // Extraer TITLE_EN
+    final titleEnMatch =
+        RegExp(r'TITLE_EN:\s*(.+?)(?:\n|$)').firstMatch(rawText);
+    if (titleEnMatch != null) {
+      titleEn = titleEnMatch.group(1)!.trim();
     }
 
-    if (!_isValidTitle(title)) {
-      print('⚠️ Invalid title detected: "$title"');
-      title = fallbackTitles[Random().nextInt(fallbackTitles.length)];
+    // Extraer REFLECTION_EN
+    final reflectionEnMatch =
+        RegExp(r'REFLECTION_EN:\s*([\s\S]+)').firstMatch(rawText);
+    if (reflectionEnMatch != null) {
+      contentEn = reflectionEnMatch.group(1)!.trim();
     }
 
-    title = _cleanAndFormatTitle(title);
-    content = _cleanContent(content);
+    // Validar y limpiar títulos
+    if (!_isValidTitle(titleEs)) {
+      titleEs = _fallbackTitlesES[Random().nextInt(_fallbackTitlesES.length)];
+    }
+    titleEs = _cleanAndFormatTitle(titleEs);
+
+    if (!_isValidTitle(titleEn)) {
+      titleEn = _fallbackTitlesEN[Random().nextInt(_fallbackTitlesEN.length)];
+    }
+    titleEn = _cleanAndFormatTitle(titleEn);
+
+    // Limpiar contenidos
+    contentEs = _cleanContent(contentEs);
+    contentEn = _cleanContent(contentEn);
 
     return {
-      'title': title,
-      'content': content,
-      'reference': null,
+      'titleEs': titleEs,
+      'contentEs': contentEs,
+      'titleEn': titleEn,
+      'contentEn': contentEn,
       'source': 'ai',
-      'theme': fallbackTheme,
     };
   }
 
@@ -224,11 +245,6 @@ class AITextService {
       'but'
     };
     if (badEndings.contains(lastWord)) return false;
-    final uppercaseCount = cleaned
-        .split('')
-        .where((c) => c == c.toUpperCase() && c != c.toLowerCase())
-        .length;
-    if (uppercaseCount < 2) return false;
     return true;
   }
 
@@ -240,31 +256,7 @@ class AITextService {
     if (cleaned.startsWith("'") && cleaned.endsWith("'")) {
       cleaned = cleaned.substring(1, cleaned.length - 1);
     }
-    final words = cleaned.split(' ');
-    final importantWords = {
-      'and',
-      'or',
-      'but',
-      'the',
-      'a',
-      'an',
-      'in',
-      'on',
-      'at',
-      'to',
-      'for',
-      'of',
-      'with',
-      'by'
-    };
-    final formatted = words.map((word) {
-      if (word.isEmpty) return word;
-      if (importantWords.contains(word.toLowerCase())) {
-        return word.toLowerCase();
-      }
-      return word[0].toUpperCase() + word.substring(1).toLowerCase();
-    }).join(' ');
-    return formatted.trim();
+    return cleaned.trim();
   }
 
   static String _cleanContent(String content) {
@@ -273,9 +265,13 @@ class AITextService {
       cleaned = cleaned.substring(1, cleaned.length - 1);
     }
     cleaned =
-        cleaned.replaceAll(RegExp(r'^TITLE:\s*', caseSensitive: false), '');
+        cleaned.replaceAll(RegExp(r'^TITLE_ES:\s*', caseSensitive: false), '');
     cleaned = cleaned.replaceAll(
-        RegExp(r'^REFLECTION:\s*', caseSensitive: false), '');
+        RegExp(r'^REFLECTION_ES:\s*', caseSensitive: false), '');
+    cleaned =
+        cleaned.replaceAll(RegExp(r'^TITLE_EN:\s*', caseSensitive: false), '');
+    cleaned = cleaned.replaceAll(
+        RegExp(r'^REFLECTION_EN:\s*', caseSensitive: false), '');
     return cleaned.trim();
   }
 }

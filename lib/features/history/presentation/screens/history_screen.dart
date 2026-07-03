@@ -21,14 +21,10 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
   @override
   void initState() {
     super.initState();
-    _loadHistory();
+    _loadHistory(); // ← Solo se llama UNA vez al iniciar
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _loadHistory();
-  }
+  // ❌ ELIMINADO: didChangeDependencies() que recargaba datos al cambiar idioma
 
   void _loadHistory() {
     setState(() {
@@ -128,7 +124,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
           ),
         ),
         title: Text(
-          item.title,
+          item.title(lang), // ← GETTER POR IDIOMA
           style: const TextStyle(
             fontSize: 16,
             fontStyle: FontStyle.italic,
@@ -148,7 +144,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
             ),
             const SizedBox(height: 4),
             Text(
-              item.content,
+              item.content(lang), // ← GETTER POR IDIOMA
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(fontSize: 13, color: Color(0xFF6B6B6B)),
@@ -163,9 +159,9 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
 
   IconData _getCategoryIcon(String category) {
     switch (category) {
-      case 'oracion':
+      case 'prayer': // ← Categorías normalizadas en inglés
         return Icons.auto_awesome;
-      case 'versiculo':
+      case 'verse':
         return Icons.menu_book;
       default:
         return Icons.wb_sunny_outlined;
@@ -204,7 +200,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
               ),
               const SizedBox(height: 16),
               Text(
-                item.title,
+                item.title(lang), // ← GETTER POR IDIOMA
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 26,
@@ -217,7 +213,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
               Container(width: 40, height: 1, color: const Color(0xFFB8996A)),
               const SizedBox(height: 20),
               Text(
-                item.content,
+                item.content(lang), // ← GETTER POR IDIOMA
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 16,
@@ -225,10 +221,11 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                   color: Color(0xFF3D3D3D),
                 ),
               ),
-              if (item.reference != null && item.reference!.isNotEmpty) ...[
+              if (item.reference(lang) != null &&
+                  item.reference(lang)!.isNotEmpty) ...[
                 const SizedBox(height: 16),
                 Text(
-                  '— ${item.reference}',
+                  '— ${item.reference(lang)}', // ← GETTER POR IDIOMA
                   style: const TextStyle(
                     fontSize: 14,
                     fontStyle: FontStyle.italic,
@@ -245,9 +242,9 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                     label: t('share'),
                     onTap: () {
                       ShareUtils.shareText(
-                        title: item.title,
-                        content: item.content,
-                        reference: item.reference,
+                        title: item.title(lang),
+                        content: item.content(lang),
+                        reference: item.reference(lang),
                       );
                       Navigator.pop(context);
                     },
