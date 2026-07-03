@@ -40,8 +40,9 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
     };
   }
 
+  /// Carga el texto del día para el idioma actual
+  /// IMPORTANTE: Solo lee del cache, NO genera IA
   Future<void> _loadText() async {
-    // Mostrar loading solo si es la primera carga
     if (_dailyText == null) {
       setState(() => _isLoading = true);
     }
@@ -58,7 +59,7 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Detectar cambio de idioma y recargar
+    // Detectar cambio de idioma y recargar desde cache
     final currentLang = ref.read(languageProvider);
     if (_lastLoadedLanguage != currentLang) {
       _lastLoadedLanguage = currentLang;
@@ -110,8 +111,8 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
   Widget build(BuildContext context) {
     final lang = ref.watch(languageProvider);
     final t = (String key) => AppTranslations.translate(key, lang);
-
     final favorites = ref.watch(favoritesProvider);
+
     final isFavorite = _dailyText != null
         ? favorites.any((fav) => fav.id == _dailyText!.id)
         : false;
@@ -135,7 +136,6 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
               ? Center(child: Text(t('no_text_available')))
               : _buildContent(isFavorite, lang, t),
       bottomNavigationBar: _buildBottomNav(0, lang, t),
-      // Indicador flotante de pre-generación
       floatingActionButton: _isPrefetching
           ? FloatingActionButton.small(
               backgroundColor: const Color(0xFFB8996A),
@@ -153,7 +153,7 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    '$_prefetchProgress/3',
+                    '$_prefetchProgress/2',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 8,

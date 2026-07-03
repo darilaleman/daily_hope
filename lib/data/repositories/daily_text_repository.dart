@@ -8,35 +8,29 @@ import '../../core/utils/date_utils.dart';
 class DailyTextRepository {
   List<Map<String, dynamic>>? _reflections;
   List<Map<String, dynamic>>? _prayers;
-  String _currentLanguage = 'es';
   bool _isPrefetching = false;
 
   void Function(bool isWorking, int progress)? onPrefetchStatusChanged;
 
   Future<void> _loadTexts({String language = 'es'}) async {
-    _currentLanguage = language;
     _reflections = null;
     _prayers = null;
 
-    // Reflexiones según idioma
     final reflectionsFile = language == 'en'
         ? 'assets/texts/en_reflections.json'
         : 'assets/texts/es_reflections.json';
-
     try {
       final reflectionsJson = await rootBundle.loadString(reflectionsFile);
       _reflections =
           List<Map<String, dynamic>>.from(jsonDecode(reflectionsJson));
-      print(' Cargadas ${_reflections!.length} reflexiones en $language');
+      print('✓ Cargadas ${_reflections!.length} reflexiones en $language');
     } catch (_) {
       _reflections = [];
     }
 
-    // ✅ Oraciones según idioma (CORREGIDO)
     final prayersFile = language == 'en'
         ? 'assets/texts/en_prayers.json'
         : 'assets/texts/es_prayers.json';
-
     try {
       final prayersJson = await rootBundle.loadString(prayersFile);
       _prayers = List<Map<String, dynamic>>.from(jsonDecode(prayersJson));
@@ -47,98 +41,72 @@ class DailyTextRepository {
     }
   }
 
+  /// Obtiene el texto del día para el idioma actual
+  /// Si no existe, genera local instantáneo y programa IA para mañana en background
   Future<DailyTextModel> getDailyText() async {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final language =
         HiveService.getSetting<String>('language', defaultValue: 'es') ?? 'es';
 
-    await _loadTexts(language: language);
-
     // 1. ¿Ya existe texto para hoy en este idioma?
     final cached = HiveService.getDailyText(today, language: language);
     if (cached != null) {
-      // En background, asegurar que ambos idiomas estén pre-generados para el futuro
-      _prefetchFutureTexts();
+      // En background, asegurar que mañana esté generado en ambos idiomas
+      _prefetchTomorrow();
       return cached;
     }
 
     // 2. No existe → generar local instantáneo
     print('⚡ Generando texto local para hoy en $language');
+    await _loadTexts(language: language);
     final localText = await _getLocalTextForDate(today, language);
     await HiveService.saveDailyText(localText);
     await _addToHistory(localText);
 
-    // 3. En background: pre-generar para AMBOS idiomas
-    _prefetchFutureTexts();
+    // 3. En background: generar IA para mañana en AMBOS idiomas
+    _prefetchTomorrow();
 
     return localText;
   }
 
-  void _prefetchFutureTexts() {
+  /// Genera texto IA para mañana en ambos idiomas (es y en)
+  void _prefetchTomorrow() {
     if (_isPrefetching) return;
     _isPrefetching = true;
-
     onPrefetchStatusChanged?.call(true, 0);
 
     Future.delayed(Duration.zero, () async {
       try {
         final today = DateTime.now();
         final todayNormalized = DateTime(today.year, today.month, today.day);
-        final futureDate = todayNormalized.add(const Duration(days: 1));
+        final tomorrow = todayNormalized.add(const Duration(days: 1));
 
-        // Generar para AMBOS idiomas
-        final languages = ['es', 'en'];
-        int progress = 0;
+        // Verificar si ya existe para mañana en ambos idiomas
+        final existingEs = HiveService.getDailyText(tomorrow, language: 'es');
+        final existingEn = HiveService.getDailyText(tomorrow, language: 'en');
 
-        for (final lang in languages) {
-          await _loadTexts(language: lang);
+        if (existingEs != null && existingEn != null) {
+          print('✓ Textos para mañana ya existen en ambos idiomas');
+          onPrefetchStatusChanged?.call(false, 2);
+          return;
+        }
 
-          // Verificar si ya existe
-          final existing = HiveService.getDailyText(futureDate, language: lang);
-          if (existing != null) {
-            progress++;
-            onPrefetchStatusChanged?.call(true, progress);
-            continue;
-          }
+        print('🤖 Generando texto IA para mañana en ambos idiomas...');
 
-          print('🤖 Generando texto para mañana en $lang...');
+        // Generar en español
+        if (existingEs == null) {
+          await _generateAndSaveAI(tomorrow, 'es');
+          onPrefetchStatusChanged?.call(true, 1);
+        }
 
-          // Intentar con IA
-          DailyTextModel? aiText;
-          try {
-            final aiData =
-                await AITextService.generateReflection(language: lang)
-                    .timeout(const Duration(seconds: 30));
+        // Pausa breve entre llamadas API
+        await Future.delayed(const Duration(milliseconds: 500));
 
-            if (aiData != null && aiData['content'] != null) {
-              aiText = DailyTextModel(
-                id: 'ai_${AppDateUtils.dayOfYear(futureDate)}_${lang}_${DateTime.now().millisecondsSinceEpoch}',
-                title: aiData['title'] ?? 'Reflexión del Día',
-                content: aiData['content'] ?? '',
-                reference: aiData['reference'],
-                language: lang,
-                category: 'reflexion',
-                date: futureDate,
-                source: 'ai',
-              );
-            }
-          } catch (e) {
-            print('️ IA falló para $lang: $e');
-          }
-
-          if (aiText != null) {
-            await HiveService.saveDailyText(aiText);
-          } else {
-            final localText = await _getLocalTextForDate(futureDate, lang);
-            await HiveService.saveDailyText(localText);
-          }
-
-          progress++;
-          onPrefetchStatusChanged?.call(true, progress);
-
-          // Pausa entre idiomas
-          await Future.delayed(const Duration(milliseconds: 1000));
+        // Generar en inglés
+        if (existingEn == null) {
+          await _generateAndSaveAI(tomorrow, 'en');
+          onPrefetchStatusChanged?.call(true, 2);
         }
 
         onPrefetchStatusChanged?.call(false, 2);
@@ -151,12 +119,41 @@ class DailyTextRepository {
     });
   }
 
+  /// Genera texto IA para una fecha e idioma específico y lo guarda
+  Future<void> _generateAndSaveAI(DateTime date, String language) async {
+    try {
+      final aiData = await AITextService.generateReflection(language: language)
+          .timeout(const Duration(seconds: 30));
+
+      if (aiData != null && aiData['content'] != null) {
+        final aiText = DailyTextModel(
+          id: 'ai_${AppDateUtils.dayOfYear(date)}_${language}_${DateTime.now().millisecondsSinceEpoch}',
+          title: aiData['title'] ?? 'Reflexión del Día',
+          content: aiData['content'] ?? '',
+          reference: aiData['reference'],
+          language: language,
+          category: 'reflexion',
+          date: date,
+          source: 'ai',
+        );
+        await HiveService.saveDailyText(aiText);
+        print('✓ Guardado texto IA para $date en $language');
+      }
+    } catch (e) {
+      print('⚠️ IA falló para $language: $e');
+      // Si falla IA, generar local como fallback
+      await _loadTexts(language: language);
+      final localText = await _getLocalTextForDate(date, language);
+      await HiveService.saveDailyText(localText);
+      print('✓ Guardado texto local para $date en $language (fallback)');
+    }
+  }
+
   Future<DailyTextModel> _getLocalTextForDate(
       DateTime date, String language) async {
-    // Cargar el JSON correcto según idioma
     await _loadTexts(language: language);
-
     final allTexts = <Map<String, dynamic>>[];
+
     if (_reflections != null) allTexts.addAll(_reflections!);
     if (_prayers != null) allTexts.addAll(_prayers!);
 
@@ -181,13 +178,12 @@ class DailyTextRepository {
   DailyTextModel _getFallbackText(DateTime date, String language) {
     return DailyTextModel(
       id: 'fallback',
-      title:
-          _currentLanguage == 'en' ? 'Keep Moving Forward' : 'Sigue Adelante',
-      content: _currentLanguage == 'en'
+      title: language == 'en' ? 'Keep Moving Forward' : 'Sigue Adelante',
+      content: language == 'en'
           ? 'Every new day is an opportunity to start over. Trust the process and remember you have the strength to move forward.'
           : 'Cada nuevo día es una oportunidad para comenzar de nuevo. Confía en el proceso y recuerda que tienes la fuerza para salir adelante.',
       date: date,
-      language: _currentLanguage,
+      language: language,
       source: 'fallback',
     );
   }
@@ -196,14 +192,14 @@ class DailyTextRepository {
     final history = HiveService.getHistory();
     final exists =
         history.any((item) => AppDateUtils.isSameDay(item.date, text.date));
-
     if (!exists) {
       await HiveService.addToHistory(text);
     }
   }
 
+  /// Fuerza la pre-generación (útil para testing)
   void forcePrefetch() {
     _isPrefetching = false;
-    _prefetchFutureTexts();
+    _prefetchTomorrow();
   }
 }
