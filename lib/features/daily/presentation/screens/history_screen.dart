@@ -239,13 +239,24 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                   _actionButton(
                     icon: Icons.share_outlined,
                     label: t('share'),
-                    onTap: () {
-                      ShareUtils.shareText(
-                        title: item.title(lang),
-                        content: item.content(lang),
-                        reference: item.reference(lang),
+                    onTap: () async {
+                      Navigator.pop(context); // Cerrar bottom sheet primero
+
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) => const Center(
+                          child: CircularProgressIndicator(
+                              color: Color(0xFFB8996A)),
+                        ),
                       );
-                      Navigator.pop(context);
+
+                      await ShareUtils.shareAsImage(
+                        text: item,
+                        language: lang,
+                      );
+
+                      if (mounted) Navigator.pop(context);
                     },
                   ),
                   const SizedBox(width: 40),

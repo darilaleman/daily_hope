@@ -19,8 +19,6 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
   final DailyTextRepository _repository = DailyTextRepository();
   DailyTextModel? _dailyText;
   bool _isLoading = true;
-  bool _isPrefetching = false;
-  int _prefetchProgress = 0;
 
   @override
   void initState() {
@@ -33,10 +31,7 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
     _repository.onPrefetchStatusChanged = (isWorking, progress) {
       // Solo actualizar si el widget todavía está montado
       if (mounted) {
-        setState(() {
-          _isPrefetching = isWorking;
-          _prefetchProgress = progress;
-        });
+        setState(() {});
       }
     };
   }
@@ -103,7 +98,7 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
   @override
   Widget build(BuildContext context) {
     final lang = ref.watch(languageProvider);
-    final t = (String key) => AppTranslations.translate(key, lang);
+    String t(String key) => AppTranslations.translate(key, lang);
     final favorites = ref.watch(favoritesProvider);
 
     final isFavorite = _dailyText != null
@@ -129,34 +124,6 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
               ? Center(child: Text(t('no_text_available')))
               : _buildContent(isFavorite, lang, t),
       bottomNavigationBar: _buildBottomNav(0, lang, t),
-      floatingActionButton: _isPrefetching
-          ? FloatingActionButton.small(
-              backgroundColor: const Color(0xFFB8996A),
-              onPressed: null,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    '$_prefetchProgress/1',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 8,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            )
-          : null,
     );
   }
 
@@ -270,13 +237,23 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
           icon: Icons.share_outlined,
           color: const Color(0xFF6B6B6B),
           label: t('share'),
-          onTap: () {
+          onTap: () async {
             if (_dailyText != null) {
-              ShareUtils.shareText(
-                title: _dailyText!.title(lang),
-                content: _dailyText!.content(lang),
-                reference: _dailyText!.reference(lang),
+              // Mostrar loading mientras genera la imagen
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) => const Center(
+                  child: CircularProgressIndicator(color: Color(0xFFB8996A)),
+                ),
               );
+
+              await ShareUtils.shareAsImage(
+                text: _dailyText!,
+                language: lang,
+              );
+
+              if (mounted) Navigator.pop(context); // Cerrar loading
             }
           },
         ),

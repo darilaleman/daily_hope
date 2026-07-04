@@ -7,11 +7,16 @@ import '../../../../core/i18n/translations.dart';
 import '../../../../core/utils/date_utils.dart';
 import '../../../../core/utils/share_utils.dart';
 
-class FavoritesScreen extends ConsumerWidget {
+class FavoritesScreen extends ConsumerStatefulWidget {
   const FavoritesScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<FavoritesScreen> createState() => _FavoritesScreenState();
+}
+
+class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
+  @override
+  Widget build(BuildContext context) {
     final lang = ref.watch(languageProvider);
     String t(String key) => AppTranslations.translate(key, lang);
     final favorites = ref.watch(favoritesProvider);
@@ -58,15 +63,15 @@ class FavoritesScreen extends ConsumerWidget {
               itemCount: favorites.length,
               itemBuilder: (context, index) {
                 final fav = favorites[index];
-                return _buildFavoriteCard(context, ref, fav, lang, t);
+                return _buildFavoriteCard(context, fav, lang, t);
               },
             ),
       bottomNavigationBar: _buildBottomNav(context, 1, lang, t),
     );
   }
 
-  Widget _buildFavoriteCard(BuildContext context, WidgetRef ref,
-      DailyTextModel fav, String lang, String Function(String) t) {
+  Widget _buildFavoriteCard(BuildContext context, DailyTextModel fav,
+      String lang, String Function(String) t) {
     return Card(
       color: Colors.white.withValues(alpha: 0.7),
       elevation: 0,
@@ -84,7 +89,7 @@ class FavoritesScreen extends ConsumerWidget {
           ),
         ),
         title: Text(
-          fav.title(lang),
+          fav.title(lang), // ✅ GETTER CON IDIOMA
           style: const TextStyle(
             fontSize: 16,
             fontStyle: FontStyle.italic,
@@ -104,7 +109,7 @@ class FavoritesScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              fav.content(lang),
+              fav.content(lang), // ✅ GETTER CON IDIOMA
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(fontSize: 13, color: Color(0xFF6B6B6B)),
@@ -112,14 +117,14 @@ class FavoritesScreen extends ConsumerWidget {
           ],
         ),
         trailing: const Icon(Icons.chevron_right, color: Color(0xFFB8996A)),
-        onTap: () => _showTextDetail(context, ref, fav, lang, t),
+        onTap: () => _showTextDetail(context, fav, lang, t),
       ),
     );
   }
 
-  /// Muestra el texto completo en un bottom sheet (igual que en Historial)
-  void _showTextDetail(BuildContext context, WidgetRef ref, DailyTextModel item,
-      String lang, String Function(String) t) {
+  /// Muestra el texto completo en un bottom sheet
+  void _showTextDetail(BuildContext context, DailyTextModel item, String lang,
+      String Function(String) t) {
     showModalBottomSheet(
       context: context,
       backgroundColor: const Color(0xFFF5EDE3),
@@ -150,7 +155,7 @@ class FavoritesScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                item.title(lang),
+                item.title(lang), // ✅ GETTER CON IDIOMA
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 26,
@@ -163,7 +168,7 @@ class FavoritesScreen extends ConsumerWidget {
               Container(width: 40, height: 1, color: const Color(0xFFB8996A)),
               const SizedBox(height: 20),
               Text(
-                item.content(lang),
+                item.content(lang), // ✅ GETTER CON IDIOMA
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 16,
@@ -175,7 +180,7 @@ class FavoritesScreen extends ConsumerWidget {
                   item.reference(lang)!.isNotEmpty) ...[
                 const SizedBox(height: 16),
                 Text(
-                  '— ${item.reference(lang)}',
+                  '— ${item.reference(lang)}', // ✅ GETTER CON IDIOMA
                   style: const TextStyle(
                     fontSize: 14,
                     fontStyle: FontStyle.italic,
@@ -190,13 +195,13 @@ class FavoritesScreen extends ConsumerWidget {
                   _actionButton(
                     icon: Icons.share_outlined,
                     label: t('share'),
-                    onTap: () {
-                      ShareUtils.shareText(
+                    onTap: () async {
+                      Navigator.pop(context);
+                      await ShareUtils.shareText(
                         title: item.title(lang),
                         content: item.content(lang),
                         reference: item.reference(lang),
                       );
-                      Navigator.pop(context);
                     },
                   ),
                   const SizedBox(width: 40),
@@ -214,6 +219,7 @@ class FavoritesScreen extends ConsumerWidget {
                           SnackBar(
                             content: Text(t('removed_from_favorites')),
                             duration: const Duration(seconds: 1),
+                            backgroundColor: Colors.grey,
                           ),
                         );
                       }
