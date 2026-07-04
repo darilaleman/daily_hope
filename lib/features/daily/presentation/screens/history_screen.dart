@@ -5,6 +5,7 @@ import '../../../../data/local/hive/hive_service.dart';
 import '../../../../core/utils/date_utils.dart';
 import '../../../../core/utils/share_utils.dart';
 import '../../../../core/providers/language_provider.dart';
+import '../../../../core/providers/favorites_provider.dart';
 import '../../../../core/i18n/translations.dart';
 
 class HistoryScreen extends ConsumerStatefulWidget {
@@ -21,7 +22,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
   @override
   void initState() {
     super.initState();
-    _loadHistory(); // ← Solo se llama UNA vez al iniciar
+    _loadHistory();
   }
 
   void _loadHistory() {
@@ -122,7 +123,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
           ),
         ),
         title: Text(
-          item.title(lang), // ← GETTER POR IDIOMA
+          item.title(lang),
           style: const TextStyle(
             fontSize: 16,
             fontStyle: FontStyle.italic,
@@ -142,7 +143,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
             ),
             const SizedBox(height: 4),
             Text(
-              item.content(lang), // ← GETTER POR IDIOMA
+              item.content(lang),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(fontSize: 13, color: Color(0xFF6B6B6B)),
@@ -198,7 +199,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
               ),
               const SizedBox(height: 16),
               Text(
-                item.title(lang), // ← GETTER POR IDIOMA
+                item.title(lang),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 26,
@@ -211,7 +212,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
               Container(width: 40, height: 1, color: const Color(0xFFB8996A)),
               const SizedBox(height: 20),
               Text(
-                item.content(lang), // ← GETTER POR IDIOMA
+                item.content(lang),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 16,
@@ -223,7 +224,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                   item.reference(lang)!.isNotEmpty) ...[
                 const SizedBox(height: 16),
                 Text(
-                  '— ${item.reference(lang)}', // ← GETTER POR IDIOMA
+                  '— ${item.reference(lang)}',
                   style: const TextStyle(
                     fontSize: 14,
                     fontStyle: FontStyle.italic,
@@ -248,33 +249,34 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                     },
                   ),
                   const SizedBox(width: 40),
-                  _actionButton(
-                    icon: HiveService.isFavorite(item.id)
-                        ? Icons.favorite
-                        : Icons.favorite_border,
-                    color: HiveService.isFavorite(item.id)
-                        ? Colors.red
-                        : const Color(0xFF6B6B6B),
-                    label: HiveService.isFavorite(item.id)
-                        ? t('saved')
-                        : t('save'),
-                    onTap: () async {
-                      if (HiveService.isFavorite(item.id)) {
-                        await HiveService.removeFavorite(item.id);
-                      } else {
-                        await HiveService.addFavorite(item);
-                      }
-                      if (context.mounted) {
-                        Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(HiveService.isFavorite(item.id)
-                                ? t('saved_to_favorites')
-                                : t('removed_from_favorites')),
-                            duration: const Duration(seconds: 1),
-                          ),
-                        );
-                      }
+                  Consumer(
+                    builder: (context, ref, child) {
+                      final isFavorite = ref
+                          .watch(favoritesProvider.notifier)
+                          .isFavorite(item.id);
+                      return _actionButton(
+                        icon:
+                            isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color:
+                            isFavorite ? Colors.red : const Color(0xFF6B6B6B),
+                        label: isFavorite ? t('saved') : t('save'),
+                        onTap: () async {
+                          await ref
+                              .read(favoritesProvider.notifier)
+                              .toggleFavorite(item);
+                          if (context.mounted) {
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(isFavorite
+                                    ? t('removed_from_favorites')
+                                    : t('saved_to_favorites')),
+                                duration: const Duration(seconds: 1),
+                              ),
+                            );
+                          }
+                        },
+                      );
                     },
                   ),
                 ],

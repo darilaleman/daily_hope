@@ -1,14 +1,33 @@
+import 'dart:convert';
 import 'dart:math';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
-/// Servicio de IA para generar reflexiones en AMBOS idiomas simultáneamente.
+/// Servicio de IA para generar reflexiones bilingües (ES + EN).
 ///
-/// Reglas:
-/// - Un solo request genera ES + EN
-/// - Nunca se usa para traducir (solo para generar contenido nuevo)
-/// - Nunca se llama al cambiar idioma
+/// Estrategia:
+/// - PRIMARIO: Groq (rápido, estable, gratis) con múltiples API keys ofuscadas
+/// - FALLBACK: Pollinations (gratis, inestable)
+/// - Genera 3 días en una sola llamada (más eficiente)
 class AITextService {
-  static const String _baseUrl = 'https://text.pollinations.ai/';
+  // ============ CONFIGURACIÓN ============
+
+  // Groq (primario)
+  static const String _groqUrl =
+      'https://api.groq.com/openai/v1/chat/completions';
+  static const String _groqModel = 'llama-3.3-70b-versatile';
+
+  // Pollinations (fallback)
+  static const String _pollinationsUrl = 'https://text.pollinations.ai/';
+
+  // MethodChannel para obtener API keys del código nativo
+  static const MethodChannel _channel = MethodChannel('daily_hope/api_keys');
+
+  // Cache de claves (solo se obtienen una vez)
+  static List<String>? _cachedKeys;
+  static int _currentKeyIndex = 0;
+
+  // ============ TEMAS ============
 
   static const List<String> _themesES = [
     'superar momentos difíciles y salir adelante',
@@ -112,118 +131,289 @@ class AITextService {
     'Scars That Tell Stories',
   ];
 
-  /// Genera una reflexión en AMBOS idiomas (ES + EN) en un solo request.
+  // ============ MÉTODO PRINCIPAL (EL QUE LLAMA EL REPOSITORIO) ============
+
+  /// Genera reflexiones bilingües para múltiples días en una sola llamada.
   ///
-  /// Retorna un Map con:
+  /// Retorna una lista de Maps con:
   /// - 'titleEs', 'contentEs' (español)
   /// - 'titleEn', 'contentEn' (inglés)
   /// - 'source': 'ai'
-  static Future<Map<String, dynamic>?> generateReflectionBilingual() async {
+  static Future<List<Map<String, dynamic>>> generateMultipleDaysBilingual({
+    int daysToGenerate = 3,
+  }) async {
+    // 1. Intentar con Groq (rotando entre múltiples keys)
+    final groqResult = await _generateMultipleDaysWithGroq(daysToGenerate);
+    if (groqResult.isNotEmpty) return groqResult;
+
+    // 2. Fallback a Pollinations
+    print('⚠️ Groq falló (todas las keys), intentando con Pollinations...');
+    final pollinationsResult =
+        await _generateMultipleDaysWithPollinations(daysToGenerate);
+    if (pollinationsResult.isNotEmpty) return pollinationsResult;
+
+    // 3. Todos los servicios fallaron
+    print('❌ Todos los servicios de IA fallaron');
+    return [];
+  }
+
+  // ============ GROQ (PRIMARIO) CON ROTACIÓN DE KEYS ============
+
+  static Future<List<Map<String, dynamic>>> _generateMultipleDaysWithGroq(
+      int daysCount) async {
+    final keys = await _getGroqKeys();
+    if (keys.isEmpty) {
+      print('⚠️ [Groq] No hay API keys disponibles');
+      return [];
+    }
+
+    for (int i = 0; i < keys.length; i++) {
+      final keyIndex = (_currentKeyIndex + i) % keys.length;
+      final apiKey = keys[keyIndex];
+
+      print('🤖 [Groq] Intentando con key #${keyIndex + 1}/${keys.length}...');
+      final result = await _tryRequestWithGroqKey(apiKey, daysCount);
+
+      if (result != null) {
+        _currentKeyIndex = (keyIndex + 1) % keys.length;
+        return result;
+      }
+    }
+
+    return [];
+  }
+
+  static Future<List<Map<String, dynamic>>?> _tryRequestWithGroqKey(
+      String apiKey, int daysCount) async {
     try {
-      final selectedThemeES = _themesES[Random().nextInt(_themesES.length)];
-      final selectedThemeEN = _themesEN[Random().nextInt(_themesEN.length)];
-      final seed = Random().nextInt(999999);
+      final prompt = _buildMultiDayPrompt(daysCount);
 
-      final prompt = Uri.encodeComponent(
-        'You are a professional writer of motivational phrases.\n\n'
-        'Generate an inspiring reflection in BOTH Spanish and English.\n\n'
-        'SPANISH THEME: $selectedThemeES\n'
-        'ENGLISH THEME: $selectedThemeEN\n\n'
-        'Generate TWO reflections following this EXACT format:\n\n'
-        'TITLE_ES: [A COMPLETE title in Spanish of 5 to 8 words]\n\n'
-        'REFLECTION_ES: [Write a motivational text in Spanish of 80 to 120 words. '
-        'It must be warm, hopeful and direct. Speak in second person (tú). '
-        'Include a powerful metaphor or image. End with a short and powerful phrase of encouragement.]\n\n'
-        'TITLE_EN: [A COMPLETE title in English of 5 to 8 words. Use title case]\n\n'
-        'REFLECTION_EN: [Write a motivational text in English of 80 to 120 words. '
-        'It must be warm, hopeful and direct. Speak in second person (you). '
-        'Include a powerful metaphor or image. End with a short and powerful phrase of encouragement.]\n\n'
-        'ABSOLUTE RULES:\n'
-        '1. Each TITLE must have BETWEEN 5 AND 8 COMPLETE WORDS\n'
-        '2. Each REFLECTION must be between 80 and 120 words\n'
-        '3. Do NOT use biblical or religious references\n'
-        '4. Do NOT use the word "Amen"\n'
-        '5. Do NOT include quotes in titles\n'
-        '6. Return ONLY the TITLE_ES/REFLECTION_ES/TITLE_EN/REFLECTION_EN format, nothing else\n\n'
-        'Seed: $seed',
-      );
+      print('🤖 [Groq] Generando $daysCount días bilingües...');
+      final startTime = DateTime.now();
 
-      print('🤖 Generating bilingual reflection...');
       final response = await http
-          .get(Uri.parse('$_baseUrl$prompt'))
-          .timeout(const Duration(seconds: 35));
+          .post(
+            Uri.parse(_groqUrl),
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer $apiKey',
+            },
+            body: jsonEncode({
+              'model': _groqModel,
+              'messages': [
+                {
+                  'role': 'system',
+                  'content':
+                      'You are a professional writer of motivational content in Spanish and English. Always respond in the exact format requested.',
+                },
+                {'role': 'user', 'content': prompt},
+              ],
+              'temperature': 0.8,
+              'max_tokens': 3000,
+            }),
+          )
+          .timeout(const Duration(seconds: 20));
+
+      final duration = DateTime.now().difference(startTime).inMilliseconds;
+      print('⏱️ [Groq] Respuesta en ${duration}ms');
 
       if (response.statusCode == 200) {
-        final rawText = response.body.trim();
-        return _parseBilingualResponse(rawText);
+        final data = jsonDecode(response.body);
+        final content = data['choices'][0]['message']['content'] as String;
+        return _parseMultiDayResponse(content, daysCount);
+      } else if (response.statusCode == 429) {
+        print('⚠️ [Groq] Key alcanzó límite (429), rotando a la siguiente...');
+        return null;
       } else {
-        print('❌ AI API error: ${response.statusCode}');
+        print('❌ [Groq] Error ${response.statusCode}: ${response.body}');
         return null;
       }
     } catch (e) {
-      print('❌ AI Service exception: $e');
+      print('❌ [Groq] Excepción: $e');
       return null;
     }
   }
 
-  /// Parsea la respuesta bilingüe de la IA
-  static Map<String, dynamic> _parseBilingualResponse(String rawText) {
-    String titleEs = '';
-    String contentEs = '';
-    String titleEn = '';
-    String contentEn = '';
+  // ============ POLLINATIONS (FALLBACK) ============
 
-    // Extraer TITLE_ES
-    final titleEsMatch =
-        RegExp(r'TITLE_ES:\s*(.+?)(?:\n|$)').firstMatch(rawText);
-    if (titleEsMatch != null) {
-      titleEs = titleEsMatch.group(1)!.trim();
+  static Future<List<Map<String, dynamic>>>
+      _generateMultipleDaysWithPollinations(int daysCount) async {
+    try {
+      final seed = Random().nextInt(999999);
+      final prompt = Uri.encodeComponent(
+          _buildMultiDayPrompt(daysCount) + '\n\nSeed: $seed');
+
+      print('🤖 [Pollinations] Generando $daysCount días bilingües...');
+      final startTime = DateTime.now();
+
+      final response = await http
+          .get(Uri.parse('$_pollinationsUrl$prompt'))
+          .timeout(const Duration(seconds: 40));
+
+      final duration = DateTime.now().difference(startTime).inMilliseconds;
+      print('⏱️ [Pollinations] Respuesta en ${duration}ms');
+
+      if (response.statusCode == 200) {
+        final content = response.body.trim();
+        return _parseMultiDayResponse(content, daysCount);
+      } else {
+        print('❌ [Pollinations] Error ${response.statusCode}');
+        return [];
+      }
+    } catch (e) {
+      print('❌ [Pollinations] Excepción: $e');
+      return [];
+    }
+  }
+
+  // ============ OBTENER API KEYS (NATIVO OFUSCADO) ============
+
+  static Future<List<String>> _getGroqKeys() async {
+    if (_cachedKeys != null && _cachedKeys!.isNotEmpty) return _cachedKeys!;
+
+    try {
+      final result = await _channel.invokeMethod<List>('getGroqKeys');
+      if (result != null && result.isNotEmpty) {
+        _cachedKeys = result.cast<String>();
+        print('✓ Cargadas ${_cachedKeys!.length} API keys desde código nativo');
+        return _cachedKeys!;
+      }
+    } catch (e) {
+      print('⚠️ No se pudieron obtener las API keys nativas: $e');
+    }
+    return [];
+  }
+
+  static void clearKeysCache() {
+    _cachedKeys = null;
+    _currentKeyIndex = 0;
+  }
+
+  // ============ PROMPT ============
+
+  static String _buildMultiDayPrompt(int daysCount) {
+    final themes = <String>[];
+    for (int i = 0; i < daysCount; i++) {
+      final themeES = _themesES[Random().nextInt(_themesES.length)];
+      final themeEN = _themesEN[Random().nextInt(_themesEN.length)];
+      themes.add('DAY_${i + 1}_ES: $themeES\nDAY_${i + 1}_EN: $themeEN');
     }
 
-    // Extraer REFLECTION_ES
-    final reflectionEsMatch =
-        RegExp(r'REFLECTION_ES:\s*([\s\S]+?)(?=TITLE_EN:|$)')
-            .firstMatch(rawText);
-    if (reflectionEsMatch != null) {
-      contentEs = reflectionEsMatch.group(1)!.trim();
+    return '''
+You are a professional writer of motivational phrases.
+
+Generate $daysCount inspiring reflections in BOTH Spanish and English.
+
+THEMES:
+${themes.join('\n')}
+
+Generate $daysCount reflections following this EXACT format for EACH day:
+
+=== DAY 1 ===
+TITLE_ES: [A COMPLETE title in Spanish of 5 to 8 words]
+
+REFLECTION_ES: [Write a motivational text in Spanish of 80 to 120 words. It must be warm, hopeful and direct. Speak in second person (tú). Include a powerful metaphor or image. End with a short and powerful phrase of encouragement.]
+
+TITLE_EN: [A COMPLETE title in English of 5 to 8 words. Use title case]
+
+REFLECTION_EN: [Write a motivational text in English of 80 to 120 words. It must be warm, hopeful and direct. Speak in second person (you). Include a powerful metaphor or image. End with a short and powerful phrase of encouragement.]
+
+=== DAY 2 ===
+[Same format]
+
+=== DAY 3 ===
+[Same format]
+
+[Continue for all $daysCount days]
+
+ABSOLUTE RULES:
+1. Each TITLE must have BETWEEN 5 AND 8 COMPLETE WORDS
+2. Each REFLECTION must be between 80 and 120 words
+3. Do NOT use biblical or religious references
+4. Do NOT use the word "Amen"
+5. Do NOT include quotes in titles
+6. Return ONLY the format shown above, nothing else
+7. Generate EXACTLY $daysCount days, no more, no less
+''';
+  }
+
+  // ============ PARSING ============
+
+  static List<Map<String, dynamic>> _parseMultiDayResponse(
+      String rawText, int daysCount) {
+    final results = <Map<String, dynamic>>[];
+
+    for (int dayNum = 1; dayNum <= daysCount; dayNum++) {
+      final dayPattern = '=== DAY $dayNum ===';
+      final nextDayPattern = '=== DAY ${dayNum + 1} ===';
+
+      final dayStart = rawText.indexOf(dayPattern);
+      if (dayStart == -1) {
+        print('⚠️ No se encontró $dayPattern');
+        continue;
+      }
+
+      final dayEnd = rawText.indexOf(nextDayPattern);
+      final dayContent = dayEnd == -1
+          ? rawText.substring(dayStart)
+          : rawText.substring(dayStart, dayEnd);
+
+      String titleEs = '';
+      String contentEs = '';
+      String titleEn = '';
+      String contentEn = '';
+
+      final titleEsMatch =
+          RegExp(r'TITLE_ES:\s*(.+?)(?:\n|$)').firstMatch(dayContent);
+      if (titleEsMatch != null) titleEs = titleEsMatch.group(1)!.trim();
+
+      final reflectionEsMatch =
+          RegExp(r'REFLECTION_ES:\s*([\s\S]+?)(?=TITLE_EN:|$)')
+              .firstMatch(dayContent);
+      if (reflectionEsMatch != null) {
+        contentEs = reflectionEsMatch.group(1)!.trim();
+      }
+
+      final titleEnMatch =
+          RegExp(r'TITLE_EN:\s*(.+?)(?:\n|$)').firstMatch(dayContent);
+      if (titleEnMatch != null) titleEn = titleEnMatch.group(1)!.trim();
+
+      final reflectionEnMatch =
+          RegExp(r'REFLECTION_EN:\s*([\s\S]+)').firstMatch(dayContent);
+      if (reflectionEnMatch != null) {
+        contentEn = reflectionEnMatch.group(1)!.trim();
+      }
+
+      if (!_isValidTitle(titleEs)) {
+        titleEs = _fallbackTitlesES[Random().nextInt(_fallbackTitlesES.length)];
+      }
+      if (!_isValidTitle(titleEn)) {
+        titleEn = _fallbackTitlesEN[Random().nextInt(_fallbackTitlesEN.length)];
+      }
+
+      if (_hasContent(contentEs) && _hasContent(contentEn)) {
+        results.add({
+          'titleEs': _cleanAndFormatTitle(titleEs),
+          'contentEs': _cleanContent(contentEs),
+          'titleEn': _cleanAndFormatTitle(titleEn),
+          'contentEn': _cleanContent(contentEn),
+          'source': 'ai',
+        });
+        print('✓ Día $dayNum procesado correctamente');
+      } else {
+        print('⚠️ Día $dayNum tiene contenido incompleto, omitiendo');
+      }
     }
 
-    // Extraer TITLE_EN
-    final titleEnMatch =
-        RegExp(r'TITLE_EN:\s*(.+?)(?:\n|$)').firstMatch(rawText);
-    if (titleEnMatch != null) {
-      titleEn = titleEnMatch.group(1)!.trim();
-    }
+    return results;
+  }
 
-    // Extraer REFLECTION_EN
-    final reflectionEnMatch =
-        RegExp(r'REFLECTION_EN:\s*([\s\S]+)').firstMatch(rawText);
-    if (reflectionEnMatch != null) {
-      contentEn = reflectionEnMatch.group(1)!.trim();
-    }
+  // ============ VALIDACIONES ============
 
-    // Validar y limpiar títulos
-    if (!_isValidTitle(titleEs)) {
-      titleEs = _fallbackTitlesES[Random().nextInt(_fallbackTitlesES.length)];
-    }
-    titleEs = _cleanAndFormatTitle(titleEs);
-
-    if (!_isValidTitle(titleEn)) {
-      titleEn = _fallbackTitlesEN[Random().nextInt(_fallbackTitlesEN.length)];
-    }
-    titleEn = _cleanAndFormatTitle(titleEn);
-
-    // Limpiar contenidos
-    contentEs = _cleanContent(contentEs);
-    contentEn = _cleanContent(contentEn);
-
-    return {
-      'titleEs': titleEs,
-      'contentEs': contentEs,
-      'titleEn': titleEn,
-      'contentEn': contentEn,
-      'source': 'ai',
-    };
+  static bool _hasContent(dynamic value) {
+    if (value == null) return false;
+    if (value is! String) return false;
+    return value.trim().length >= 10;
   }
 
   static bool _isValidTitle(String title) {
@@ -231,20 +421,6 @@ class AITextService {
     if (cleaned.length < 15) return false;
     final words = cleaned.split(RegExp(r'\s+'));
     if (words.length < 4 || words.length > 10) return false;
-    final lastWord = words.last.toLowerCase();
-    final badEndings = {
-      'no',
-      'is',
-      'that',
-      'of',
-      'the',
-      'a',
-      'an',
-      'and',
-      'or',
-      'but'
-    };
-    if (badEndings.contains(lastWord)) return false;
     return true;
   }
 
@@ -261,9 +437,6 @@ class AITextService {
 
   static String _cleanContent(String content) {
     String cleaned = content.trim();
-    if (cleaned.startsWith('"') && cleaned.endsWith('"')) {
-      cleaned = cleaned.substring(1, cleaned.length - 1);
-    }
     cleaned =
         cleaned.replaceAll(RegExp(r'^TITLE_ES:\s*', caseSensitive: false), '');
     cleaned = cleaned.replaceAll(

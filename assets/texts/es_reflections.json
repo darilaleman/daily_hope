@@ -3,180 +3,600 @@
     "id": "r1",
     "title": "La Fuerza Que Nace Del Interior",
     "content": "A veces buscamos la fortaleza fuera, en otras personas o circunstancias, pero la verdad es que ya la tienes. Está en cada respiración, en cada paso que das a pesar del miedo, en cada decisión de seguir adelante. Confía en ti, porque eres más fuerte de lo que crees.",
-    "category": "motivacion"
+    "category": "reflection"
   },
   {
     "id": "r2",
     "title": "Cada Amanecer Es Una Nueva Oportunidad",
     "content": "No importa cuántas veces hayas caído, lo que importa es cuántas veces te levantes. Hoy tienes la oportunidad de empezar de nuevo, de dejar atrás lo que te pesa y caminar hacia lo que te hace feliz. Respira profundo, suelta el pasado y abraza el presente con valentía.",
-    "category": "motivacion"
+    "category": "reflection"
   },
   {
     "id": "r3",
     "title": "Los Días Difíciles También Pasan",
     "content": "Ninguna tormenta dura para siempre. Por más oscuro que parezca el momento, recuerda que después de la noche siempre llega el amanecer. Date permiso de sentir, de llorar si es necesario, pero no olvides que esto también pasará y tú seguirás aquí, más sabio y más fuerte.",
-    "category": "reflexion"
+    "category": "reflection"
   },
   {
     "id": "r4",
     "title": "El Coraje De Seguir Adelante",
     "content": "El coraje no es la ausencia del miedo, sino la decisión de que algo es más importante que el miedo. Hoy elige avanzar, aunque sea un paso pequeño. Cada paso cuenta, cada esfuerzo suma, y pronto mirarás atrás y verás cuánto has crecido.",
-    "category": "motivacion"
+    "category": "reflection"
   },
   {
     "id": "r5",
     "title": "La Paz Que Viene Después Del Dolor",
-    "content": "Después de cada lucha viene la calma. Después de cada lágrima viene la sonrisa. No te rindas ahora, porque estás más cerca de la paz de lo que imaginas. El dolor de hoy será la fortaleza de mañana.",
-    "category": "reflexion"
+    "content": "Después de cada lucha viene la calma. Después de cada lágrima viene la sonrisa. No te rindas ahora, porque estás más cerca de la paz de lo que imaginas. El dolor de hoy será la fortaleza de mañana, y la calma que buscas ya se está gestando en tu interior.",
+    "category": "reflection"
   },
   {
     "id": "r6",
     "title": "Confía En El Proceso De La Vida",
-    "content": "No siempre entenderás por qué las cosas suceden como suceden, pero puedes confiar en que todo tiene un propósito. Lo que hoy parece un obstáculo, mañana será el puente que te llevó a donde necesitabas estar.",
-    "category": "reflexion"
+    "content": "No siempre entenderás por qué las cosas suceden como suceden, pero puedes confiar en que todo tiene un propósito. Lo que hoy parece un obstáculo, mañana será el puente que te llevó a donde necesitabas estar. Ten paciencia contigo mismo y con el tiempo.",
+    "category": "reflection"
   },
   {
     "id": "r7",
     "title": "Eres Más Fuerte De Lo Que Crees",
-    "content": "Has sobrevivido al 100% de tus días difíciles. Eso no es casualidad, es fortaleza. Cada desafío que has enfrentado te ha preparado para este momento. Confía en tu capacidad de superar lo que venga.",
-    "category": "motivacion"
+    "content": "Has sobrevivido al cien por ciento de tus días difíciles. Eso no es casualidad, es fortaleza. Cada desafío que has enfrentado te ha preparado para este momento. Confía en tu capacidad de superar lo que venga, porque ya lo has demostrado muchas veces antes.",
+    "category": "reflection"
   },
   {
     "id": "r8",
     "title": "La Luz Que Brilla En La Oscuridad",
-    "content": "Incluso en los momentos más oscuros, hay una luz dentro de ti que nunca se apaga. Es tu esperanza, tu resiliencia, tu espíritu indomable. Aliméntala con pensamientos positivos y verás cómo ilumina tu camino.",
-    "category": "reflexion"
+    "content": "Incluso en los momentos más oscuros, hay una luz dentro de ti que nunca se apaga. Es tu esperanza, tu resiliencia, tu espíritu indomable. Aliméntala con pensamientos positivos y verás cómo ilumina tu camino. Esa luz siempre ha estado ahí, esperando que la reconozcas.",
+    "category": "reflection"
   },
   {
     "id": "r9",
     "title": "El Valor De Empezar De Nuevo",
-    "content": "Empezar de nuevo no es fracasar, es tener la valentía de intentar otra vez. Cada reinicio es una oportunidad de hacerlo mejor, de aprender de los errores y de construir algo más sólido. No temas comenzar otra vez.",
-    "category": "motivacion"
+    "content": "Empezar de nuevo no es fracasar, es tener la valentía de intentar otra vez. Cada reinicio es una oportunidad de hacerlo mejor, de aprender de los errores y de construir algo más sólido. No temas comenzar otra vez, porque cada intento te acerca más a tu meta.",
+    "category": "reflection"
   },
   {
     "id": "r10",
     "title": "Soltar Para Poder Avanzar",
-    "content": "A veces necesitamos soltar lo que nos pesa para poder volar. No puedes avanzar si cargas con el pasado. Perdona, suelta, libera espacio para lo nuevo que está por llegar. Tu futuro te espera con los brazos abiertos.",
-    "category": "reflexion"
+    "content": "A veces necesitamos soltar lo que nos pesa para poder volar. No puedes avanzar si cargas con el pasado. Perdona, suelta, libera espacio para lo nuevo que está por llegar. Tu futuro te espera con los brazos abiertos, pero primero debes liberar tus manos.",
+    "category": "reflection"
   },
   {
     "id": "r11",
     "title": "La Belleza De Los Pequeños Pasos",
-    "content": "No subestimes el poder de los pequeños pasos. Un kilómetro se recorre paso a paso, un sueño se construye día a día. Celebra cada pequeño avance, porque todos suman y te acercan a donde quieres estar.",
-    "category": "motivacion"
+    "content": "No subestimes el poder de los pequeños pasos. Un kilómetro se recorre paso a paso, un sueño se construye día a día. Celebra cada pequeño avance, porque todos suman y te acercan a donde quieres estar. La constancia siempre vence a la intensidad momentánea.",
+    "category": "reflection"
   },
   {
     "id": "r12",
     "title": "Respira Y Sigue Adelante",
-    "content": "Cuando todo parezca abrumador, solo respira. Una respiración profunda puede cambiar tu perspectiva, calmar tu mente y darte la claridad que necesitas. No tienes que tener todas las respuestas ahora, solo sigue adelante.",
-    "category": "reflexion"
+    "content": "Cuando todo parezca abrumador, solo respira. Una respiración profunda puede cambiar tu perspectiva, calmar tu mente y darte la claridad que necesitas. No tienes que tener todas las respuestas ahora, solo sigue adelante. Un paso a la vez es suficiente.",
+    "category": "reflection"
   },
   {
     "id": "r13",
     "title": "El Momento Presente Es Tuyo",
-    "content": "El pasado ya fue, el futuro aún no llega. Lo único que tienes es este momento, y es suficiente. Vive el ahora con intensidad, agradece lo que tienes y confía en que el futuro se construirá con las decisiones de hoy.",
-    "category": "reflexion"
+    "content": "El pasado ya fue, el futuro aún no llega. Lo único que tienes es este momento, y es suficiente. Vive el ahora con intensidad, agradece lo que tienes y confía en que el futuro se construirá con las decisiones de hoy. El presente es un regalo, por eso se llama así.",
+    "category": "reflection"
   },
   {
     "id": "r14",
     "title": "La Esperanza Nunca Se Apaga",
-    "content": "Mientras haya vida, hay esperanza. No importa cuán difícil sea la situación, siempre hay una posibilidad de cambio, de mejora, de felicidad. Mantén la esperanza viva en tu corazón y verás cómo todo es posible.",
-    "category": "motivacion"
+    "content": "Mientras haya vida, hay esperanza. No importa cuán difícil sea la situación, siempre hay una posibilidad de cambio, de mejora, de felicidad. Mantén la esperanza viva en tu corazón y verás cómo todo es posible. La esperanza es el motor que te mantiene en movimiento.",
+    "category": "reflection"
   },
   {
     "id": "r15",
     "title": "Tu Historia Aún No Termina",
-    "content": "Este capítulo puede ser difícil, pero no es el final de tu historia. Tú eres el autor de tu vida y puedes escribir un final diferente. Sigue escribiendo, sigue luchando, porque lo mejor está por venir.",
-    "category": "motivacion"
+    "content": "Este capítulo puede ser difícil, pero no es el final de tu historia. Tú eres el autor de tu vida y puedes escribir un final diferente. Sigue escribiendo, sigue luchando, porque lo mejor está por venir. Cada página en blanco es una oportunidad para crear algo hermoso.",
+    "category": "reflection"
   },
   {
     "id": "r16",
     "title": "El Silencio Que Sana El Alma",
-    "content": "A veces necesitamos silencio para escuchar lo que el alma necesita decir. En la quietud encontramos respuestas, en la calma encontramos paz. Date permiso de parar, de escuchar, de sanar.",
-    "category": "reflexion"
+    "content": "A veces necesitamos silencio para escuchar lo que el alma necesita decir. En la quietud encontramos respuestas, en la calma encontramos paz. Date permiso de parar, de escuchar, de sanar. El ruido del mundo no te dejará encontrar tu verdadera voz interior.",
+    "category": "reflection"
   },
   {
     "id": "r17",
     "title": "Abraza Lo Que Eres Hoy",
-    "content": "No necesitas ser perfecto para ser valioso. Abraza tus imperfecciones, tus cicatrices, tu historia. Todo lo que has vivido te ha hecho quien eres, y quien eres es suficiente. Ámate tal como eres.",
-    "category": "reflexion"
+    "content": "No necesitas ser perfecto para ser valioso. Abraza tus imperfecciones, tus cicatrices, tu historia. Todo lo que has vivido te ha hecho quien eres, y quien eres es suficiente. Ámate tal como eres, porque eres una obra en constante evolución y eso es hermoso.",
+    "category": "reflection"
   },
   {
     "id": "r18",
     "title": "La Calma Después De La Lucha",
-    "content": "Después de cada batalla viene la victoria, después de cada lucha viene la paz. No te rindas ahora, porque estás a punto de llegar. La calma que buscas está más cerca de lo que imaginas.",
-    "category": "motivacion"
+    "content": "Después de cada batalla viene la victoria, después de cada lucha viene la paz. No te rindas ahora, porque estás a punto de llegar. La calma que buscas está más cerca de lo que imaginas. Solo un poco más de esfuerzo y la encontrarás esperándote.",
+    "category": "reflection"
   },
   {
     "id": "r19",
     "title": "Cicatrices Que Cuentan Historias",
-    "content": "Tus cicatrices no son señales de debilidad, son testimonios de tu fortaleza. Cada una cuenta una historia de supervivencia, de resiliencia, de valentía. Llévalas con orgullo, porque demuestran que nunca te rendiste.",
-    "category": "reflexion"
+    "content": "Tus cicatrices no son señales de debilidad, son testimonios de tu fortaleza. Cada una cuenta una historia de supervivencia, de resiliencia, de valentía. Llévalas con orgullo, porque demuestran que nunca te rendiste. Son la prueba de que eres más fuerte de lo que creías.",
+    "category": "reflection"
   },
   {
     "id": "r20",
     "title": "El Poder De Una Sonrisa Hoy",
-    "content": "Una sonrisa puede cambiar tu día, puede cambiar el día de alguien más. Incluso en los momentos difíciles, encuentra razones para sonreír. La felicidad no es la ausencia de problemas, es la capacidad de sonreír a pesar de ellos.",
-    "category": "motivacion"
+    "content": "Una sonrisa puede cambiar tu día, puede cambiar el día de alguien más. Incluso en los momentos difíciles, encuentra razones para sonreír. La felicidad no es la ausencia de problemas, es la capacidad de sonreír a pesar de ellos. Tu sonrisa tiene un poder que no imaginas.",
+    "category": "reflection"
   },
   {
     "id": "r21",
     "title": "Cuando Todo Parece Perdido",
-    "content": "Cuando todo parece perdido, recuerda que has superado cosas difíciles antes. Tienes la capacidad, la fuerza y la determinación para salir adelante. No es el final, es solo un capítulo difícil en una historia hermosa.",
-    "category": "motivacion"
+    "content": "Cuando todo parece perdido, recuerda que has superado cosas difíciles antes. Tienes la capacidad, la fuerza y la determinación para salir adelante. No es el final, es solo un capítulo difícil en una historia hermosa. Confía en que pronto todo tendrá sentido.",
+    "category": "reflection"
   },
   {
     "id": "r22",
     "title": "La Luz Después De La Tormenta",
-    "content": "Después de cada tormenta sale el sol. Después de cada noche llega el día. No importa cuán oscura sea la situación, la luz siempre vuelve. Mantén la fe y espera, porque tu momento de brillo llegará.",
-    "category": "reflexion"
+    "content": "Después de cada tormenta sale el sol. Después de cada noche llega el día. No importa cuán oscura sea la situación, la luz siempre vuelve. Mantén la fe y espera, porque tu momento de brillo llegará. Los cielos más hermosos aparecen después de las lluvias más fuertes.",
+    "category": "reflection"
   },
   {
     "id": "r23",
     "title": "No Estás Solo En Este Camino",
-    "content": "Aunque a veces lo sientas, no estás solo. Hay personas que te quieren, que te apoyan, que creen en ti. Y si no las ves ahora, pronto aparecerán. Mientras tanto, sé tu propio mejor amigo y compañero.",
-    "category": "reflexion"
+    "content": "Aunque a veces lo sientas, no estás solo. Hay personas que te quieren, que te apoyan, que creen en ti. Y si no las ves ahora, pronto aparecerán. Mientras tanto, sé tu propio mejor amigo y compañero. Tu propia compañía es valiosa y mereces tratarte con amor.",
+    "category": "reflection"
   },
   {
     "id": "r24",
     "title": "El Coraje De Ser Vulnerable",
-    "content": "Ser vulnerable no es debilidad, es valentía. Requiere coraje mostrar tu verdadero yo, con tus miedos y tus dudas. Pero es en la vulnerabilidad donde encontramos la conexión verdadera y la sanación profunda.",
-    "category": "reflexion"
+    "content": "Ser vulnerable no es debilidad, es valentía. Requiere coraje mostrar tu verdadero yo, con tus miedos y tus dudas. Pero es en la vulnerabilidad donde encontramos la conexión verdadera y la sanación profunda. Permítete sentir, permítete ser humano, eso te hace auténtico.",
+    "category": "reflection"
   },
   {
     "id": "r25",
     "title": "Cada Día Es Un Regalo",
-    "content": "Hoy es un regalo, por eso se llama presente. Agradécelo, vívelo intensamente, no lo desperdicies en preocupaciones. Cada día es una oportunidad nueva para ser feliz, para crecer, para amar.",
-    "category": "motivacion"
+    "content": "Hoy es un regalo, por eso se llama presente. Agradécelo, vívelo intensamente, no lo desperdicies en preocupaciones. Cada día es una oportunidad nueva para ser feliz, para crecer, para amar. Aprovecha cada momento, porque la vida se mide en instantes, no en años.",
+    "category": "reflection"
   },
   {
     "id": "r26",
     "title": "La Fuerza De La Perseverancia",
-    "content": "La perseverancia no es no caer nunca, es levantarse cada vez que caes. Es seguir adelante a pesar de los obstáculos, de las dudas, del cansancio. Y al final, la perseverancia siempre es recompensada.",
-    "category": "motivacion"
+    "content": "La perseverancia no es no caer nunca, es levantarse cada vez que caes. Es seguir adelante a pesar de los obstáculos, de las dudas, del cansancio. Y al final, la perseverancia siempre es recompensada. Los que no se rinden son los que cambian su propia historia.",
+    "category": "reflection"
   },
   {
     "id": "r27",
     "title": "El Arte De Soltar El Control",
-    "content": "No puedes controlar todo lo que sucede, pero puedes controlar cómo respondes. Suelta la necesidad de tener todo bajo control y permite que la vida fluya. A veces, soltar es la forma más poderosa de avanzar.",
-    "category": "reflexion"
+    "content": "No puedes controlar todo lo que sucede, pero puedes controlar cómo respondes. Suelta la necesidad de tener todo bajo control y permite que la vida fluya. A veces, soltar es la forma más poderosa de avanzar. Confía en que el universo tiene planes mejores que los tuyos.",
+    "category": "reflection"
   },
   {
     "id": "r28",
     "title": "La Magia De Los Nuevos Comienzos",
-    "content": "Cada día es un nuevo comienzo, una página en blanco esperando ser escrita. No importa lo que pasó ayer, hoy puedes empezar de nuevo. Escribe una historia hermosa, llena de esperanza y determinación.",
-    "category": "motivacion"
+    "content": "Cada día es un nuevo comienzo, una página en blanco esperando ser escrita. No importa lo que pasó ayer, hoy puedes empezar de nuevo. Escribe una historia hermosa, llena de esperanza y determinación. Tu vida es tu obra maestra en constante creación.",
+    "category": "reflection"
   },
   {
     "id": "r29",
     "title": "El Poder De La Gratitud",
-    "content": "La gratitud transforma lo que tenemos en suficiente. Cuando agradeces, cambias tu perspectiva, ves la abundancia en lugar de la escasez. Hoy, encuentra tres cosas por las que estar agradecido y siente cómo cambia tu día.",
-    "category": "reflexion"
+    "content": "La gratitud transforma lo que tenemos en suficiente. Cuando agradeces, cambias tu perspectiva, ves la abundancia en lugar de la escasez. Hoy, encuentra tres cosas por las que estar agradecido y siente cómo cambia tu día. La gratitud es la llave de la felicidad.",
+    "category": "reflection"
   },
   {
     "id": "r30",
-    "title": "La Valentinía De Pedir Ayuda",
-    "content": "Pedir ayuda no es debilidad, es inteligencia emocional. Reconocer que no puedes solo y buscar apoyo es un acto de valentía. No tienes que cargar todo el peso tú solo, permite que otros te ayuden a llevar la carga.",
-    "category": "reflexion"
+    "title": "La Valentía De Pedir Ayuda",
+    "content": "Pedir ayuda no es debilidad, es inteligencia emocional. Reconocer que no puedes solo y buscar apoyo es un acto de valentía. No tienes que cargar todo el peso tú solo, permite que otros te ayuden a llevar la carga. Juntos somos más fuertes que solos.",
+    "category": "reflection"
+  },
+  {
+    "id": "r31",
+    "title": "La Sabiduría De Las Caídas",
+    "content": "Cada caída es una lección disfrazada. No te avergüences de tropezar, porque es la única forma de aprender a caminar con firmeza. Levántate con la sabiduría de lo aprendido y la fuerza de quien ha sobrevivido. Tus caídas te han hecho más sabio, no más débil.",
+    "category": "reflection"
+  },
+  {
+    "id": "r32",
+    "title": "El Regalo De La Paciencia",
+    "content": "La paciencia no es esperar pasivamente, es mantener la fe mientras trabajas por lo que deseas. Todo lo bueno toma tiempo, y lo que es para ti llegará en el momento perfecto. Mientras tanto, disfruta el camino, porque el viaje también es parte del destino.",
+    "category": "reflection"
+  },
+  {
+    "id": "r33",
+    "title": "La Belleza De Ser Imperfecto",
+    "content": "Tu imperfección es lo que te hace único, especial, humano. No busques ser como los demás, porque tu autenticidad es tu mayor tesoro. Abraza tus rarezas, tus manías, tus defectos. Son parte de lo que te hace irrepetible en este mundo. Eres perfecto en tu imperfección.",
+    "category": "reflection"
+  },
+  {
+    "id": "r34",
+    "title": "El Poder De Las Palabras Que Te Dices",
+    "content": "Las palabras que te dices a ti mismo tienen el poder de construir o destruir. Elige hablarte con amor, con compasión, con esperanza. Eres lo que piensas, así que piensa cosas buenas de ti. Tu diálogo interno es la base de tu realidad, hazlo positivo.",
+    "category": "reflection"
+  },
+  {
+    "id": "r35",
+    "title": "La Libertad De Perdonar",
+    "content": "Perdonar no es olvidar, es liberarte del peso que te ata al pasado. Cuando perdonas, no cambias lo que pasó, pero sí cambias tu futuro. Suelta el resentimiento, libera tu corazón, y permite que la paz entre de nuevo. El perdón es un regalo que te das a ti mismo.",
+    "category": "reflection"
+  },
+  {
+    "id": "r36",
+    "title": "El Valor De Tus Sueños",
+    "content": "Tus sueños no son locuras, son mapas hacia tu mejor versión. No los abandones porque alguien te dijo que no son posibles. El mundo necesita lo que tú tienes para ofrecer. Persigue tus sueños con determinación, porque son la brújula que te guía hacia tu propósito.",
+    "category": "reflection"
+  },
+  {
+    "id": "r37",
+    "title": "La Paz De Aceptar Lo Que Es",
+    "content": "Aceptar no es rendirse, es dejar de luchar contra la realidad para poder transformarla. Cuando aceptas lo que es, encuentras la claridad para actuar con sabiduría. La paz viene cuando dejas de resistir y empiezas a fluir con la vida tal como se presenta.",
+    "category": "reflection"
+  },
+  {
+    "id": "r38",
+    "title": "El Regalo De La Soledad",
+    "content": "La soledad no es un castigo, es una oportunidad para reconectarte contigo mismo. En el silencio encuentras respuestas que el ruido del mundo no te deja escuchar. Aprende a disfrutar de tu propia compañía, porque eres la persona con la que pasarás toda tu vida.",
+    "category": "reflection"
+  },
+  {
+    "id": "r39",
+    "title": "La Fuerza De Decir No",
+    "content": "Decir no a lo que no te conviene es decir sí a ti mismo. Poner límites no es egoísmo, es amor propio. Protege tu energía, tu tiempo, tu paz. No tienes que complacer a todos para ser valioso. Tu bienestar es prioridad, y decir no a veces es el acto más valiente.",
+    "category": "reflection"
+  },
+  {
+    "id": "r40",
+    "title": "La Magia De Creer En Ti",
+    "content": "Cuando crees en ti, el universo conspira a tu favor. La fe en tus capacidades abre puertas que parecían cerradas. No esperes a que otros crean en ti primero, empieza tú. Tu confianza es el combustible que te llevará a donde siempre has querido estar.",
+    "category": "reflection"
+  },
+  {
+    "id": "r41",
+    "title": "El Arte De Vivir Sin Prisas",
+    "content": "La vida no es una carrera, es un paseo. No tienes que llegar a ningún lado con urgencia. Disfruta el camino, observa los detalles, saborea cada momento. Las prisas te roban la belleza de lo simple. Respira, camina despacio, y descubre la magia de vivir sin prisa.",
+    "category": "reflection"
+  },
+  {
+    "id": "r42",
+    "title": "La Valentía De Ser Diferente",
+    "content": "Ser diferente no es un defecto, es un superpoder. En un mundo que te pide encajar, atreverse a ser tú mismo es revolucionario. No cambies quien eres para complacer a otros. Tu autenticidad es tu mayor fortaleza y el regalo más valioso que puedes dar al mundo.",
+    "category": "reflection"
+  },
+  {
+    "id": "r43",
+    "title": "El Poder De Los Pequeños Gestos",
+    "content": "Un pequeño gesto de amabilidad puede cambiar el día de alguien. Una sonrisa, una palabra amable, un abrazo sincero. No subestimes el impacto de tus acciones, por pequeñas que parezcan. El mundo se transforma con millones de pequeños actos de bondad diarios.",
+    "category": "reflection"
+  },
+  {
+    "id": "r44",
+    "title": "La Sabiduría Del Silencio",
+    "content": "A veces la respuesta más sabia es el silencio. No todo merece tu opinión, no toda batalla merece tu energía. Aprende a callar cuando es necesario, a escuchar más de lo que hablas. En el silencio encuentras claridad, y en la escucha encuentras sabiduría verdadera.",
+    "category": "reflection"
+  },
+  {
+    "id": "r45",
+    "title": "El Valor De Tus Decisiones",
+    "content": "Cada decisión que tomas dibuja el mapa de tu vida. No temas elegir, incluso cuando no tengas certeza. La indecisión también es una elección, y a menudo la más costosa. Confía en tu intuición, actúa con valentía, y acepta que cada camino te enseña algo valioso.",
+    "category": "reflection"
+  },
+  {
+    "id": "r46",
+    "title": "La Belleza De Los Días Simples",
+    "content": "No necesitas grandes acontecimientos para ser feliz. Un café por la mañana, una conversación sincera, un atardecer hermoso. La felicidad está en los detalles pequeños, en los momentos ordinarios que se vuelven extraordinarios cuando los aprecias. Abre los ojos a lo simple.",
+    "category": "reflection"
+  },
+  {
+    "id": "r47",
+    "title": "El Poder De Soltar El Pasado",
+    "content": "El pasado es un lugar de referencia, no de residencia. No puedes cambiar lo que ya sucedió, pero sí puedes decidir qué lugar darle en tu presente. Suelta lo que te ata, perdona lo que te hiere, y abre espacio para lo nuevo. Tu futuro te está esperando.",
+    "category": "reflection"
+  },
+  {
+    "id": "r48",
+    "title": "La Fuerza De La Gratitud Diaria",
+    "content": "Agradecer cada día transforma tu perspectiva. Cuando te enfocas en lo que tienes en lugar de lo que te falta, la vida se llena de abundancia. Empieza cada mañana con tres cosas por las que estés agradecido y verás cómo tu corazón se expande de felicidad.",
+    "category": "reflection"
+  },
+  {
+    "id": "r49",
+    "title": "El Regalo De La Amistad Verdadera",
+    "content": "Los amigos verdaderos son tesoros que embellecen el camino. Valora a quienes te apoyan sin condiciones, a quienes te escuchan sin juzgar, a quienes te quieren tal como eres. Y sé para otros ese amigo que te gustaría tener. La amistad genuina es uno de los mayores regalos de la vida.",
+    "category": "reflection"
+  },
+  {
+    "id": "r50",
+    "title": "La Valentía De Cambiar De Rumbo",
+    "content": "Cambiar de dirección no es fracasar, es tener la sabiduría de reconocer que algo no funciona. A veces el camino correcto es el que no esperabas. Ten el valor de girar el timón cuando sea necesario. Tu felicidad vale más que cualquier plan rígido que te haga infeliz.",
+    "category": "reflection"
+  },
+  {
+    "id": "r51",
+    "title": "La Paz De Vivir En Verdad",
+    "content": "Vivir en verdad contigo mismo es el camino más corto hacia la paz interior. No te escondas detrás de máscaras, no finjas ser quien no eres. La autenticidad te libera del peso de las apariencias y te conecta con lo que realmente importa. Sé tú, sin disculpas.",
+    "category": "reflection"
+  },
+  {
+    "id": "r52",
+    "title": "El Poder De La Intención",
+    "content": "Lo que piensas con intensidad, lo atraes hacia tu vida. Tus pensamientos son semillas que germinan en tu realidad. Cultiva pensamientos positivos, llenos de esperanza y fe. Lo que siembras en tu mente, lo cosechas en tu vida. Elige sabiamente lo que piensas.",
+    "category": "reflection"
+  },
+  {
+    "id": "r53",
+    "title": "La Belleza De Aprender Cada Día",
+    "content": "Cada día te enseña algo nuevo, si estás dispuesto a escuchar. Las personas, las situaciones, los errores, todo es una oportunidad de crecimiento. Mantén tu mente abierta y tu corazón receptivo. La vida es la mejor maestra, y cada lección te acerca a tu mejor versión.",
+    "category": "reflection"
+  },
+  {
+    "id": "r54",
+    "title": "El Valor De Tus Límites",
+    "content": "Conocer tus límites no es debilidad, es sabiduría. Respetar lo que puedes y lo que no, te permite dar lo mejor de ti en lo que sí está en tus manos. No te exijas más de lo que puedes dar hoy. Mañana será otro día, y tus fuerzas se renovarán con el descanso.",
+    "category": "reflection"
+  },
+  {
+    "id": "r55",
+    "title": "La Magia De La Aceptación",
+    "content": "Aceptar la vida tal como se presenta te libera de un peso enorme. No puedes controlar todo, pero sí puedes elegir cómo responder. La aceptación no es resignación, es el primer paso para transformar lo que necesita ser transformado. Empieza por aceptar, y luego actúa.",
+    "category": "reflection"
+  },
+  {
+    "id": "r56",
+    "title": "El Regalo De La Resiliencia",
+    "content": "La resiliencia es el arte de doblarse sin romperse. Es la capacidad de enfrentar las tormentas y salir más fuerte de ellas. Tú tienes esa capacidad dentro de ti, aunque ahora no la veas. Cada desafío superado es una prueba de tu fortaleza interior. Confía en tu resiliencia.",
+    "category": "reflection"
+  },
+  {
+    "id": "r57",
+    "title": "La Fuerza De Los Sueños Compartidos",
+    "content": "Los sueños compartidos se multiplican. Cuando encuentras a alguien que cree en tus proyectos, que te acompaña en el camino, todo se vuelve más ligero. No tengas miedo de compartir tus anhelos con quienes te quieren. Los sueños, cuando se comparten, tienen el doble de fuerza.",
+    "category": "reflection"
+  },
+  {
+    "id": "r58",
+    "title": "El Poder De La Compasión",
+    "content": "Sé compasivo contigo mismo, especialmente en los días difíciles. No te castigues por los errores, aprende de ellos. Trátate con la misma amabilidad con la que tratarías a un ser querido. La autocompasión no te hace débil, te hace humano, y eso es hermoso.",
+    "category": "reflection"
+  },
+  {
+    "id": "r59",
+    "title": "La Belleza De La Gratitud En Lo Simple",
+    "content": "Agradece el aire que respiras, el techo que te cobija, el agua que te nutre. Las cosas más valiosas de la vida son gratuitas y están al alcance de todos. Cuando aprecias lo simple, descubres que ya tienes todo lo que necesitas para ser feliz. La gratitud abre los ojos.",
+    "category": "reflection"
+  },
+  {
+    "id": "r60",
+    "title": "El Valor De La Honestidad Contigo",
+    "content": "La honestidad contigo mismo es el primer paso hacia la transformación. Reconoce lo que sientes, lo que necesitas, lo que te hace daño. No te mientas para evitar el dolor, porque solo lo prolongas. La verdad, aunque duela, siempre te libera y te muestra el camino correcto.",
+    "category": "reflection"
+  },
+  {
+    "id": "r61",
+    "title": "La Paz De Vivir Sin Máscaras",
+    "content": "Vivir sin máscaras te da una paz que nada más puede igualar. Cuando dejas de fingir, cuando muestras tu verdadero yo, te liberas de un peso enorme. Ser auténtico requiere valentía, pero la recompensa es inmensa. La autenticidad es el camino más corto hacia la felicidad.",
+    "category": "reflection"
+  },
+  {
+    "id": "r62",
+    "title": "El Regalo De La Amabilidad Propia",
+    "content": "Trátate con amabilidad, especialmente cuando te equivoques. No eres tu error, eres una persona aprendiendo a vivir. Hablate con cariño, cuídate como cuidarías a alguien que amas profundamente. La amabilidad propia no es egoísmo, es la base de una vida plena y feliz.",
+    "category": "reflection"
+  },
+  {
+    "id": "r63",
+    "title": "La Fuerza De La Fe En Ti Mismo",
+    "content": "La fe en ti mismo es el combustible que te impulsa hacia adelante. Cuando crees en tus capacidades, nada puede detenerte. No esperes validación externa, empieza tú por creer en ti. Tu fe interior mueve montañas y abre puertas que parecían imposibles de cruzar.",
+    "category": "reflection"
+  },
+  {
+    "id": "r64",
+    "title": "El Poder De Los Momentos De Calma",
+    "content": "En un mundo que va deprisa, los momentos de calma son un lujo necesario. Tómate tiempo para respirar, para pensar, para simplemente ser. La calma recarga tu espíritu y te da claridad para enfrentar lo que venga. Sin pausas, el camino se hace demasiado pesado.",
+    "category": "reflection"
+  },
+  {
+    "id": "r65",
+    "title": "La Belleza De Ser Tú Mismo",
+    "content": "Ser tú mismo es el acto más revolucionario que puedes hacer. En un mundo que te pide ser como los demás, atreverse a ser original es valentía pura. No cambies quien eres por encajar, porque tu autenticidad es tu mayor tesoro. El mundo necesita exactamente lo que tú eres.",
+    "category": "reflection"
+  },
+  {
+    "id": "r66",
+    "title": "El Valor De La Gratitud Profunda",
+    "content": "La gratitud profunda transforma tu vida de adentro hacia afuera. Cuando agradeces de corazón, cambias tu vibración, tu perspectiva, tu realidad. No esperes a tenerlo todo para agradecer, empieza con lo que tienes y verás cómo la abundancia llega a tu vida naturalmente.",
+    "category": "reflection"
+  },
+  {
+    "id": "r67",
+    "title": "La Magia De Los Nuevos Horizontes",
+    "content": "Siempre hay un nuevo horizonte esperándote, aunque ahora no lo veas. Después de cada final viene un nuevo comienzo, después de cada cierre se abre una puerta. Confía en que la vida tiene planes hermosos para ti, aunque el camino no sea el que imaginabas. Lo mejor está por venir.",
+    "category": "reflection"
+  },
+  {
+    "id": "r68",
+    "title": "El Poder De Las Decisiones Valientes",
+    "content": "Las decisiones valientes cambian el curso de tu vida. No te quedes paralizado por el miedo, actúa con determinación. Incluso las decisiones imperfectas te llevan más lejos que la indecisión eterna. Confía en ti, elige con el corazón, y camina con fe hacia tu destino.",
+    "category": "reflection"
+  },
+  {
+    "id": "r69",
+    "title": "La Paz De Vivir Sin Rencores",
+    "content": "Soltar los rencores te da una paz que nada más puede ofrecer. El resentimiento es un veneno que te haces a ti mismo. Perdona no porque lo merezcan, sino porque tú mereces paz. Libera tu corazón del peso del pasado y permite que la luz entre de nuevo en tu vida.",
+    "category": "reflection"
+  },
+  {
+    "id": "r70",
+    "title": "El Regalo De La Perseverancia Constante",
+    "content": "La perseverancia constante vence cualquier obstáculo. No importa cuán lento avances, lo importante es no detenerte. Cada paso, por pequeño que sea, te acerca a tu meta. Los que perseveran son los que cambian su historia. Tú puedes ser uno de ellos, solo sigue adelante.",
+    "category": "reflection"
+  },
+  {
+    "id": "r71",
+    "title": "La Fuerza De La Confianza Plena",
+    "content": "Confía plenamente en el proceso de la vida, aunque no entiendas cada paso. Lo que hoy parece confuso, mañana tendrá sentido. Lo que hoy duele, mañana será tu mayor fortaleza. La confianza es el puente entre lo que eres y lo que estás destinado a ser.",
+    "category": "reflection"
+  },
+  {
+    "id": "r72",
+    "title": "La Belleza De Los Encuentros Inesperados",
+    "content": "La vida está llena de encuentros inesperados que cambian tu rumbo. Una persona, un libro, una conversación, pueden transformar tu perspectiva. Mantén el corazón abierto a las sorpresas que el destino te trae. A veces lo mejor llega cuando menos lo esperas.",
+    "category": "reflection"
+  },
+  {
+    "id": "r73",
+    "title": "El Valor De Cuidar Tu Interior",
+    "content": "Cuidar tu mundo interior es tan importante como cuidar el exterior. Alimenta tu mente con pensamientos positivos, tu corazón con emociones sanas, tu espíritu con momentos de paz. Tu bienestar interior es la base de todo lo demás. Sin paz interior, nada tiene sentido.",
+    "category": "reflection"
+  },
+  {
+    "id": "r74",
+    "title": "El Poder De La Palabra Dicha Con Amor",
+    "content": "Las palabras dichas con amor tienen el poder de sanar, de construir, de transformar. Úsalas con sabiduría, tanto contigo como con los demás. Una palabra amable en el momento justo puede cambiar el día de alguien. Sé generoso con tus palabras, el mundo necesita más amor.",
+    "category": "reflection"
+  },
+  {
+    "id": "r75",
+    "title": "La Paz De Aceptar El Flujo De La Vida",
+    "content": "La vida tiene su propio ritmo, su propio flujo. No intentes forzar las cosas, permite que sucedan en su tiempo perfecto. A veces lo que parece un retraso es en realidad una protección. Confía en el timing de la vida y permite que todo llegue cuando deba llegar.",
+    "category": "reflection"
+  },
+  {
+    "id": "r76",
+    "title": "La Fortaleza De Los Momentos Difíciles",
+    "content": "Los momentos difíciles son los que más te fortalecen. Aunque ahora no lo veas, cada prueba te está preparando para algo mejor. No te rindas en medio de la tormenta, porque del otro lado te espera una versión más fuerte de ti mismo. Confía en el proceso de transformación.",
+    "category": "reflection"
+  },
+  {
+    "id": "r77",
+    "title": "El Regalo De La Gratitud Por Lo Vivido",
+    "content": "Agradece todo lo que has vivido, lo bueno y lo malo. Lo bueno te dio alegría, lo malo te dio sabiduría. Todo forma parte de tu historia, todo te ha hecho quien eres hoy. Abraza tu pasado con gratitud y camina hacia el futuro con esperanza renovada.",
+    "category": "reflection"
+  },
+  {
+    "id": "r78",
+    "title": "La Magia De Creer En Los Milagros",
+    "content": "Los milagros existen, solo hay que creer en ellos. No son grandes eventos espectaculares, son pequeños momentos de gracia que suceden cada día. Abre los ojos a las maravillas cotidianas y descubrirás que la vida está llena de magia esperando ser reconocida.",
+    "category": "reflection"
+  },
+  {
+    "id": "r79",
+    "title": "El Valor De La Constancia Silenciosa",
+    "content": "La constancia silenciosa es la que realmente transforma vidas. No necesitas grandes gestos, solo pequeños pasos diarios. La disciplina de hacer un poco cada día, sin rendirte, te lleva más lejos que cualquier esfuerzo esporádico. La constancia es tu mejor aliada.",
+    "category": "reflection"
+  },
+  {
+    "id": "r80",
+    "title": "La Belleza De Los Lazos Verdaderos",
+    "content": "Los lazos verdaderos son los que se construyen con tiempo, paciencia y amor. No busques relaciones perfectas, busca relaciones reales. Valora a quienes se quedan en los momentos difíciles, a quienes te quieren sin condiciones. Esos lazos son tesoros que enriquecen tu vida.",
+    "category": "reflection"
+  },
+  {
+    "id": "r81",
+    "title": "El Poder De La Intención Diaria",
+    "content": "Cada mañana, establece una intención para tu día. Puede ser simple: ser amable, estar presente, dar lo mejor de ti. Las intenciones dirigen tu energía y dan propósito a tus acciones. Cuando vives con intención, cada día se convierte en una oportunidad de crecimiento.",
+    "category": "reflection"
+  },
+  {
+    "id": "r82",
+    "title": "La Paz De Vivir Sin Comparaciones",
+    "content": "Compararte con otros solo te roba la paz. Tu camino es único, tu ritmo es perfecto para ti. No mires el jardín del vecino, cultiva el tuyo con amor. Tu única competencia es quien fuiste ayer. Enfócate en tu propio crecimiento y verás cómo florece tu vida.",
+    "category": "reflection"
+  },
+  {
+    "id": "r83",
+    "title": "La Fortaleza De Aceptar La Incertidumbre",
+    "content": "La incertidumbre no es tu enemiga, es parte natural de la vida. No puedes saberlo todo, no puedes controlarlo todo. Aprende a vivir con las preguntas sin respuestas, a confiar en que todo se irá aclarando con el tiempo. La incertidumbre es el espacio donde crece la fe.",
+    "category": "reflection"
+  },
+  {
+    "id": "r84",
+    "title": "El Regalo De Los Momentos Compartidos",
+    "content": "Los momentos compartidos con quienes amas son los verdaderos tesoros de la vida. No los pospongas, no los dejes para después. Vive el presente con las personas que importan, porque al final, eso es lo que recordarás. El amor compartido es la mayor riqueza que puedes tener.",
+    "category": "reflection"
+  },
+  {
+    "id": "r85",
+    "title": "La Valentía De Enfrentar Tus Miedos",
+    "content": "Enfrentar tus miedos no los elimina, pero te hace más fuerte que ellos. Cada vez que te atreves a dar un paso aunque tengas miedo, creces. Los miedos pierden poder cuando los miras de frente. No dejes que te paralicen, úsalos como brújula hacia donde necesitas crecer.",
+    "category": "reflection"
+  },
+  {
+    "id": "r86",
+    "title": "La Belleza De Los Pequeños Logros",
+    "content": "Celebra cada pequeño logro, por insignificante que parezca. Levantarte de la cama en un día difícil es un logro. Hablar con alguien cuando quieres aislarte es un logro. Cada pequeño paso cuenta y te acerca a donde quieres estar. Tu progreso merece ser reconocido.",
+    "category": "reflection"
+  },
+  {
+    "id": "r87",
+    "title": "El Poder De La Fe En El Proceso",
+    "content": "Tener fe en el proceso es confiar aunque no veas el resultado final. Es creer que cada pieza del rompecabezas encajará en su momento. La fe no elimina las dudas, pero te da la fuerza para seguir caminando. Confía en que todo está sucediendo como debe suceder.",
+    "category": "reflection"
+  },
+  {
+    "id": "r88",
+    "title": "La Paz De Vivir En Armonía",
+    "content": "La armonía interior se construye alineando tus pensamientos, palabras y acciones. Cuando lo que piensas, dices y haces están en sintonía, encuentras paz. Vive con integridad, sé coherente contigo mismo, y la armonía llegará naturalmente a tu vida. La paz es consecuencia de la autenticidad.",
+    "category": "reflection"
+  },
+  {
+    "id": "r89",
+    "title": "La Fortaleza De Amar Sin Condiciones",
+    "content": "Amar sin condiciones es el acto más valiente y transformador. No esperes que los demás cambien para quererlos, ámalos como son. Y ámate tú también sin condiciones, con tus luces y tus sombras. El amor incondicional, empezando por ti mismo, lo cambia todo.",
+    "category": "reflection"
+  },
+  {
+    "id": "r90",
+    "title": "El Regalo De La Presencia Plena",
+    "content": "Estar plenamente presente es el mayor regalo que puedes darte y dar a otros. Deja el teléfono, mira a los ojos, escucha de verdad. Los momentos más valiosos de la vida suceden cuando estás completamente aquí y ahora. La presencia es amor en su forma más pura.",
+    "category": "reflection"
+  },
+  {
+    "id": "r91",
+    "title": "La Magia De Reinventarse Cada Día",
+    "content": "Cada día tienes la oportunidad de reinventarte. No estás atado a quien fuiste ayer, puedes ser quien decidas ser hoy. La vida es un lienzo en constante transformación, y tú eres el artista. Pinta con colores nuevos, experimenta, atrévete a ser diferente cada día.",
+    "category": "reflection"
+  },
+  {
+    "id": "r92",
+    "title": "El Valor De La Gratitud En La Adversidad",
+    "content": "Encontrar razones para agradecer incluso en la adversidad es un acto de sabiduría. Siempre hay algo bueno, por pequeño que sea. La gratitud en tiempos difíciles no niega el dolor, pero te da la fuerza para seguir adelante. Agradecer es elegir la luz en medio de la oscuridad.",
+    "category": "reflection"
+  },
+  {
+    "id": "r93",
+    "title": "La Belleza De Los Vínculos Sanadores",
+    "content": "Los vínculos sanadores son aquellos que te permiten ser tú mismo, que te aceptan sin juzgar, que te impulsan a crecer. Rodéate de personas que sumen, que te inspiren, que te hagan mejor. Y sé para otros ese vínculo sanador. Las relaciones auténticas son medicina para el alma.",
+    "category": "reflection"
+  },
+  {
+    "id": "r94",
+    "title": "El Poder De La Esperanza Activa",
+    "content": "La esperanza no es esperar pasivamente, es actuar con fe. Es levantarte cada mañana con la determinación de hacer algo bueno, de avanzar un paso más. La esperanza activa transforma sueños en realidad, porque combina la fe con la acción. Sé esperanza en movimiento.",
+    "category": "reflection"
+  },
+  {
+    "id": "r95",
+    "title": "La Paz De Soltar Lo Que No Controlas",
+    "content": "Soltar lo que no puedes controlar te da una paz inmensa. No puedes cambiar a los demás, no puedes cambiar el pasado, no puedes predecir el futuro. Solo puedes controlar tus acciones, tus pensamientos, tu actitud. Enfócate en lo que sí depende de ti y suelta el resto.",
+    "category": "reflection"
+  },
+  {
+    "id": "r96",
+    "title": "La Fortaleza De Celebrar Tu Propio Camino",
+    "content": "Tu camino es único y merece ser celebrado. No lo compares con el de nadie más, porque nadie tiene tu historia, tus sueños, tu ritmo. Celebra cada paso, cada logro, cada lección aprendida. Tu camino es hermoso tal como es, y tú eres el protagonista de esta aventura.",
+    "category": "reflection"
+  },
+  {
+    "id": "r97",
+    "title": "El Regalo De La Vida En Cada Instante",
+    "content": "La vida te regala un instante nuevo cada segundo. No lo desperdicies en preocupaciones por lo que vendrá o arrepentimientos por lo que fue. Vive este momento con plenitud, porque es el único que realmente tienes. Cada respiro es una oportunidad de empezar de nuevo.",
+    "category": "reflection"
+  },
+  {
+    "id": "r98",
+    "title": "La Valentía De Confiar En La Vida",
+    "content": "Confiar en la vida requiere valentía, especialmente cuando las cosas no salen como esperas. Pero esa confianza es la que te permite seguir adelante, la que te da paz en medio de la incertidumbre. Cree que todo sucede por algo, que cada experiencia tiene un propósito. Confía.",
+    "category": "reflection"
+  },
+  {
+    "id": "r99",
+    "title": "La Belleza De Ser Luz Para Otros",
+    "content": "Tienes el poder de ser luz para otros, incluso en tus momentos más oscuros. Tu ejemplo, tus palabras, tu presencia pueden iluminar el camino de alguien. No subestimes el impacto que tienes en la vida de los demás. Eres más importante de lo que crees, y tu luz hace falta.",
+    "category": "reflection"
+  },
+  {
+    "id": "r100",
+    "title": "El Poder De Empezar Hoy Mismo",
+    "content": "No esperes el momento perfecto, porque no existe. El momento perfecto es hoy, aquí, ahora. Empieza con lo que tienes, desde donde estás, como puedas. Cada día que pospones es un día que pierdes. La acción, aunque imperfecta, siempre vence a la intención postergada. Empieza hoy.",
+    "category": "reflection"
   }
 ]

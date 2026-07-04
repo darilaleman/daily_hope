@@ -45,7 +45,7 @@ class AppTranslations {
     'english': 'English',
     'notification_permission_denied': 'Permiso de notificaciones denegado',
     'refresh': 'Refrescar',
-    'get_another_text': 'Obtener otro texto',
+    'get_another_text': 'Obtener otro texto'
   };
 
   /// Textos en inglés
@@ -94,7 +94,7 @@ class AppTranslations {
     'english': 'English',
     'notification_permission_denied': 'Notification permission denied',
     'refresh': 'Refresh',
-    'get_another_text': 'Get another text',
+    'get_another_text': 'Get another text'
   };
 
   /// Obtiene el mapa de traducciones según el idioma

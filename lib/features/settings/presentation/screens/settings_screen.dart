@@ -58,7 +58,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     } else {
       await NotificationService.cancelAll();
     }
-
     await HiveService.setSetting('notifications_enabled', value);
     setState(() => _notificationsEnabled = value);
   }
@@ -74,13 +73,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         child: child!,
       ),
     );
-
     if (picked != null) {
       _hour = picked.hour;
       _minute = picked.minute;
       await HiveService.setSetting('notification_hour', _hour);
       await HiveService.setSetting('notification_minute', _minute);
-
       if (_notificationsEnabled) {
         await NotificationService.scheduleDaily(hour: _hour, minute: _minute);
       }
@@ -91,7 +88,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   Future<void> _showLanguageSelector() async {
     final notifier = ref.read(languageProvider.notifier);
     final currentLang = ref.read(languageProvider);
-
     await showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -225,7 +221,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
             ),
           ),
-
           const SizedBox(height: 16),
 
           // Tarjeta de notificaciones
@@ -304,7 +299,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
             ),
           ),
-
           const SizedBox(height: 16),
 
           // Tarjeta de información

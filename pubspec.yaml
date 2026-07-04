@@ -36,8 +36,7 @@ flutter:
     - assets/images/
     - assets/texts/es_reflections.json
     - assets/texts/en_reflections.json
-    - assets/texts/es_prayers.json
-    - assets/texts/en_prayers.json  
+ 
   
   # fonts:
   #   - family: PlayfairDisplay

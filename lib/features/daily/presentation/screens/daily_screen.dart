@@ -31,6 +31,7 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
 
   void _setupPrefetchListener() {
     _repository.onPrefetchStatusChanged = (isWorking, progress) {
+      // Solo actualizar si el widget todavía está montado
       if (mounted) {
         setState(() {
           _isPrefetching = isWorking;
@@ -90,6 +91,13 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
       default:
         return Icons.wb_sunny_outlined;
     }
+  }
+
+  @override
+  void dispose() {
+    // Limpiar el callback cuando el widget se desmonta
+    _repository.onPrefetchStatusChanged = null;
+    super.dispose();
   }
 
   @override
@@ -187,7 +195,7 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
           Container(width: 30, height: 1, color: const Color(0xFFB8996A)),
           const SizedBox(height: 16),
           Text(
-            _dailyText!.title(lang), // ← GETTER POR IDIOMA
+            _dailyText!.title(lang),
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 24,
@@ -201,7 +209,7 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
           Container(width: 30, height: 1, color: const Color(0xFFB8996A)),
           const SizedBox(height: 16),
           Text(
-            _dailyText!.content(lang), // ← GETTER POR IDIOMA
+            _dailyText!.content(lang),
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 16,
@@ -215,7 +223,7 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
             Padding(
               padding: const EdgeInsets.only(bottom: 12),
               child: Text(
-                '— ${_dailyText!.reference(lang)}', // ← GETTER POR IDIOMA
+                '— ${_dailyText!.reference(lang)}',
                 style: const TextStyle(
                   fontSize: 13,
                   fontStyle: FontStyle.italic,

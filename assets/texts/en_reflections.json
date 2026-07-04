@@ -1,16 +1,602 @@
 [
   {
-    "id": "e1",
-    "title": "The Healing Stillness",
-    "content": "In the midst of the world's noise, there exists a sacred place within you where eternal peace dwells. That inner space is your sanctuary, the temple where the Divine whispers, patiently waiting for you to quiet your mind so it can fill you with healing grace. Do not fear silence, for in it rests the wisdom you seek and the renewal your soul needs.",
-    "reference": "Psalm 46:10",
+    "id": "r1",
+    "title": "The Strength Born From Within",
+    "content": "Sometimes we look for strength outside, in other people or circumstances, but the truth is you already have it. It is in every breath, in every step you take despite fear, in every decision to keep going. Trust yourself, because you are stronger than you believe.",
     "category": "reflection"
   },
   {
-    "id": "e2",
-    "title": "Strength in Weakness",
-    "content": "Sometimes we think strength means never falling, but true strength lies in rising every time we stumble. Today, if you feel tired, remember you are not alone. Every step you take, no matter how small, is a victory. Breathe deeply, release the burden, and trust that tomorrow will bring new strength.",
-    "reference": "Isaiah 40:31",
-    "category": "motivation"
+    "id": "r2",
+    "title": "Every Dawn Is A New Opportunity",
+    "content": "It does not matter how many times you have fallen, what matters is how many times you get up. Today you have the opportunity to start over, to leave behind what weighs you down and walk towards what makes you happy. Breathe deeply, let go of the past and embrace the present with courage.",
+    "category": "reflection"
+  },
+  {
+    "id": "r3",
+    "title": "Hard Days Pass Too",
+    "content": "No storm lasts forever. No matter how dark the moment may seem, remember that after the night the dawn always comes. Give yourself permission to feel, to cry if necessary, but do not forget that this too shall pass and you will still be here, wiser and stronger.",
+    "category": "reflection"
+  },
+  {
+    "id": "r4",
+    "title": "The Courage To Keep Moving Forward",
+    "content": "Courage is not the absence of fear, but the decision that something is more important than fear. Today choose to move forward, even if it is just a small step. Every step counts, every effort adds up, and soon you will look back and see how much you have grown.",
+    "category": "reflection"
+  },
+  {
+    "id": "r5",
+    "title": "The Peace That Comes After Pain",
+    "content": "After every struggle comes calm. After every tear comes a smile. Do not give up now, because you are closer to peace than you imagine. Today's pain will be tomorrow's strength, and the calm you seek is already being born within you.",
+    "category": "reflection"
+  },
+  {
+    "id": "r6",
+    "title": "Trust In Life's Process",
+    "content": "You will not always understand why things happen the way they do, but you can trust that everything has a purpose. What seems like an obstacle today will be the bridge that took you where you needed to be tomorrow. Be patient with yourself and with time.",
+    "category": "reflection"
+  },
+  {
+    "id": "r7",
+    "title": "You Are Stronger Than You Think",
+    "content": "You have survived one hundred percent of your difficult days. That is no coincidence, it is strength. Every challenge you have faced has prepared you for this moment. Trust in your ability to overcome whatever comes, because you have already proven it many times before.",
+    "category": "reflection"
+  },
+  {
+    "id": "r8",
+    "title": "The Light That Shines In Darkness",
+    "content": "Even in the darkest moments, there is a light inside you that never goes out. It is your hope, your resilience, your indomitable spirit. Feed it with positive thoughts and you will see how it illuminates your path. That light has always been there, waiting for you to recognize it.",
+    "category": "reflection"
+  },
+  {
+    "id": "r9",
+    "title": "The Value Of Starting Over",
+    "content": "Starting over is not failing, it is having the courage to try again. Every restart is an opportunity to do it better, to learn from mistakes and build something more solid. Do not be afraid to begin again, because each attempt brings you closer to your goal.",
+    "category": "reflection"
+  },
+  {
+    "id": "r10",
+    "title": "Letting Go To Move Forward",
+    "content": "Sometimes we need to let go of what weighs us down in order to fly. You cannot move forward if you carry the past with you. Forgive, let go, make space for what is about to come. Your future waits for you with open arms, but first you must free your hands.",
+    "category": "reflection"
+  },
+  {
+    "id": "r11",
+    "title": "The Beauty Of Small Steps",
+    "content": "Do not underestimate the power of small steps. A kilometer is walked step by step, a dream is built day by day. Celebrate every small advance, because they all add up and bring you closer to where you want to be. Consistency always beats momentary intensity.",
+    "category": "reflection"
+  },
+  {
+    "id": "r12",
+    "title": "Breathe And Keep Going",
+    "content": "When everything seems overwhelming, just breathe. A deep breath can change your perspective, calm your mind and give you the clarity you need. You do not have to have all the answers now, just keep going. One step at a time is enough.",
+    "category": "reflection"
+  },
+  {
+    "id": "r13",
+    "title": "The Present Moment Is Yours",
+    "content": "The past is gone, the future has not arrived yet. All you have is this moment, and it is enough. Live the now with intensity, be grateful for what you have and trust that the future will be built with today's decisions. The present is a gift, that is why it is called so.",
+    "category": "reflection"
+  },
+  {
+    "id": "r14",
+    "title": "Hope Never Fades Away",
+    "content": "As long as there is life, there is hope. No matter how difficult the situation may be, there is always a possibility of change, of improvement, of happiness. Keep hope alive in your heart and you will see how everything is possible. Hope is the engine that keeps you moving.",
+    "category": "reflection"
+  },
+  {
+    "id": "r15",
+    "title": "Your Story Is Not Over Yet",
+    "content": "This chapter may be difficult, but it is not the end of your story. You are the author of your life and you can write a different ending. Keep writing, keep fighting, because the best is yet to come. Every blank page is an opportunity to create something beautiful.",
+    "category": "reflection"
+  },
+  {
+    "id": "r16",
+    "title": "The Silence That Heals The Soul",
+    "content": "Sometimes we need silence to hear what the soul needs to say. In stillness we find answers, in calm we find peace. Give yourself permission to stop, to listen, to heal. The noise of the world will not let you find your true inner voice.",
+    "category": "reflection"
+  },
+  {
+    "id": "r17",
+    "title": "Embrace Who You Are Today",
+    "content": "You do not need to be perfect to be valuable. Embrace your imperfections, your scars, your story. Everything you have lived has made you who you are, and who you are is enough. Love yourself just as you are, because you are a work in constant evolution and that is beautiful.",
+    "category": "reflection"
+  },
+  {
+    "id": "r18",
+    "title": "The Calm After The Struggle",
+    "content": "After every battle comes victory, after every struggle comes peace. Do not give up now, because you are about to arrive. The calm you seek is closer than you imagine. Just a little more effort and you will find it waiting for you.",
+    "category": "reflection"
+  },
+  {
+    "id": "r19",
+    "title": "Scars That Tell Stories",
+    "content": "Your scars are not signs of weakness, they are testimonies of your strength. Each one tells a story of survival, of resilience, of courage. Carry them with pride, because they show that you never gave up. They are proof that you are stronger than you thought.",
+    "category": "reflection"
+  },
+  {
+    "id": "r20",
+    "title": "The Power Of A Smile Today",
+    "content": "A smile can change your day, it can change someone else's day. Even in difficult moments, find reasons to smile. Happiness is not the absence of problems, it is the ability to smile despite them. Your smile has a power you cannot imagine.",
+    "category": "reflection"
+  },
+  {
+    "id": "r21",
+    "title": "When Everything Seems Lost",
+    "content": "When everything seems lost, remember that you have overcome difficult things before. You have the ability, the strength and the determination to move forward. It is not the end, it is just a difficult chapter in a beautiful story. Trust that soon everything will make sense.",
+    "category": "reflection"
+  },
+  {
+    "id": "r22",
+    "title": "The Light After The Storm",
+    "content": "After every storm the sun comes out. After every night the day arrives. No matter how dark the situation may be, the light always returns. Keep faith and wait, because your moment to shine will come. The most beautiful skies appear after the heaviest rains.",
+    "category": "reflection"
+  },
+  {
+    "id": "r23",
+    "title": "You Are Not Alone On This Path",
+    "content": "Even though sometimes you feel it, you are not alone. There are people who love you, who support you, who believe in you. And if you do not see them now, they will appear soon. Meanwhile, be your own best friend and companion. Your own company is valuable and you deserve to treat yourself with love.",
+    "category": "reflection"
+  },
+  {
+    "id": "r24",
+    "title": "The Courage To Be Vulnerable",
+    "content": "Being vulnerable is not weakness, it is courage. It takes courage to show your true self, with your fears and your doubts. But it is in vulnerability where we find true connection and deep healing. Allow yourself to feel, allow yourself to be human, that makes you authentic.",
+    "category": "reflection"
+  },
+  {
+    "id": "r25",
+    "title": "Every Day Is A Gift",
+    "content": "Today is a gift, that is why it is called the present. Be grateful for it, live it intensely, do not waste it on worries. Every day is a new opportunity to be happy, to grow, to love. Take advantage of every moment, because life is measured in instants, not in years.",
+    "category": "reflection"
+  },
+  {
+    "id": "r26",
+    "title": "The Strength Of Perseverance",
+    "content": "Perseverance is not never falling, it is getting up every time you fall. It is moving forward despite obstacles, doubts, tiredness. And in the end, perseverance is always rewarded. Those who do not give up are the ones who change their own story.",
+    "category": "reflection"
+  },
+  {
+    "id": "r27",
+    "title": "The Art Of Letting Go Of Control",
+    "content": "You cannot control everything that happens, but you can control how you respond. Let go of the need to have everything under control and allow life to flow. Sometimes, letting go is the most powerful way to move forward. Trust that the universe has better plans than yours.",
+    "category": "reflection"
+  },
+  {
+    "id": "r28",
+    "title": "The Magic Of New Beginnings",
+    "content": "Every day is a new beginning, a blank page waiting to be written. No matter what happened yesterday, today you can start over. Write a beautiful story, full of hope and determination. Your life is your masterpiece in constant creation.",
+    "category": "reflection"
+  },
+  {
+    "id": "r29",
+    "title": "The Power Of Gratitude",
+    "content": "Gratitude transforms what we have into enough. When you are grateful, you change your perspective, you see abundance instead of scarcity. Today, find three things to be grateful for and feel how your day changes. Gratitude is the key to happiness.",
+    "category": "reflection"
+  },
+  {
+    "id": "r30",
+    "title": "The Courage To Ask For Help",
+    "content": "Asking for help is not weakness, it is emotional intelligence. Recognizing that you cannot do it alone and seeking support is an act of courage. You do not have to carry all the weight by yourself, allow others to help you carry the load. Together we are stronger than alone.",
+    "category": "reflection"
+  },
+  {
+    "id": "r31",
+    "title": "The Wisdom Of Falling Down",
+    "content": "Every fall is a lesson in disguise. Do not be ashamed of stumbling, because it is the only way to learn to walk firmly. Get up with the wisdom of what was learned and the strength of someone who has survived. Your falls have made you wiser, not weaker.",
+    "category": "reflection"
+  },
+  {
+    "id": "r32",
+    "title": "The Gift Of Patience",
+    "content": "Patience is not waiting passively, it is maintaining faith while you work for what you desire. Everything good takes time, and what is meant for you will come at the perfect moment. Meanwhile, enjoy the journey, because the trip is also part of the destination.",
+    "category": "reflection"
+  },
+  {
+    "id": "r33",
+    "title": "The Beauty Of Being Imperfect",
+    "content": "Your imperfection is what makes you unique, special, human. Do not try to be like others, because your authenticity is your greatest treasure. Embrace your quirks, your habits, your flaws. They are part of what makes you one of a kind in this world. You are perfect in your imperfection.",
+    "category": "reflection"
+  },
+  {
+    "id": "r34",
+    "title": "The Power Of Your Inner Words",
+    "content": "The words you say to yourself have the power to build or destroy. Choose to speak to yourself with love, with compassion, with hope. You are what you think, so think good things about yourself. Your inner dialogue is the foundation of your reality, make it positive.",
+    "category": "reflection"
+  },
+  {
+    "id": "r35",
+    "title": "The Freedom Of Forgiving",
+    "content": "Forgiving is not forgetting, it is freeing yourself from the weight that ties you to the past. When you forgive, you do not change what happened, but you do change your future. Let go of resentment, free your heart, and allow peace to enter again. Forgiveness is a gift you give yourself.",
+    "category": "reflection"
+  },
+  {
+    "id": "r36",
+    "title": "The Value Of Your Dreams",
+    "content": "Your dreams are not craziness, they are maps towards your best version. Do not abandon them because someone told you they are not possible. The world needs what you have to offer. Pursue your dreams with determination, because they are the compass that guides you towards your purpose.",
+    "category": "reflection"
+  },
+  {
+    "id": "r37",
+    "title": "The Peace Of Accepting What Is",
+    "content": "Accepting is not giving up, it is stopping fighting against reality in order to transform it. When you accept what is, you find the clarity to act wisely. Peace comes when you stop resisting and start flowing with life as it presents itself.",
+    "category": "reflection"
+  },
+  {
+    "id": "r38",
+    "title": "The Gift Of Solitude",
+    "content": "Solitude is not a punishment, it is an opportunity to reconnect with yourself. In silence you find answers that the noise of the world does not let you hear. Learn to enjoy your own company, because you are the person you will spend your whole life with.",
+    "category": "reflection"
+  },
+  {
+    "id": "r39",
+    "title": "The Strength Of Saying No",
+    "content": "Saying no to what does not suit you is saying yes to yourself. Setting limits is not selfishness, it is self-love. Protect your energy, your time, your peace. You do not have to please everyone to be valuable. Your well-being is a priority, and saying no is sometimes the bravest act.",
+    "category": "reflection"
+  },
+  {
+    "id": "r40",
+    "title": "The Magic Of Believing In Yourself",
+    "content": "When you believe in yourself, the universe conspires in your favor. Faith in your abilities opens doors that seemed closed. Do not wait for others to believe in you first, start with yourself. Your confidence is the fuel that will take you where you have always wanted to be.",
+    "category": "reflection"
+  },
+  {
+    "id": "r41",
+    "title": "The Art Of Living Without Rush",
+    "content": "Life is not a race, it is a walk. You do not have to get anywhere urgently. Enjoy the path, observe the details, savor every moment. Rushes steal from you the beauty of the simple. Breathe, walk slowly, and discover the magic of living without hurry.",
+    "category": "reflection"
+  },
+  {
+    "id": "r42",
+    "title": "The Courage To Be Different",
+    "content": "Being different is not a defect, it is a superpower. In a world that asks you to fit in, daring to be yourself is revolutionary. Do not change who you are to please others. Your authenticity is your greatest strength and the most valuable gift you can give the world.",
+    "category": "reflection"
+  },
+  {
+    "id": "r43",
+    "title": "The Power Of Small Gestures",
+    "content": "A small gesture of kindness can change someone's day. A smile, a kind word, a sincere hug. Do not underestimate the impact of your actions, however small they may seem. The world is transformed by millions of small acts of kindness every day.",
+    "category": "reflection"
+  },
+  {
+    "id": "r44",
+    "title": "The Wisdom Of Silence",
+    "content": "Sometimes the wisest answer is silence. Not everything deserves your opinion, not every battle deserves your energy. Learn to be quiet when necessary, to listen more than you speak. In silence you find clarity, and in listening you find true wisdom.",
+    "category": "reflection"
+  },
+  {
+    "id": "r45",
+    "title": "The Value Of Your Decisions",
+    "content": "Every decision you make draws the map of your life. Do not be afraid to choose, even when you are not certain. Indecision is also a choice, and often the most costly one. Trust your intuition, act with courage, and accept that every path teaches you something valuable.",
+    "category": "reflection"
+  },
+  {
+    "id": "r46",
+    "title": "The Beauty Of Simple Days",
+    "content": "You do not need great events to be happy. A coffee in the morning, a sincere conversation, a beautiful sunset. Happiness is in the small details, in the ordinary moments that become extraordinary when you appreciate them. Open your eyes to the simple things.",
+    "category": "reflection"
+  },
+  {
+    "id": "r47",
+    "title": "The Power Of Letting Go Of The Past",
+    "content": "The past is a place of reference, not of residence. You cannot change what has already happened, but you can decide what place to give it in your present. Let go of what ties you, forgive what hurts you, and make space for the new. Your future is waiting for you.",
+    "category": "reflection"
+  },
+  {
+    "id": "r48",
+    "title": "The Strength Of Daily Gratitude",
+    "content": "Being grateful every day transforms your perspective. When you focus on what you have instead of what you lack, life fills with abundance. Start every morning with three things you are grateful for and you will see how your heart expands with happiness.",
+    "category": "reflection"
+  },
+  {
+    "id": "r49",
+    "title": "The Gift Of True Friendship",
+    "content": "True friends are treasures that beautify the path. Value those who support you unconditionally, who listen to you without judging, who love you as you are. And be for others that friend you would like to have. Genuine friendship is one of life's greatest gifts.",
+    "category": "reflection"
+  },
+  {
+    "id": "r50",
+    "title": "The Courage To Change Course",
+    "content": "Changing direction is not failing, it is having the wisdom to recognize that something is not working. Sometimes the right path is the one you did not expect. Have the courage to turn the helm when necessary. Your happiness is worth more than any rigid plan that makes you unhappy.",
+    "category": "reflection"
+  },
+  {
+    "id": "r51",
+    "title": "The Peace Of Living In Truth",
+    "content": "Living in truth with yourself is the shortest path to inner peace. Do not hide behind masks, do not pretend to be who you are not. Authenticity frees you from the weight of appearances and connects you with what really matters. Be you, without apologies.",
+    "category": "reflection"
+  },
+  {
+    "id": "r52",
+    "title": "The Power Of Intention",
+    "content": "What you think with intensity, you attract into your life. Your thoughts are seeds that germinate in your reality. Cultivate positive thoughts, full of hope and faith. What you sow in your mind, you harvest in your life. Choose wisely what you think.",
+    "category": "reflection"
+  },
+  {
+    "id": "r53",
+    "title": "The Beauty Of Learning Every Day",
+    "content": "Every day teaches you something new, if you are willing to listen. People, situations, mistakes, everything is an opportunity for growth. Keep your mind open and your heart receptive. Life is the best teacher, and every lesson brings you closer to your best version.",
+    "category": "reflection"
+  },
+  {
+    "id": "r54",
+    "title": "The Value Of Your Limits",
+    "content": "Knowing your limits is not weakness, it is wisdom. Respecting what you can and what you cannot allows you to give your best in what is within your hands. Do not demand more from yourself than you can give today. Tomorrow will be another day, and your strength will be renewed with rest.",
+    "category": "reflection"
+  },
+  {
+    "id": "r55",
+    "title": "The Magic Of Acceptance",
+    "content": "Accepting life as it presents itself frees you from an enormous weight. You cannot control everything, but you can choose how to respond. Acceptance is not resignation, it is the first step to transform what needs to be transformed. Start by accepting, and then act.",
+    "category": "reflection"
+  },
+  {
+    "id": "r56",
+    "title": "The Gift Of Resilience",
+    "content": "Resilience is the art of bending without breaking. It is the ability to face storms and come out stronger from them. You have that ability within you, even if you cannot see it now. Every challenge overcome is proof of your inner strength. Trust in your resilience.",
+    "category": "reflection"
+  },
+  {
+    "id": "r57",
+    "title": "The Strength Of Shared Dreams",
+    "content": "Shared dreams multiply. When you find someone who believes in your projects, who accompanies you on the path, everything becomes lighter. Do not be afraid to share your aspirations with those who love you. Dreams, when shared, have double the strength.",
+    "category": "reflection"
+  },
+  {
+    "id": "r58",
+    "title": "The Power Of Compassion",
+    "content": "Be compassionate with yourself, especially on difficult days. Do not punish yourself for mistakes, learn from them. Treat yourself with the same kindness you would treat a loved one. Self-compassion does not make you weak, it makes you human, and that is beautiful.",
+    "category": "reflection"
+  },
+  {
+    "id": "r59",
+    "title": "The Beauty Of Gratitude In The Simple",
+    "content": "Be grateful for the air you breathe, the roof that shelters you, the water that nourishes you. The most valuable things in life are free and within everyone's reach. When you appreciate the simple, you discover that you already have everything you need to be happy. Gratitude opens the eyes.",
+    "category": "reflection"
+  },
+  {
+    "id": "r60",
+    "title": "The Value Of Honesty With Yourself",
+    "content": "Honesty with yourself is the first step towards transformation. Recognize what you feel, what you need, what hurts you. Do not lie to yourself to avoid pain, because you only prolong it. The truth, although it hurts, always frees you and shows you the right path.",
+    "category": "reflection"
+  },
+  {
+    "id": "r61",
+    "title": "The Peace Of Living Without Masks",
+    "content": "Living without masks gives you a peace that nothing else can equal. When you stop pretending, when you show your true self, you free yourself from an enormous weight. Being authentic requires courage, but the reward is immense. Authenticity is the shortest path to happiness.",
+    "category": "reflection"
+  },
+  {
+    "id": "r62",
+    "title": "The Gift Of Self-Kindness",
+    "content": "Treat yourself with kindness, especially when you make mistakes. You are not your mistake, you are a person learning to live. Speak to yourself with affection, take care of yourself as you would care for someone you love deeply. Self-kindness is not selfishness, it is the foundation of a full and happy life.",
+    "category": "reflection"
+  },
+  {
+    "id": "r63",
+    "title": "The Strength Of Faith In Yourself",
+    "content": "Faith in yourself is the fuel that propels you forward. When you believe in your abilities, nothing can stop you. Do not wait for external validation, start by believing in yourself. Your inner faith moves mountains and opens doors that seemed impossible to cross.",
+    "category": "reflection"
+  },
+  {
+    "id": "r64",
+    "title": "The Power Of Moments Of Calm",
+    "content": "In a world that goes fast, moments of calm are a necessary luxury. Take time to breathe, to think, to simply be. Calm recharges your spirit and gives you clarity to face what comes. Without breaks, the path becomes too heavy.",
+    "category": "reflection"
+  },
+  {
+    "id": "r65",
+    "title": "The Beauty Of Being Yourself",
+    "content": "Being yourself is the most revolutionary act you can do. In a world that asks you to be like others, daring to be original is pure courage. Do not change who you are to fit in, because your authenticity is your greatest treasure. The world needs exactly what you are.",
+    "category": "reflection"
+  },
+  {
+    "id": "r66",
+    "title": "The Value Of Deep Gratitude",
+    "content": "Deep gratitude transforms your life from the inside out. When you are grateful from the heart, you change your vibration, your perspective, your reality. Do not wait to have everything to be grateful, start with what you have and you will see how abundance comes to your life naturally.",
+    "category": "reflection"
+  },
+  {
+    "id": "r67",
+    "title": "The Magic Of New Horizons",
+    "content": "There is always a new horizon waiting for you, even if you cannot see it now. After every ending comes a new beginning, after every closure a door opens. Trust that life has beautiful plans for you, even if the path is not the one you imagined. The best is yet to come.",
+    "category": "reflection"
+  },
+  {
+    "id": "r68",
+    "title": "The Power Of Brave Decisions",
+    "content": "Brave decisions change the course of your life. Do not stay paralyzed by fear, act with determination. Even imperfect decisions take you further than eternal indecision. Trust yourself, choose with your heart, and walk with faith towards your destiny.",
+    "category": "reflection"
+  },
+  {
+    "id": "r69",
+    "title": "The Peace Of Living Without Resentment",
+    "content": "Letting go of resentments gives you a peace that nothing else can offer. Resentment is a poison you give yourself. Forgive not because they deserve it, but because you deserve peace. Free your heart from the weight of the past and allow light to enter your life again.",
+    "category": "reflection"
+  },
+  {
+    "id": "r70",
+    "title": "The Gift Of Constant Perseverance",
+    "content": "Constant perseverance overcomes any obstacle. No matter how slowly you advance, what matters is not stopping. Every step, however small, brings you closer to your goal. Those who persevere are the ones who change their story. You can be one of them, just keep going.",
+    "category": "reflection"
+  },
+  {
+    "id": "r71",
+    "title": "The Strength Of Full Trust",
+    "content": "Trust fully in the process of life, even if you do not understand every step. What seems confusing today will make sense tomorrow. What hurts today will be your greatest strength tomorrow. Trust is the bridge between who you are and who you are destined to be.",
+    "category": "reflection"
+  },
+  {
+    "id": "r72",
+    "title": "The Beauty Of Unexpected Encounters",
+    "content": "Life is full of unexpected encounters that change your course. A person, a book, a conversation, can transform your perspective. Keep your heart open to the surprises that destiny brings you. Sometimes the best comes when you least expect it.",
+    "category": "reflection"
+  },
+  {
+    "id": "r73",
+    "title": "The Value Of Caring For Your Inner World",
+    "content": "Taking care of your inner world is as important as taking care of the outer one. Feed your mind with positive thoughts, your heart with healthy emotions, your spirit with moments of peace. Your inner well-being is the foundation of everything else. Without inner peace, nothing makes sense.",
+    "category": "reflection"
+  },
+  {
+    "id": "r74",
+    "title": "The Power Of Words Spoken With Love",
+    "content": "Words spoken with love have the power to heal, to build, to transform. Use them wisely, both with yourself and with others. A kind word at the right moment can change someone's day. Be generous with your words, the world needs more love.",
+    "category": "reflection"
+  },
+  {
+    "id": "r75",
+    "title": "The Peace Of Accepting Life's Flow",
+    "content": "Life has its own rhythm, its own flow. Do not try to force things, allow them to happen in their perfect time. Sometimes what seems like a delay is actually protection. Trust in the timing of life and allow everything to arrive when it should arrive.",
+    "category": "reflection"
+  },
+  {
+    "id": "r76",
+    "title": "The Strength Of Difficult Moments",
+    "content": "Difficult moments are the ones that strengthen you the most. Although you cannot see it now, every test is preparing you for something better. Do not give up in the middle of the storm, because on the other side a stronger version of yourself awaits you. Trust in the process of transformation.",
+    "category": "reflection"
+  },
+  {
+    "id": "r77",
+    "title": "The Gift Of Gratitude For What Has Been Lived",
+    "content": "Be grateful for everything you have lived, the good and the bad. The good gave you joy, the bad gave you wisdom. Everything is part of your story, everything has made you who you are today. Embrace your past with gratitude and walk towards the future with renewed hope.",
+    "category": "reflection"
+  },
+  {
+    "id": "r78",
+    "title": "The Magic Of Believing In Miracles",
+    "content": "Miracles exist, you just have to believe in them. They are not great spectacular events, they are small moments of grace that happen every day. Open your eyes to the everyday wonders and you will discover that life is full of magic waiting to be recognized.",
+    "category": "reflection"
+  },
+  {
+    "id": "r79",
+    "title": "The Value Of Silent Consistency",
+    "content": "Silent consistency is what really transforms lives. You do not need great gestures, just small daily steps. The discipline of doing a little every day, without giving up, takes you further than any sporadic effort. Consistency is your best ally.",
+    "category": "reflection"
+  },
+  {
+    "id": "r80",
+    "title": "The Beauty Of True Bonds",
+    "content": "True bonds are those built with time, patience and love. Do not look for perfect relationships, look for real ones. Value those who stay in difficult moments, those who love you unconditionally. Those bonds are treasures that enrich your life.",
+    "category": "reflection"
+  },
+  {
+    "id": "r81",
+    "title": "The Power Of Daily Intention",
+    "content": "Every morning, set an intention for your day. It can be simple: be kind, be present, give your best. Intentions direct your energy and give purpose to your actions. When you live with intention, every day becomes an opportunity for growth.",
+    "category": "reflection"
+  },
+  {
+    "id": "r82",
+    "title": "The Peace Of Living Without Comparisons",
+    "content": "Comparing yourself to others only steals your peace. Your path is unique, your rhythm is perfect for you. Do not look at your neighbor's garden, cultivate yours with love. Your only competition is who you were yesterday. Focus on your own growth and you will see how your life flourishes.",
+    "category": "reflection"
+  },
+  {
+    "id": "r83",
+    "title": "The Strength Of Accepting Uncertainty",
+    "content": "Uncertainty is not your enemy, it is a natural part of life. You cannot know everything, you cannot control everything. Learn to live with questions without answers, to trust that everything will become clearer with time. Uncertainty is the space where faith grows.",
+    "category": "reflection"
+  },
+  {
+    "id": "r84",
+    "title": "The Gift Of Shared Moments",
+    "content": "Moments shared with those you love are life's true treasures. Do not postpone them, do not leave them for later. Live the present with the people who matter, because in the end, that is what you will remember. Shared love is the greatest wealth you can have.",
+    "category": "reflection"
+  },
+  {
+    "id": "r85",
+    "title": "The Courage To Face Your Fears",
+    "content": "Facing your fears does not eliminate them, but it makes you stronger than them. Every time you dare to take a step even though you are afraid, you grow. Fears lose power when you look them in the face. Do not let them paralyze you, use them as a compass towards where you need to grow.",
+    "category": "reflection"
+  },
+  {
+    "id": "r86",
+    "title": "The Beauty Of Small Achievements",
+    "content": "Celebrate every small achievement, however insignificant it may seem. Getting out of bed on a difficult day is an achievement. Talking to someone when you want to isolate yourself is an achievement. Every small step counts and brings you closer to where you want to be. Your progress deserves to be recognized.",
+    "category": "reflection"
+  },
+  {
+    "id": "r87",
+    "title": "The Power Of Faith In The Process",
+    "content": "Having faith in the process is trusting even if you do not see the final result. It is believing that every piece of the puzzle will fit at the right time. Faith does not eliminate doubts, but it gives you the strength to keep walking. Trust that everything is happening as it should.",
+    "category": "reflection"
+  },
+  {
+    "id": "r88",
+    "title": "The Peace Of Living In Harmony",
+    "content": "Inner harmony is built by aligning your thoughts, words and actions. When what you think, say and do are in tune, you find peace. Live with integrity, be consistent with yourself, and harmony will naturally come to your life. Peace is a consequence of authenticity.",
+    "category": "reflection"
+  },
+  {
+    "id": "r89",
+    "title": "The Strength Of Loving Unconditionally",
+    "content": "Loving unconditionally is the bravest and most transformative act. Do not expect others to change to love them, love them as they are. And love yourself unconditionally too, with your lights and your shadows. Unconditional love, starting with yourself, changes everything.",
+    "category": "reflection"
+  },
+  {
+    "id": "r90",
+    "title": "The Gift Of Full Presence",
+    "content": "Being fully present is the greatest gift you can give yourself and others. Put down the phone, look into their eyes, really listen. The most valuable moments in life happen when you are completely here and now. Presence is love in its purest form.",
+    "category": "reflection"
+  },
+  {
+    "id": "r91",
+    "title": "The Magic Of Reinventing Yourself Every Day",
+    "content": "Every day you have the opportunity to reinvent yourself. You are not tied to who you were yesterday, you can be who you decide to be today. Life is a canvas in constant transformation, and you are the artist. Paint with new colors, experiment, dare to be different every day.",
+    "category": "reflection"
+  },
+  {
+    "id": "r92",
+    "title": "The Value Of Gratitude In Adversity",
+    "content": "Finding reasons to be grateful even in adversity is an act of wisdom. There is always something good, however small it may be. Gratitude in difficult times does not deny pain, but it gives you the strength to keep going. Being grateful is choosing light in the midst of darkness.",
+    "category": "reflection"
+  },
+  {
+    "id": "r93",
+    "title": "The Beauty Of Healing Bonds",
+    "content": "Healing bonds are those that allow you to be yourself, that accept you without judging, that push you to grow. Surround yourself with people who add, who inspire you, who make you better. And be for others that healing bond. Authentic relationships are medicine for the soul.",
+    "category": "reflection"
+  },
+  {
+    "id": "r94",
+    "title": "The Power Of Active Hope",
+    "content": "Hope is not waiting passively, it is acting with faith. It is getting up every morning with the determination to do something good, to move one more step forward. Active hope transforms dreams into reality, because it combines faith with action. Be hope in motion.",
+    "category": "reflection"
+  },
+  {
+    "id": "r95",
+    "title": "The Peace Of Letting Go Of What You Cannot Control",
+    "content": "Letting go of what you cannot control gives you immense peace. You cannot change others, you cannot change the past, you cannot predict the future. You can only control your actions, your thoughts, your attitude. Focus on what depends on you and let go of the rest.",
+    "category": "reflection"
+  },
+  {
+    "id": "r96",
+    "title": "The Strength Of Celebrating Your Own Path",
+    "content": "Your path is unique and deserves to be celebrated. Do not compare it with anyone else's, because no one has your story, your dreams, your rhythm. Celebrate every step, every achievement, every lesson learned. Your path is beautiful just as it is, and you are the protagonist of this adventure.",
+    "category": "reflection"
+  },
+  {
+    "id": "r97",
+    "title": "The Gift Of Life In Every Instant",
+    "content": "Life gives you a new instant every second. Do not waste it on worries about what will come or regrets about what was. Live this moment fully, because it is the only one you really have. Every breath is an opportunity to start over.",
+    "category": "reflection"
+  },
+  {
+    "id": "r98",
+    "title": "The Courage To Trust In Life",
+    "content": "Trusting in life requires courage, especially when things do not go as expected. But that trust is what allows you to keep going, what gives you peace in the midst of uncertainty. Believe that everything happens for a reason, that every experience has a purpose. Trust.",
+    "category": "reflection"
+  },
+  {
+    "id": "r99",
+    "title": "The Beauty Of Being Light For Others",
+    "content": "You have the power to be light for others, even in your darkest moments. Your example, your words, your presence can illuminate someone's path. Do not underestimate the impact you have on the lives of others. You are more important than you think, and your light is needed.",
+    "category": "reflection"
+  },
+  {
+    "id": "r100",
+    "title": "The Power Of Starting Today",
+    "content": "Do not wait for the perfect moment, because it does not exist. The perfect moment is today, here, now. Start with what you have, from where you are, however you can. Every day you postpone is a day you lose. Action, even imperfect, always beats postponed intention. Start today.",
+    "category": "reflection"
   }
 ]

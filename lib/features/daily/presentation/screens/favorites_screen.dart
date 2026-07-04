@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../data/local/models/daily_text_model.dart';
 import '../../../../core/providers/favorites_provider.dart';
 import '../../../../core/providers/language_provider.dart';
 import '../../../../core/i18n/translations.dart';
@@ -64,82 +65,199 @@ class FavoritesScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildFavoriteCard(BuildContext context, WidgetRef ref, dynamic fav,
-      String lang, String Function(String) t) {
+  Widget _buildFavoriteCard(BuildContext context, WidgetRef ref,
+      DailyTextModel fav, String lang, String Function(String) t) {
     return Card(
       color: Colors.white.withValues(alpha: 0.7),
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      margin: const EdgeInsets.only(bottom: 16),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
+      margin: const EdgeInsets.only(bottom: 12),
+      child: ListTile(
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        leading: CircleAvatar(
+          backgroundColor: const Color(0xFFB8996A).withValues(alpha: 0.2),
+          child: const Icon(
+            Icons.favorite,
+            color: Color(0xFFB8996A),
+            size: 20,
+          ),
+        ),
+        title: Text(
+          fav.title(lang),
+          style: const TextStyle(
+            fontSize: 16,
+            fontStyle: FontStyle.italic,
+            color: Color(0xFF3D3D3D),
+            fontWeight: FontWeight.w600,
+          ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  AppDateUtils.formatDateShort(fav.date, lang),
-                  style:
-                      const TextStyle(fontSize: 12, color: Color(0xFFB8996A)),
-                ),
-                Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.share_outlined, size: 20),
-                      color: const Color(0xFF6B6B6B),
-                      onPressed: () => ShareUtils.shareText(
-                        title: fav.title(lang),
-                        content: fav.content(lang),
-                        reference: fav.reference(lang),
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.delete_outline, size: 20),
-                      color: Colors.red.withValues(alpha: 0.6),
-                      onPressed: () async {
-                        await ref
-                            .read(favoritesProvider.notifier)
-                            .toggleFavorite(fav);
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(t('delete_from_favorites')),
-                              duration: const Duration(seconds: 1),
-                              backgroundColor: Colors.grey,
-                            ),
-                          );
-                        }
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 4),
             Text(
-              fav.title(lang), // ← GETTER POR IDIOMA
-              style: const TextStyle(
-                fontSize: 18,
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFF3D3D3D),
-              ),
+              AppDateUtils.formatDateShort(fav.date, lang),
+              style: const TextStyle(fontSize: 12, color: Color(0xFF6B6B6B)),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 4),
             Text(
-              fav.content(lang), // ← GETTER POR IDIOMA
-              maxLines: 4,
+              fav.content(lang),
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 14,
-                height: 1.5,
-                color: Color(0xFF6B6B6B),
-              ),
+              style: const TextStyle(fontSize: 13, color: Color(0xFF6B6B6B)),
             ),
           ],
         ),
+        trailing: const Icon(Icons.chevron_right, color: Color(0xFFB8996A)),
+        onTap: () => _showTextDetail(context, ref, fav, lang, t),
+      ),
+    );
+  }
+
+  /// Muestra el texto completo en un bottom sheet (igual que en Historial)
+  void _showTextDetail(BuildContext context, WidgetRef ref, DailyTextModel item,
+      String lang, String Function(String) t) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color(0xFFF5EDE3),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      isScrollControlled: true,
+      builder: (context) => DraggableScrollableSheet(
+        initialChildSize: 0.7,
+        minChildSize: 0.5,
+        maxChildSize: 0.9,
+        expand: false,
+        builder: (context, scrollController) => SingleChildScrollView(
+          controller: scrollController,
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                width: 40,
+                height: 4,
+                color: Colors.grey[300],
+                margin: const EdgeInsets.only(bottom: 24),
+              ),
+              Text(
+                AppDateUtils.formatDate(item.date, lang),
+                style: const TextStyle(fontSize: 14, color: Color(0xFF6B6B6B)),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                item.title(lang),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 26,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF3D3D3D),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Container(width: 40, height: 1, color: const Color(0xFFB8996A)),
+              const SizedBox(height: 20),
+              Text(
+                item.content(lang),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 16,
+                  height: 1.7,
+                  color: Color(0xFF3D3D3D),
+                ),
+              ),
+              if (item.reference(lang) != null &&
+                  item.reference(lang)!.isNotEmpty) ...[
+                const SizedBox(height: 16),
+                Text(
+                  '— ${item.reference(lang)}',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontStyle: FontStyle.italic,
+                    color: Color(0xFFB8996A),
+                  ),
+                ),
+              ],
+              const SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _actionButton(
+                    icon: Icons.share_outlined,
+                    label: t('share'),
+                    onTap: () {
+                      ShareUtils.shareText(
+                        title: item.title(lang),
+                        content: item.content(lang),
+                        reference: item.reference(lang),
+                      );
+                      Navigator.pop(context);
+                    },
+                  ),
+                  const SizedBox(width: 40),
+                  _actionButton(
+                    icon: Icons.favorite,
+                    color: Colors.red,
+                    label: t('saved'),
+                    onTap: () async {
+                      await ref
+                          .read(favoritesProvider.notifier)
+                          .toggleFavorite(item);
+                      if (context.mounted) {
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(t('removed_from_favorites')),
+                            duration: const Duration(seconds: 1),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _actionButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+    Color? color,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color:
+                    (color ?? const Color(0xFF6B6B6B)).withValues(alpha: 0.3),
+                width: 1.5,
+              ),
+            ),
+            child:
+                Icon(icon, color: color ?? const Color(0xFF6B6B6B), size: 24),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            label,
+            style: TextStyle(
+                fontSize: 12, color: color ?? const Color(0xFF6B6B6B)),
+          ),
+        ],
       ),
     );
   }
