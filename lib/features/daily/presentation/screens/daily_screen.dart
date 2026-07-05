@@ -151,24 +151,44 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       child: Column(
         children: [
+          // ✅ HEADER CON STREAK SUTIL A LA IZQUIERDA
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                _getCategoryIcon(_dailyText!.category),
-                size: 20,
-                color: const Color(0xFFB8996A),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                t('header_title'),
-                style: const TextStyle(
-                  fontSize: 11,
-                  letterSpacing: 2,
-                  color: Color(0xFFB8996A),
-                  fontWeight: FontWeight.bold,
+              // Streak sutil a la izquierda (solo si > 0)
+              if (_currentStreak > 0)
+                _buildStreakWidget(lang)
+              else
+                const SizedBox(width: 1),
+
+              // Espacio flexible para centrar el título
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      _getCategoryIcon(_dailyText!.category),
+                      size: 20,
+                      color: const Color(0xFFB8996A),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      t('header_title'),
+                      style: const TextStyle(
+                        fontSize: 11,
+                        letterSpacing: 2,
+                        color: Color(0xFFB8996A),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ),
+
+              // Spacer del mismo ancho que el streak para balance visual
+              if (_currentStreak > 0)
+                const SizedBox(width: 60)
+              else
+                const SizedBox(width: 1),
             ],
           ),
           const SizedBox(height: 4),
@@ -176,13 +196,6 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
             AppDateUtils.formatDate(DateTime.now(), lang),
             style: const TextStyle(fontSize: 12, color: Color(0xFF6B6B6B)),
           ),
-
-          // ✅ WIDGET DE STREAK (solo si streak > 0)
-          if (_currentStreak > 0) ...[
-            const SizedBox(height: 12),
-            _buildStreakWidget(lang),
-          ],
-
           const SizedBox(height: 16),
           Container(width: 30, height: 1, color: const Color(0xFFB8996A)),
           const SizedBox(height: 16),
@@ -246,42 +259,26 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
     );
   }
 
-  /// Widget que muestra el streak actual
+  /// Widget sutil del streak - pequeño y discreto en la esquina superior izquierda
   Widget _buildStreakWidget(String lang) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xFFB8996A),
-            Color(0xFFD6B88A),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFB8996A).withValues(alpha: 0.3),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
+    return Tooltip(
+      message: lang == 'en'
+          ? '$_currentStreak day streak'
+          : 'Racha de $_currentStreak días',
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           const Text(
             '🔥',
-            style: TextStyle(fontSize: 24),
+            style: TextStyle(fontSize: 14),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 3),
           Text(
-            '$_currentStreak ${lang == 'en' ? 'days' : 'días'}',
+            '$_currentStreak',
             style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF8B6F47),
             ),
           ),
         ],
