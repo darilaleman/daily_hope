@@ -45,7 +45,12 @@ class AppTranslations {
     'english': 'English',
     'notification_permission_denied': 'Permiso de notificaciones denegado',
     'refresh': 'Refrescar',
-    'get_another_text': 'Obtener otro texto'
+    'get_another_text': 'Obtener otro texto',
+    // ✅ NUEVAS TRADUCCIONES
+    'remove': 'Eliminar',
+    'remove_from_favorites': 'Eliminar de favoritos',
+    'remove_from_favorites_confirm':
+        '¿Estás seguro de que quieres eliminar este texto de favoritos?',
   };
 
   /// Textos en inglés
@@ -94,7 +99,12 @@ class AppTranslations {
     'english': 'English',
     'notification_permission_denied': 'Notification permission denied',
     'refresh': 'Refresh',
-    'get_another_text': 'Get another text'
+    'get_another_text': 'Get another text',
+    // ✅ NEW TRANSLATIONS
+    'remove': 'Remove',
+    'remove_from_favorites': 'Remove from favorites',
+    'remove_from_favorites_confirm':
+        'Are you sure you want to remove this text from favorites?',
   };
 
   /// Obtiene el mapa de traducciones según el idioma

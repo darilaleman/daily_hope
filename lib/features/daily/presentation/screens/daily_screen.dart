@@ -1,3 +1,4 @@
+import 'package:daily_hope/features/streaks/services/streak_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../data/local/models/daily_text_model.dart';
@@ -19,6 +20,7 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
   final DailyTextRepository _repository = DailyTextRepository();
   DailyTextModel? _dailyText;
   bool _isLoading = true;
+  int _currentStreak = 0;
 
   @override
   void initState() {
@@ -29,7 +31,6 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
 
   void _setupPrefetchListener() {
     _repository.onPrefetchStatusChanged = (isWorking, progress) {
-      // Solo actualizar si el widget todavía está montado
       if (mounted) {
         setState(() {});
       }
@@ -37,15 +38,33 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
   }
 
   /// Carga el texto del día UNA sola vez al iniciar
-  /// IMPORTANTE: NO se llama al cambiar idioma
   Future<void> _loadText() async {
     setState(() => _isLoading = true);
-    final text = await _repository.getDailyText();
-    if (!mounted) return;
-    setState(() {
-      _dailyText = text;
-      _isLoading = false;
-    });
+
+    try {
+      final text = await _repository.getDailyText();
+
+      // ✅ Marcar hoy como leído (actualiza streak)
+      await StreakService.markTodayAsRead();
+
+      // ✅ Cargar el streak actual
+      final streak = StreakService.getCurrentStreak();
+
+      if (mounted) {
+        setState(() {
+          _dailyText = text;
+          _currentStreak = streak;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          e.toString();
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   Future<void> _toggleFavorite() async {
@@ -90,7 +109,6 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
 
   @override
   void dispose() {
-    // Limpiar el callback cuando el widget se desmonta
     _repository.onPrefetchStatusChanged = null;
     super.dispose();
   }
@@ -158,6 +176,13 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
             AppDateUtils.formatDate(DateTime.now(), lang),
             style: const TextStyle(fontSize: 12, color: Color(0xFF6B6B6B)),
           ),
+
+          // ✅ WIDGET DE STREAK (solo si streak > 0)
+          if (_currentStreak > 0) ...[
+            const SizedBox(height: 12),
+            _buildStreakWidget(lang),
+          ],
+
           const SizedBox(height: 16),
           Container(width: 30, height: 1, color: const Color(0xFFB8996A)),
           const SizedBox(height: 16),
@@ -221,6 +246,49 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
     );
   }
 
+  /// Widget que muestra el streak actual
+  Widget _buildStreakWidget(String lang) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFFB8996A),
+            Color(0xFFD6B88A),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFB8996A).withValues(alpha: 0.3),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Text(
+            '🔥',
+            style: TextStyle(fontSize: 24),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            '$_currentStreak ${lang == 'en' ? 'days' : 'días'}',
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildActionButtons(
       bool isFavorite, String lang, String Function(String) t) {
     return Row(
@@ -239,7 +307,6 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
           label: t('share'),
           onTap: () async {
             if (_dailyText != null) {
-              // Mostrar loading mientras genera la imagen
               showDialog(
                 context: context,
                 barrierDismissible: false,
@@ -253,7 +320,7 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
                 language: lang,
               );
 
-              if (mounted) Navigator.pop(context); // Cerrar loading
+              if (mounted) Navigator.pop(context);
             }
           },
         ),

@@ -89,7 +89,7 @@ class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
           ),
         ),
         title: Text(
-          fav.title(lang), // ✅ GETTER CON IDIOMA
+          fav.title(lang),
           style: const TextStyle(
             fontSize: 16,
             fontStyle: FontStyle.italic,
@@ -109,7 +109,7 @@ class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
             ),
             const SizedBox(height: 4),
             Text(
-              fav.content(lang), // ✅ GETTER CON IDIOMA
+              fav.content(lang),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(fontSize: 13, color: Color(0xFF6B6B6B)),
@@ -155,7 +155,7 @@ class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
               ),
               const SizedBox(height: 16),
               Text(
-                item.title(lang), // ✅ GETTER CON IDIOMA
+                item.title(lang),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 26,
@@ -168,7 +168,7 @@ class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
               Container(width: 40, height: 1, color: const Color(0xFFB8996A)),
               const SizedBox(height: 20),
               Text(
-                item.content(lang), // ✅ GETTER CON IDIOMA
+                item.content(lang),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 16,
@@ -180,7 +180,7 @@ class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
                   item.reference(lang)!.isNotEmpty) ...[
                 const SizedBox(height: 16),
                 Text(
-                  '— ${item.reference(lang)}', // ✅ GETTER CON IDIOMA
+                  '— ${item.reference(lang)}',
                   style: const TextStyle(
                     fontSize: 14,
                     fontStyle: FontStyle.italic,
@@ -197,31 +197,68 @@ class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
                     label: t('share'),
                     onTap: () async {
                       Navigator.pop(context);
-                      await ShareUtils.shareText(
-                        title: item.title(lang),
-                        content: item.content(lang),
-                        reference: item.reference(lang),
+                      await ShareUtils.shareAsImage(
+                        text: item,
+                        language: lang,
                       );
                     },
                   ),
                   const SizedBox(width: 40),
                   _actionButton(
-                    icon: Icons.favorite,
+                    icon: Icons.delete_outline,
                     color: Colors.red,
-                    label: t('saved'),
+                    label: t('remove'),
                     onTap: () async {
-                      await ref
-                          .read(favoritesProvider.notifier)
-                          .toggleFavorite(item);
-                      if (context.mounted) {
-                        Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(t('removed_from_favorites')),
-                            duration: const Duration(seconds: 1),
-                            backgroundColor: Colors.grey,
+                      // Cerrar el bottom sheet primero
+                      Navigator.pop(context);
+
+                      // Mostrar diálogo de confirmación
+                      final confirm = await showDialog<bool>(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          backgroundColor: const Color(0xFFF5EDE3),
+                          title: Text(
+                            t('remove_from_favorites'),
+                            style: const TextStyle(color: Color(0xFF3D3D3D)),
                           ),
-                        );
+                          content: Text(
+                            t('remove_from_favorites_confirm'),
+                            style: const TextStyle(color: Color(0xFF6B6B6B)),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, false),
+                              child: Text(
+                                t('cancel'),
+                                style:
+                                    const TextStyle(color: Color(0xFF6B6B6B)),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, true),
+                              child: Text(
+                                t('remove'),
+                                style: const TextStyle(color: Colors.red),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+
+                      // Si confirma, eliminar el favorito
+                      if (confirm == true) {
+                        await ref
+                            .read(favoritesProvider.notifier)
+                            .toggleFavorite(item);
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(t('removed_from_favorites')),
+                              duration: const Duration(seconds: 2),
+                              backgroundColor: Colors.grey,
+                            ),
+                          );
+                        }
                       }
                     },
                   ),

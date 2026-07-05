@@ -40,6 +40,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   Future<void> _toggleNotifications(bool value) async {
     if (value) {
+      // ✅ Solicitar permisos
       final granted = await NotificationService.requestPermissions();
       if (!granted) {
         if (mounted) {
@@ -54,12 +55,22 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         }
         return;
       }
+
+      // ✅ Programar notificación con la hora actual
       await NotificationService.scheduleDaily(hour: _hour, minute: _minute);
+      print(
+          '🔔 Notificaciones activadas para ${_hour.toString().padLeft(2, '0')}:${_minute.toString().padLeft(2, '0')}');
     } else {
+      // ✅ Cancelar todas las notificaciones
       await NotificationService.cancelAll();
+      print('🔕 Notificaciones desactivadas');
     }
+
     await HiveService.setSetting('notifications_enabled', value);
-    setState(() => _notificationsEnabled = value);
+
+    if (mounted) {
+      setState(() => _notificationsEnabled = value);
+    }
   }
 
   Future<void> _changeTime() async {
@@ -74,14 +85,25 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       ),
     );
     if (picked != null) {
+      // ✅ Actualizar variables ANTES de setState
       _hour = picked.hour;
       _minute = picked.minute;
+
+      // ✅ Guardar en Hive
       await HiveService.setSetting('notification_hour', _hour);
       await HiveService.setSetting('notification_minute', _minute);
+
+      // ✅ Si las notificaciones están activas, reprogramar con la nueva hora
       if (_notificationsEnabled) {
         await NotificationService.scheduleDaily(hour: _hour, minute: _minute);
+        print(
+            '🔔 Notificación reprogramada para ${_hour.toString().padLeft(2, '0')}:${_minute.toString().padLeft(2, '0')}');
       }
-      setState(() {});
+
+      // ✅ Forzar actualización de la UI
+      if (mounted) {
+        setState(() {});
+      }
     }
   }
 
