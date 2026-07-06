@@ -17,7 +17,7 @@ class ShareUtils {
   }) async {
     try {
       // Capturar el widget como imagen
-      final Uint8List? imageBytes =
+      final Uint8List imageBytes =
           await _screenshotController.captureFromWidget(
         ShareableCard(
           text: text,
@@ -27,7 +27,8 @@ class ShareUtils {
         pixelRatio: 1.0, // 1080x1080
       );
 
-      if (imageBytes == null) {
+      // Verificar que se generaron bytes (aunque no sea null, puede estar vacío)
+      if (imageBytes.isEmpty) {
         throw Exception('No se pudo generar la imagen');
       }
 

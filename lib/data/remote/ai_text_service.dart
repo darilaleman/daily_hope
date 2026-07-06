@@ -241,7 +241,7 @@ class AITextService {
     try {
       final seed = Random().nextInt(999999);
       final prompt = Uri.encodeComponent(
-          _buildMultiDayPrompt(daysCount) + '\n\nSeed: $seed');
+          '${_buildMultiDayPrompt(daysCount)}\n\nSeed: $seed');
 
       print('🤖 [Pollinations] Generando $daysCount días bilingües...');
       final startTime = DateTime.now();

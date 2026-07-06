@@ -239,7 +239,7 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
-              color: const Color(0xFFB8996A).withOpacity(0.1),
+              color: const Color(0xFFB8996A).withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Text(
@@ -339,7 +339,8 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: color.withOpacity(0.3), width: 1.5),
+              border:
+                  Border.all(color: color.withValues(alpha: 0.3), width: 1.5),
             ),
             child: Icon(icon, color: color, size: 24),
           ),
@@ -356,7 +357,7 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
   Widget _buildBottomNav(
       int currentIndex, String lang, String Function(String) t) {
     return BottomNavigationBar(
-      backgroundColor: Colors.white.withOpacity(0.8),
+      backgroundColor: Colors.white.withValues(alpha: 0.8),
       selectedItemColor: const Color(0xFFB8996A),
       unselectedItemColor: const Color(0xFF6B6B6B),
       type: BottomNavigationBarType.fixed,
