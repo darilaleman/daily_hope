@@ -18,6 +18,7 @@ class HistoryScreen extends ConsumerStatefulWidget {
 class _HistoryScreenState extends ConsumerState<HistoryScreen> {
   List<DailyTextModel> _history = [];
   bool _isLoading = true;
+  bool _isSharing = false; // ✅ Flag para evitar múltiples shares
 
   @override
   void initState() {
@@ -176,7 +177,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       isScrollControlled: true,
-      builder: (context) => DraggableScrollableSheet(
+      builder: (sheetContext) => DraggableScrollableSheet(
         initialChildSize: 0.7,
         minChildSize: 0.5,
         maxChildSize: 0.9,
@@ -239,25 +240,10 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                   _actionButton(
                     icon: Icons.share_outlined,
                     label: t('share'),
-                    onTap: () async {
-                      Navigator.pop(context); // Cerrar bottom sheet primero
-
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) => const Center(
-                          child: CircularProgressIndicator(
-                              color: Color(0xFFB8996A)),
-                        ),
-                      );
-
-                      await ShareUtils.shareAsImage(
-                        text: item,
-                        language: lang,
-                      );
-
-                      if (mounted) Navigator.pop(context);
-                    },
+                    onTap: _isSharing
+                        ? null
+                        : () => _handleShare(sheetContext, item, lang),
+                    color: _isSharing ? Colors.grey : null,
                   ),
                   const SizedBox(width: 40),
                   Consumer(
@@ -271,22 +257,8 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                         color:
                             isFavorite ? Colors.red : const Color(0xFF6B6B6B),
                         label: isFavorite ? t('saved') : t('save'),
-                        onTap: () async {
-                          await ref
-                              .read(favoritesProvider.notifier)
-                              .toggleFavorite(item);
-                          if (context.mounted) {
-                            Navigator.pop(context);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(isFavorite
-                                    ? t('removed_from_favorites')
-                                    : t('saved_to_favorites')),
-                                duration: const Duration(seconds: 1),
-                              ),
-                            );
-                          }
-                        },
+                        onTap: () => _handleToggleFavorite(
+                            sheetContext, item, isFavorite, t),
                       );
                     },
                   ),
@@ -299,10 +271,82 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
     );
   }
 
+  /// ✅ Manejo robusto del share con loading dialog
+  Future<void> _handleShare(
+      BuildContext sheetContext, DailyTextModel item, String lang) async {
+    if (_isSharing) return;
+
+    setState(() => _isSharing = true);
+
+    // Cerrar bottom sheet
+    if (mounted) {
+      Navigator.of(sheetContext).pop();
+    }
+
+    // Mostrar loading dialog
+    if (!mounted) return;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) => const PopScope(
+        canPop: false,
+        child: Center(
+          child: CircularProgressIndicator(color: Color(0xFFB8996A)),
+        ),
+      ),
+    );
+
+    try {
+      await ShareUtils.shareAsImage(
+        text: item,
+        language: lang,
+      );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(lang == 'en'
+                ? 'Error sharing. Please try again.'
+                : 'Error al compartir. Intenta de nuevo.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      // ✅ Cerrar dialog de forma segura
+      if (mounted && Navigator.canPop(context)) {
+        Navigator.of(context).pop();
+      }
+      if (mounted) {
+        setState(() => _isSharing = false);
+      }
+    }
+  }
+
+  /// ✅ Manejo robusto de toggle favorite
+  Future<void> _handleToggleFavorite(BuildContext sheetContext,
+      DailyTextModel item, bool isFavorite, String Function(String) t) async {
+    await ref.read(favoritesProvider.notifier).toggleFavorite(item);
+
+    if (mounted) {
+      // ✅ NO cerrar el bottom sheet, solo mostrar feedback
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(isFavorite
+              ? t('removed_from_favorites')
+              : t('saved_to_favorites')),
+          duration: const Duration(seconds: 1),
+          backgroundColor: isFavorite ? Colors.grey : const Color(0xFFB8996A),
+        ),
+      );
+    }
+  }
+
   Widget _actionButton({
     required IconData icon,
     required String label,
-    required VoidCallback onTap,
+    required VoidCallback? onTap,
     Color? color,
   }) {
     return GestureDetector(
@@ -336,7 +380,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
   Future<void> _confirmClearHistory(String Function(String) t) async {
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         backgroundColor: const Color(0xFFF5EDE3),
         title: Text(t('clear_history'),
             style: const TextStyle(color: Color(0xFF3D3D3D))),
@@ -344,18 +388,18 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
             style: const TextStyle(color: Color(0xFF6B6B6B))),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context, false),
+            onPressed: () => Navigator.of(dialogContext).pop(false),
             child: Text(t('cancel'),
                 style: const TextStyle(color: Color(0xFF6B6B6B))),
           ),
           TextButton(
-            onPressed: () => Navigator.pop(context, true),
+            onPressed: () => Navigator.of(dialogContext).pop(true),
             child: Text(t('delete'), style: const TextStyle(color: Colors.red)),
           ),
         ],
       ),
     );
-    if (confirmed == true) {
+    if (confirmed == true && mounted) {
       await HiveService.clearHistory();
       _loadHistory();
       if (mounted) {

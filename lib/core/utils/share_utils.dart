@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:path_provider/path_provider.dart';
@@ -10,13 +11,13 @@ class ShareUtils {
   static final ScreenshotController _screenshotController =
       ScreenshotController();
 
-  /// Comparte el texto como imagen (PNG)
+  /// Comparte el texto como imagen (PNG) sin bloquear la UI.
   static Future<void> shareAsImage({
     required DailyTextModel text,
     required String language,
   }) async {
     try {
-      // Capturar el widget como imagen
+      // Capturar el widget como imagen (operación asíncrona necesaria)
       final Uint8List imageBytes =
           await _screenshotController.captureFromWidget(
         ShareableCard(
@@ -27,7 +28,6 @@ class ShareUtils {
         pixelRatio: 1.0, // 1080x1080
       );
 
-      // Verificar que se generaron bytes (aunque no sea null, puede estar vacío)
       if (imageBytes.isEmpty) {
         throw Exception('No se pudo generar la imagen');
       }
@@ -38,22 +38,28 @@ class ShareUtils {
           '${directory.path}/daily_hope_${DateTime.now().millisecondsSinceEpoch}.png');
       await imagePath.writeAsBytes(imageBytes);
 
-      // Compartir
-      await Share.shareXFiles(
-        [XFile(imagePath.path)],
-        text: language == 'en'
-            ? '✨ Daily Hope - ${text.title(language)}'
-            : '✨ Esperanza Diaria - ${text.title(language)}',
+      // Lanzar el selector de compartir SIN esperar a que el usuario termine.
+      // Usamos unawaited para no bloquear el retorno de esta función.
+      unawaited(
+        Share.shareXFiles(
+          [XFile(imagePath.path)],
+          text: language == 'en'
+              ? '✨ Daily Hope - ${text.title(language)}'
+              : '✨ Esperanza Diaria - ${text.title(language)}',
+        ).then((_) {
+          // Al terminar (compartido o cancelado), borrar el archivo tras un breve retraso
+          _deleteFileAfterDelay(imagePath, const Duration(seconds: 2));
+        }).catchError((e) {
+          // Si falla al compartir, igualmente borrar el archivo
+          _deleteFileAfterDelay(imagePath, const Duration(seconds: 1));
+        }),
       );
 
-      // Limpiar archivo temporal (opcional, después de compartir)
-      await Future.delayed(const Duration(seconds: 5));
-      if (await imagePath.exists()) {
-        await imagePath.delete();
-      }
+      // Retornamos inmediatamente; el selector de compartir ya se está mostrando.
+      return;
     } catch (e) {
-      print('❌ Error compartiendo imagen: $e');
-      // Fallback a compartir texto si falla
+      print('❌ Error capturando imagen: $e');
+      // Fallback a compartir texto (esta operación sí espera, pero es excepcional)
       await shareText(
         title: text.title(language),
         content: text.content(language),
@@ -79,5 +85,12 @@ class ShareUtils {
     buffer.writeln('');
     buffer.writeln('✨ Esperanza Diaria');
     await Share.share(buffer.toString());
+  }
+
+  /// Elimina un archivo después de un retraso, sin bloquear.
+  static void _deleteFileAfterDelay(File file, Duration delay) {
+    Future.delayed(delay, () {
+      file.delete().catchError((_) => file);
+    });
   }
 }

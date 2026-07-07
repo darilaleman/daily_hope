@@ -21,6 +21,7 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
   DailyTextModel? _dailyText;
   bool _isLoading = true;
   int _currentStreak = 0;
+  bool _isSharing = false; // ✅ Flag para evitar múltiples shares
 
   @override
   void initState() {
@@ -300,36 +301,64 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
         const SizedBox(width: 40),
         _actionButton(
           icon: Icons.share_outlined,
-          color: const Color(0xFF6B6B6B),
+          color: _isSharing ? Colors.grey : const Color(0xFF6B6B6B),
           label: t('share'),
-          onTap: () async {
-            if (_dailyText != null) {
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) => const Center(
-                  child: CircularProgressIndicator(color: Color(0xFFB8996A)),
-                ),
-              );
-
-              await ShareUtils.shareAsImage(
-                text: _dailyText!,
-                language: lang,
-              );
-
-              if (mounted) Navigator.pop(context);
-            }
-          },
+          onTap: _isSharing ? null : () => _handleShare(lang),
         ),
       ],
     );
+  }
+
+  /// ✅ Manejo robusto del share con dialog
+  Future<void> _handleShare(String lang) async {
+    if (_dailyText == null || _isSharing) return;
+
+    setState(() => _isSharing = true);
+
+    // Mostrar loading dialog
+    if (!mounted) return;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) => const PopScope(
+        canPop: false,
+        child: Center(
+          child: CircularProgressIndicator(color: Color(0xFFB8996A)),
+        ),
+      ),
+    );
+
+    try {
+      await ShareUtils.shareAsImage(
+        text: _dailyText!,
+        language: lang,
+      );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(lang == 'en'
+                ? 'Error sharing. Please try again.'
+                : 'Error al compartir. Intenta de nuevo.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      // ✅ Cerrar dialog de forma segura
+      if (mounted && Navigator.canPop(context)) {
+        Navigator.of(context).pop();
+      }
+      setState(() => _isSharing = false);
+    }
   }
 
   Widget _actionButton({
     required IconData icon,
     required Color color,
     required String label,
-    required VoidCallback onTap,
+    required VoidCallback? onTap,
   }) {
     return GestureDetector(
       onTap: onTap,

@@ -15,6 +15,8 @@ class FavoritesScreen extends ConsumerStatefulWidget {
 }
 
 class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
+  bool _isSharing = false; // ✅ Flag para evitar múltiples shares
+
   @override
   Widget build(BuildContext context) {
     final lang = ref.watch(languageProvider);
@@ -132,7 +134,7 @@ class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       isScrollControlled: true,
-      builder: (context) => DraggableScrollableSheet(
+      builder: (sheetContext) => DraggableScrollableSheet(
         initialChildSize: 0.7,
         minChildSize: 0.5,
         maxChildSize: 0.9,
@@ -195,72 +197,17 @@ class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
                   _actionButton(
                     icon: Icons.share_outlined,
                     label: t('share'),
-                    onTap: () async {
-                      Navigator.pop(context);
-                      await ShareUtils.shareAsImage(
-                        text: item,
-                        language: lang,
-                      );
-                    },
+                    onTap: _isSharing
+                        ? null
+                        : () => _handleShare(sheetContext, item, lang),
+                    color: _isSharing ? Colors.grey : null,
                   ),
                   const SizedBox(width: 40),
                   _actionButton(
                     icon: Icons.delete_outline,
                     color: Colors.red,
                     label: t('remove'),
-                    onTap: () async {
-                      // Cerrar el bottom sheet primero
-                      Navigator.pop(context);
-
-                      // Mostrar diálogo de confirmación
-                      final confirm = await showDialog<bool>(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          backgroundColor: const Color(0xFFF5EDE3),
-                          title: Text(
-                            t('remove_from_favorites'),
-                            style: const TextStyle(color: Color(0xFF3D3D3D)),
-                          ),
-                          content: Text(
-                            t('remove_from_favorites_confirm'),
-                            style: const TextStyle(color: Color(0xFF6B6B6B)),
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, false),
-                              child: Text(
-                                t('cancel'),
-                                style:
-                                    const TextStyle(color: Color(0xFF6B6B6B)),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, true),
-                              child: Text(
-                                t('remove'),
-                                style: const TextStyle(color: Colors.red),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-
-                      // Si confirma, eliminar el favorito
-                      if (confirm == true) {
-                        await ref
-                            .read(favoritesProvider.notifier)
-                            .toggleFavorite(item);
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(t('removed_from_favorites')),
-                              duration: const Duration(seconds: 2),
-                              backgroundColor: Colors.grey,
-                            ),
-                          );
-                        }
-                      }
-                    },
+                    onTap: () => _handleRemove(sheetContext, item, lang, t),
                   ),
                 ],
               ),
@@ -271,10 +218,121 @@ class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
     );
   }
 
+  /// ✅ Manejo robusto del share con loading dialog
+  Future<void> _handleShare(
+      BuildContext sheetContext, DailyTextModel item, String lang) async {
+    if (_isSharing) return;
+
+    setState(() => _isSharing = true);
+
+    // Cerrar bottom sheet
+    if (mounted) {
+      Navigator.of(sheetContext).pop();
+    }
+
+    // Mostrar loading dialog
+    if (!mounted) return;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) => const PopScope(
+        canPop: false,
+        child: Center(
+          child: CircularProgressIndicator(color: Color(0xFFB8996A)),
+        ),
+      ),
+    );
+
+    try {
+      await ShareUtils.shareAsImage(
+        text: item,
+        language: lang,
+      );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(lang == 'en'
+                ? 'Error sharing. Please try again.'
+                : 'Error al compartir. Intenta de nuevo.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      // ✅ Cerrar dialog de forma segura
+      if (mounted && Navigator.canPop(context)) {
+        Navigator.of(context).pop();
+      }
+      if (mounted) {
+        setState(() => _isSharing = false);
+      }
+    }
+  }
+
+  /// ✅ Manejo robusto de eliminación
+  Future<void> _handleRemove(BuildContext sheetContext, DailyTextModel item,
+      String lang, String Function(String) t) async {
+    // Cerrar bottom sheet primero
+    if (mounted) {
+      Navigator.of(sheetContext).pop();
+    }
+
+    if (!mounted) return;
+
+    // Mostrar diálogo de confirmación
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: const Color(0xFFF5EDE3),
+        title: Text(
+          t('remove_from_favorites'),
+          style: const TextStyle(color: Color(0xFF3D3D3D)),
+        ),
+        content: Text(
+          t('remove_from_favorites_confirm'),
+          style: const TextStyle(color: Color(0xFF6B6B6B)),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text(
+              t('cancel'),
+              style: const TextStyle(color: Color(0xFF6B6B6B)),
+            ),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: Text(
+              t('remove'),
+              style: const TextStyle(color: Colors.red),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    // Si confirma, eliminar el favorito
+    if (confirm == true && mounted) {
+      await ref.read(favoritesProvider.notifier).toggleFavorite(item);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(t('removed_from_favorites')),
+            duration: const Duration(seconds: 2),
+            backgroundColor: Colors.grey,
+          ),
+        );
+      }
+    }
+  }
+
   Widget _actionButton({
     required IconData icon,
     required String label,
-    required VoidCallback onTap,
+    required VoidCallback? onTap,
     Color? color,
   }) {
     return GestureDetector(
