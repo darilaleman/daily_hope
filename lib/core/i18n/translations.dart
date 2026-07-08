@@ -19,7 +19,6 @@ class AppTranslations {
     'no_favorites_yet': 'Aún no tienes favoritos',
     'tap_heart_to_save': 'Toca el ❤️ en un texto para guardarlo',
     'favorites': 'Favoritos',
-    'delete_from_favorites': 'Eliminado de favoritos',
     'no_history_yet': 'No hay historial aún',
     'texts_will_appear_here': 'Los textos del día aparecerán aquí',
     'history': 'Historial',
@@ -46,7 +45,6 @@ class AppTranslations {
     'notification_permission_denied': 'Permiso de notificaciones denegado',
     'refresh': 'Refrescar',
     'get_another_text': 'Obtener otro texto',
-    // ✅ NUEVAS TRADUCCIONES
     'remove': 'Eliminar',
     'remove_from_favorites': 'Eliminar de favoritos',
     'remove_from_favorites_confirm':
@@ -73,7 +71,6 @@ class AppTranslations {
     'no_favorites_yet': 'No favorites yet',
     'tap_heart_to_save': 'Tap the ❤️ on a text to save it',
     'favorites': 'Favorites',
-    'delete_from_favorites': 'Removed from favorites',
     'no_history_yet': 'No history yet',
     'texts_will_appear_here': "Today's texts will appear here",
     'history': 'History',
@@ -100,7 +97,6 @@ class AppTranslations {
     'notification_permission_denied': 'Notification permission denied',
     'refresh': 'Refresh',
     'get_another_text': 'Get another text',
-    // ✅ NEW TRANSLATIONS
     'remove': 'Remove',
     'remove_from_favorites': 'Remove from favorites',
     'remove_from_favorites_confirm':

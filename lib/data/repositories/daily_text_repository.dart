@@ -7,7 +7,6 @@ import '../remote/ai_text_service.dart';
 import '../../core/utils/date_utils.dart';
 
 class DailyTextRepository {
-  // Cache de JSONs locales (solo reflections)
   static List<Map<String, dynamic>>? _reflectionsEs;
   static List<Map<String, dynamic>>? _reflectionsEn;
   static bool _jsonsLoaded = false;
@@ -21,23 +20,18 @@ class DailyTextRepository {
     if (_jsonsLoaded) return;
 
     try {
-      // Español
       final reflectionsEsJson =
           await rootBundle.loadString('assets/texts/es_reflections.json');
       _reflectionsEs =
           List<Map<String, dynamic>>.from(jsonDecode(reflectionsEsJson));
-      print('✓ Cargadas ${_reflectionsEs!.length} reflexiones ES');
 
-      // Inglés
       final reflectionsEnJson =
           await rootBundle.loadString('assets/texts/en_reflections.json');
       _reflectionsEn =
           List<Map<String, dynamic>>.from(jsonDecode(reflectionsEnJson));
-      print('✓ Cargadas ${_reflectionsEn!.length} reflexiones EN');
 
       _jsonsLoaded = true;
     } catch (e) {
-      print('❌ Error cargando JSONs: $e');
       _reflectionsEs = [];
       _reflectionsEn = [];
       _jsonsLoaded = true;
@@ -49,28 +43,20 @@ class DailyTextRepository {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
 
-    // Recuperar registros incompletos de días anteriores
     await _recoverIncompleteTexts();
 
-    // 1. ¿Ya existe texto para hoy?
     final cached = HiveService.getDailyText(today);
     if (cached != null) {
-      // ✅ NUEVO: Asegurar que el texto del día esté en el historial
       await _addToHistory(cached);
-
-      // En background, asegurar que múltiples días estén pre-generados
       _prefetchMultipleDays();
       return cached;
     }
 
-    // 2. No existe → generar local instantáneo (ambos idiomas)
-    print('⚡ Generando texto local para hoy (ambos idiomas)');
     await _loadJsonsIfNeeded();
     final localText = _getLocalTextForDate(today);
     await HiveService.saveDailyText(localText);
     await _addToHistory(localText);
 
-    // 3. En background: generar IA para múltiples días
     _prefetchMultipleDays();
 
     return localText;
@@ -86,7 +72,6 @@ class DailyTextRepository {
       final text = HiveService.getDailyText(date);
 
       if (text != null && !text.isComplete) {
-        print('🔧 Recuperando registro incompleto para $date');
         await _loadJsonsIfNeeded();
         final localText = _getLocalTextForDate(date);
 
@@ -106,7 +91,6 @@ class DailyTextRepository {
         );
 
         await HiveService.saveDailyText(recovered);
-        print('✓ Registro recuperado para $date');
       }
     }
   }
@@ -122,7 +106,6 @@ class DailyTextRepository {
         final today = DateTime.now();
         final todayNormalized = DateTime(today.year, today.month, today.day);
 
-        // Calcular cuántos días faltan por generar (máximo 3)
         final daysToGenerate = <DateTime>[];
         for (int i = 1; i <= 3; i++) {
           final futureDate = todayNormalized.add(Duration(days: i));
@@ -133,19 +116,14 @@ class DailyTextRepository {
         }
 
         if (daysToGenerate.isEmpty) {
-          print('✓ Ya hay 3 días generados, no se necesita IA');
           onPrefetchStatusChanged?.call(false, 1);
           return;
         }
 
-        print('🤖 Generando ${daysToGenerate.length} días con IA (ES + EN)...');
-
-        // Intentar con IA (un solo request genera múltiples días)
         final aiResults = await AITextService.generateMultipleDaysBilingual(
           daysToGenerate: daysToGenerate.length,
         );
 
-        // Guardar cada día generado
         int savedCount = 0;
         for (int i = 0;
             i < daysToGenerate.length && i < aiResults.length;
@@ -164,13 +142,10 @@ class DailyTextRepository {
             contentEn: aiData['contentEn'] ?? '',
           );
 
-          // Solo guardar si está completo
           if (aiText.isComplete) {
             await HiveService.saveDailyText(aiText);
             savedCount++;
-            print('✓ Guardado texto IA para $date (ES + EN)');
           } else {
-            print('⚠️ Texto IA incompleto para $date, usando local');
             await _loadJsonsIfNeeded();
             final localText = _getLocalTextForDate(date);
             await HiveService.saveDailyText(localText);
@@ -178,20 +153,16 @@ class DailyTextRepository {
           }
         }
 
-        // Si la IA generó menos días de los necesarios, completar con local
         for (int i = aiResults.length; i < daysToGenerate.length; i++) {
           final date = daysToGenerate[i];
           await _loadJsonsIfNeeded();
           final localText = _getLocalTextForDate(date);
           await HiveService.saveDailyText(localText);
           savedCount++;
-          print('✓ Guardado texto local para $date (fallback)');
         }
 
-        print('✓ Total días generados: $savedCount');
         onPrefetchStatusChanged?.call(false, savedCount);
       } catch (e) {
-        print('❌ Error en pre-generación: $e');
         onPrefetchStatusChanged?.call(false, 0);
       } finally {
         _isPrefetching = false;
@@ -209,11 +180,7 @@ class DailyTextRepository {
       return _getFallbackText(date);
     }
 
-    // Algoritmo determinista anti-repetición
     final seed = _dateHash(date);
-
-    // IMPORTANTE: El mismo índice para ambos idiomas
-    // Esto garantiza que la frase #47 en ES sea la traducción de la frase #47 en EN
     final index = seed % _reflectionsEs!.length;
 
     final selectedEs = _reflectionsEs![index];
@@ -267,11 +234,5 @@ class DailyTextRepository {
     if (!exists) {
       await HiveService.addToHistory(text);
     }
-  }
-
-  /// Fuerza la pre-generación (útil para testing)
-  void forcePrefetch() {
-    _isPrefetching = false;
-    _prefetchMultipleDays();
   }
 }

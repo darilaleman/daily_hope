@@ -27,15 +27,10 @@ class HiveService {
     await Hive.openBox(_favoritesBox);
     await Hive.openBox(_settingsBox);
 
-    // Migrar datos antiguos (una sola vez)
     await _migrateOldData();
   }
 
-  // ============ MIGRACIÓN DESDE FORMATO VIEJO ============
-
   /// Migra claves antiguas del formato "{date}_{lang}" al nuevo formato "{date}".
-  /// Si existen ambas versiones (es y en), se fusionan en un solo registro.
-  /// Si solo existe una, se guarda con los campos del otro idioma vacíos.
   static Future<void> _migrateOldData() async {
     if (_migrated) return;
     _migrated = true;
@@ -44,13 +39,10 @@ class HiveService {
     final keysToMigrate = <String>[];
     final merged = <String, Map<String, dynamic>>{};
 
-    // Buscar claves con formato viejo: "YYYY-M-D_es" o "YYYY-M-D_en"
     for (final key in box.keys) {
       final keyStr = key.toString();
-      // Ignorar historial y settings
       if (keyStr.startsWith('history_')) continue;
 
-      // Detectar sufijo de idioma
       String? lang;
       String? datePart;
       if (keyStr.endsWith('_es')) {
@@ -66,13 +58,11 @@ class HiveService {
         try {
           final data = jsonDecode(box.get(keyStr)) as Map<String, dynamic>;
 
-          // Si ya tiene formato nuevo, solo renombrar clave
           if (data.containsKey('titleEs') || data.containsKey('titleEn')) {
             merged.putIfAbsent(datePart, () => data);
             continue;
           }
 
-          // Formato viejo: migrar
           final existing = merged[datePart] ?? {};
           final oldTitle = data['title'] as String? ?? '';
           final oldContent = data['content'] as String? ?? '';
@@ -88,7 +78,6 @@ class HiveService {
             existing['referenceEn'] = oldRef;
           }
 
-          // Conservar metadata del primer registro
           existing.putIfAbsent('id', () => data['id'] ?? '');
           existing.putIfAbsent('date', () => data['date'] ?? '');
           existing.putIfAbsent('source', () => data['source'] ?? 'local');
@@ -96,32 +85,24 @@ class HiveService {
               'category', () => data['category'] ?? 'reflection');
 
           merged[datePart] = existing;
-        } catch (_) {
-          // Ignorar entradas corruptas
-        }
+        } catch (_) {}
       }
     }
 
-    // Guardar registros fusionados con la nueva clave
     for (final entry in merged.entries) {
       await box.put(entry.key, jsonEncode(entry.value));
     }
 
-    // Eliminar claves viejas
     if (keysToMigrate.isNotEmpty) {
       await box.deleteAll(keysToMigrate);
-      print('🔄 Migradas ${merged.length} entradas antiguas al nuevo formato');
     }
   }
-
-  // ============ TEXTOS DIARIOS ============
 
   /// Genera la clave canónica para una fecha: "YYYY-M-D"
   static String _dateKey(DateTime date) =>
       '${date.year}-${date.month}-${date.day}';
 
   /// Guarda el texto del día (registro completo con ambos idiomas).
-  /// Si ya existe, lo reemplaza (útil cuando la IA completa un idioma faltante).
   static Future<void> saveDailyText(DailyTextModel text) async {
     final box = Hive.box(_dailyBox);
     final key = _dateKey(text.date);
@@ -129,7 +110,6 @@ class HiveService {
   }
 
   /// Obtiene el texto del día (registro completo con ES + EN).
-  /// Retorna null si no existe.
   static DailyTextModel? getDailyText(DateTime date) {
     final box = Hive.box(_dailyBox);
     final key = _dateKey(date);
@@ -148,10 +128,7 @@ class HiveService {
     return box.containsKey(_dateKey(date));
   }
 
-  // ============ HISTORIAL ============
-
   /// Agrega un texto al historial.
-  /// El historial guarda los textos que el usuario realmente vio.
   static Future<void> addToHistory(DailyTextModel text) async {
     final box = Hive.box(_dailyBox);
     final key = 'history_${text.date.toIso8601String()}';
@@ -171,7 +148,6 @@ class HiveService {
       try {
         final data = jsonDecode(box.get(key));
         final text = DailyTextModel.fromJson(data);
-        // Solo incluir textos de hoy o anteriores (nunca futuros)
         final textDate = DateTime(
           text.date.year,
           text.date.month,
@@ -192,8 +168,6 @@ class HiveService {
         box.keys.where((key) => key.toString().startsWith('history_')).toList();
     await box.deleteAll(keysToRemove);
   }
-
-  // ============ FAVORITOS ============
 
   /// Agrega a favoritos.
   static Future<void> addFavorite(DailyTextModel text) async {
@@ -226,13 +200,13 @@ class HiveService {
     return favorites;
   }
 
-  // ============ CONFIGURACIÓN ============
-
+  /// Guarda un valor de configuración.
   static Future<void> setSetting(String key, dynamic value) async {
     final box = Hive.box(_settingsBox);
     await box.put(key, value);
   }
 
+  /// Obtiene un valor de configuración.
   static T? getSetting<T>(String key, {T? defaultValue}) {
     final box = Hive.box(_settingsBox);
     return box.get(key, defaultValue: defaultValue);

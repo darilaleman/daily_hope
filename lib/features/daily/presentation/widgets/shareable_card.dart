@@ -14,7 +14,6 @@ class ShareableCard extends StatelessWidget {
   });
 
   @override
-  @override
   Widget build(BuildContext context) {
     const double canvasHeight = 1080;
     const double canvasWidth = 1080;
@@ -31,13 +30,10 @@ class ShareableCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // SECCIÓN 1: Icono (reducido)
           const SizedBox(height: 20),
           const Icon(Icons.wb_sunny_outlined,
               size: 50, color: Color(0xFFB8996A)),
           const SizedBox(height: 15),
-
-          // SECCIÓN 2: Título (rangos más ajustados)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 80),
             child: AutoSizeText(
@@ -56,34 +52,27 @@ class ShareableCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-
-          // Línea decorativa
           Container(width: 80, height: 2, color: const Color(0xFFB8996A)),
           const SizedBox(height: 15),
-
-          // SECCIÓN 3: Texto principal (más espacio, más líneas y mayor rango)
           Expanded(
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 60), // menos padding
+              padding: const EdgeInsets.symmetric(horizontal: 60),
               child: Center(
                 child: AutoSizeText(
                   text.content(language),
-                  maxLines: 20, // más líneas
+                  maxLines: 20,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Color(0xFF3D3D3D),
                     height: 1.6,
                   ),
-                  minFontSize: 18, // más pequeño
-                  maxFontSize: 60, // más grande
+                  minFontSize: 18,
+                  maxFontSize: 60,
                   stepGranularity: 1,
                 ),
               ),
             ),
           ),
-
-          // Referencia (si existe)
           if (text.reference(language) != null &&
               text.reference(language)!.isNotEmpty) ...[
             const SizedBox(height: 15),
@@ -104,8 +93,6 @@ class ShareableCard extends StatelessWidget {
             ),
           ],
           const SizedBox(height: 20),
-
-          // SECCIÓN 4: Branding (más compacto)
           _buildBranding(),
           const SizedBox(height: 20),
         ],
@@ -113,6 +100,7 @@ class ShareableCard extends StatelessWidget {
     );
   }
 
+  /// Construye la sección de branding con logo y nombre de la app
   Widget _buildBranding() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,

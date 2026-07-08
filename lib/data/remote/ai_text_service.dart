@@ -134,44 +134,31 @@ class AITextService {
   // ============ MÉTODO PRINCIPAL (EL QUE LLAMA EL REPOSITORIO) ============
 
   /// Genera reflexiones bilingües para múltiples días en una sola llamada.
-  ///
-  /// Retorna una lista de Maps con:
-  /// - 'titleEs', 'contentEs' (español)
-  /// - 'titleEn', 'contentEn' (inglés)
-  /// - 'source': 'ai'
   static Future<List<Map<String, dynamic>>> generateMultipleDaysBilingual({
     int daysToGenerate = 3,
   }) async {
-    // 1. Intentar con Groq (rotando entre múltiples keys)
     final groqResult = await _generateMultipleDaysWithGroq(daysToGenerate);
     if (groqResult.isNotEmpty) return groqResult;
 
-    // 2. Fallback a Pollinations
-    print('⚠️ Groq falló (todas las keys), intentando con Pollinations...');
     final pollinationsResult =
         await _generateMultipleDaysWithPollinations(daysToGenerate);
     if (pollinationsResult.isNotEmpty) return pollinationsResult;
 
-    // 3. Todos los servicios fallaron
-    print('❌ Todos los servicios de IA fallaron');
     return [];
   }
 
   // ============ GROQ (PRIMARIO) CON ROTACIÓN DE KEYS ============
 
+  /// Intenta generar con Groq rotando entre múltiples API keys.
   static Future<List<Map<String, dynamic>>> _generateMultipleDaysWithGroq(
       int daysCount) async {
     final keys = await _getGroqKeys();
-    if (keys.isEmpty) {
-      print('⚠️ [Groq] No hay API keys disponibles');
-      return [];
-    }
+    if (keys.isEmpty) return [];
 
     for (int i = 0; i < keys.length; i++) {
       final keyIndex = (_currentKeyIndex + i) % keys.length;
       final apiKey = keys[keyIndex];
 
-      print('🤖 [Groq] Intentando con key #${keyIndex + 1}/${keys.length}...');
       final result = await _tryRequestWithGroqKey(apiKey, daysCount);
 
       if (result != null) {
@@ -183,13 +170,11 @@ class AITextService {
     return [];
   }
 
+  /// Realiza una petición individual a Groq con una API key específica.
   static Future<List<Map<String, dynamic>>?> _tryRequestWithGroqKey(
       String apiKey, int daysCount) async {
     try {
       final prompt = _buildMultiDayPrompt(daysCount);
-
-      print('🤖 [Groq] Generando $daysCount días bilingües...');
-      final startTime = DateTime.now();
 
       final response = await http
           .post(
@@ -214,28 +199,23 @@ class AITextService {
           )
           .timeout(const Duration(seconds: 20));
 
-      final duration = DateTime.now().difference(startTime).inMilliseconds;
-      print('⏱️ [Groq] Respuesta en ${duration}ms');
-
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final content = data['choices'][0]['message']['content'] as String;
         return _parseMultiDayResponse(content, daysCount);
       } else if (response.statusCode == 429) {
-        print('⚠️ [Groq] Key alcanzó límite (429), rotando a la siguiente...');
         return null;
       } else {
-        print('❌ [Groq] Error ${response.statusCode}: ${response.body}');
         return null;
       }
     } catch (e) {
-      print('❌ [Groq] Excepción: $e');
       return null;
     }
   }
 
   // ============ POLLINATIONS (FALLBACK) ============
 
+  /// Genera reflexiones usando Pollinations como servicio alternativo.
   static Future<List<Map<String, dynamic>>>
       _generateMultipleDaysWithPollinations(int daysCount) async {
     try {
@@ -243,31 +223,24 @@ class AITextService {
       final prompt = Uri.encodeComponent(
           '${_buildMultiDayPrompt(daysCount)}\n\nSeed: $seed');
 
-      print('🤖 [Pollinations] Generando $daysCount días bilingües...');
-      final startTime = DateTime.now();
-
       final response = await http
           .get(Uri.parse('$_pollinationsUrl$prompt'))
           .timeout(const Duration(seconds: 40));
-
-      final duration = DateTime.now().difference(startTime).inMilliseconds;
-      print('⏱️ [Pollinations] Respuesta en ${duration}ms');
 
       if (response.statusCode == 200) {
         final content = response.body.trim();
         return _parseMultiDayResponse(content, daysCount);
       } else {
-        print('❌ [Pollinations] Error ${response.statusCode}');
         return [];
       }
     } catch (e) {
-      print('❌ [Pollinations] Excepción: $e');
       return [];
     }
   }
 
   // ============ OBTENER API KEYS (NATIVO OFUSCADO) ============
 
+  /// Obtiene las API keys de Groq desde el código nativo ofuscado.
   static Future<List<String>> _getGroqKeys() async {
     if (_cachedKeys != null && _cachedKeys!.isNotEmpty) return _cachedKeys!;
 
@@ -275,15 +248,13 @@ class AITextService {
       final result = await _channel.invokeMethod<List>('getGroqKeys');
       if (result != null && result.isNotEmpty) {
         _cachedKeys = result.cast<String>();
-        print('✓ Cargadas ${_cachedKeys!.length} API keys desde código nativo');
         return _cachedKeys!;
       }
-    } catch (e) {
-      print('⚠️ No se pudieron obtener las API keys nativas: $e');
-    }
+    } catch (e) {}
     return [];
   }
 
+  /// Limpia la cache de API keys.
   static void clearKeysCache() {
     _cachedKeys = null;
     _currentKeyIndex = 0;
@@ -291,6 +262,7 @@ class AITextService {
 
   // ============ PROMPT ============
 
+  /// Construye el prompt para generar múltiples días de reflexiones bilingües.
   static String _buildMultiDayPrompt(int daysCount) {
     final themes = <String>[];
     for (int i = 0; i < daysCount; i++) {
@@ -339,6 +311,7 @@ ABSOLUTE RULES:
 
   // ============ PARSING ============
 
+  /// Parsea la respuesta de la IA y extrae las reflexiones por día.
   static List<Map<String, dynamic>> _parseMultiDayResponse(
       String rawText, int daysCount) {
     final results = <Map<String, dynamic>>[];
@@ -348,10 +321,7 @@ ABSOLUTE RULES:
       final nextDayPattern = '=== DAY ${dayNum + 1} ===';
 
       final dayStart = rawText.indexOf(dayPattern);
-      if (dayStart == -1) {
-        print('⚠️ No se encontró $dayPattern');
-        continue;
-      }
+      if (dayStart == -1) continue;
 
       final dayEnd = rawText.indexOf(nextDayPattern);
       final dayContent = dayEnd == -1
@@ -399,9 +369,6 @@ ABSOLUTE RULES:
           'contentEn': _cleanContent(contentEn),
           'source': 'ai',
         });
-        print('✓ Día $dayNum procesado correctamente');
-      } else {
-        print('⚠️ Día $dayNum tiene contenido incompleto, omitiendo');
       }
     }
 
@@ -410,12 +377,14 @@ ABSOLUTE RULES:
 
   // ============ VALIDACIONES ============
 
+  /// Verifica si un contenido tiene longitud mínima válida.
   static bool _hasContent(dynamic value) {
     if (value == null) return false;
     if (value is! String) return false;
     return value.trim().length >= 10;
   }
 
+  /// Verifica si un título tiene una longitud válida (entre 4 y 10 palabras).
   static bool _isValidTitle(String title) {
     final cleaned = title.trim();
     if (cleaned.length < 15) return false;
@@ -424,6 +393,7 @@ ABSOLUTE RULES:
     return true;
   }
 
+  /// Limpia y formatea un título, eliminando comillas si las tiene.
   static String _cleanAndFormatTitle(String title) {
     String cleaned = title.trim();
     if (cleaned.startsWith('"') && cleaned.endsWith('"')) {
@@ -435,6 +405,7 @@ ABSOLUTE RULES:
     return cleaned.trim();
   }
 
+  /// Limpia el contenido eliminando prefijos de etiquetas que puedan haber quedado.
   static String _cleanContent(String content) {
     String cleaned = content.trim();
     cleaned =

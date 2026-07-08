@@ -28,39 +28,26 @@ class StreakService {
     int maxStreak = getMaxStreak();
 
     if (lastRead == null) {
-      // Primera vez que usa la app
       currentStreak = 1;
     } else {
       final lastReadDay = DateTime(lastRead.year, lastRead.month, lastRead.day);
 
       if (_isSameDay(lastReadDay, today)) {
-        // Ya leyó hoy, no hacer nada
         return;
       } else if (_isYesterday(lastReadDay, today)) {
-        // Última lectura fue ayer → streak + 1
         currentStreak += 1;
       } else {
-        // Última lectura fue hace 2+ días → reiniciar streak
         currentStreak = 1;
       }
     }
 
-    // Actualizar racha máxima si es necesario
     if (currentStreak > maxStreak) {
       maxStreak = currentStreak;
       await HiveService.setSetting('max_streak', maxStreak);
     }
 
-    // Guardar datos
     await HiveService.setSetting('current_streak', currentStreak);
     await HiveService.setSetting('last_read_date', today.toIso8601String());
-  }
-
-  /// Reinicia el streak (útil para testing)
-  static Future<void> resetStreak() async {
-    await HiveService.setSetting('current_streak', 0);
-    await HiveService.setSetting('max_streak', 0);
-    await HiveService.setSetting('last_read_date', null);
   }
 
   /// Verifica si dos fechas son el mismo día

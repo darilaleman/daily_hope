@@ -17,7 +17,6 @@ class ShareUtils {
     required String language,
   }) async {
     try {
-      // Capturar el widget como imagen (operación asíncrona necesaria)
       final Uint8List imageBytes =
           await _screenshotController.captureFromWidget(
         ShareableCard(
@@ -25,21 +24,18 @@ class ShareUtils {
           language: language,
         ),
         delay: const Duration(milliseconds: 100),
-        pixelRatio: 1.0, // 1080x1080
+        pixelRatio: 1.0,
       );
 
       if (imageBytes.isEmpty) {
         throw Exception('No se pudo generar la imagen');
       }
 
-      // Guardar temporalmente
       final directory = await getTemporaryDirectory();
       final imagePath = File(
           '${directory.path}/daily_hope_${DateTime.now().millisecondsSinceEpoch}.png');
       await imagePath.writeAsBytes(imageBytes);
 
-      // Lanzar el selector de compartir SIN esperar a que el usuario termine.
-      // Usamos unawaited para no bloquear el retorno de esta función.
       unawaited(
         Share.shareXFiles(
           [XFile(imagePath.path)],
@@ -47,19 +43,14 @@ class ShareUtils {
               ? '✨ Daily Hope - ${text.title(language)}'
               : '✨ Esperanza Diaria - ${text.title(language)}',
         ).then((_) {
-          // Al terminar (compartido o cancelado), borrar el archivo tras un breve retraso
           _deleteFileAfterDelay(imagePath, const Duration(seconds: 2));
         }).catchError((e) {
-          // Si falla al compartir, igualmente borrar el archivo
           _deleteFileAfterDelay(imagePath, const Duration(seconds: 1));
         }),
       );
 
-      // Retornamos inmediatamente; el selector de compartir ya se está mostrando.
       return;
     } catch (e) {
-      print('❌ Error capturando imagen: $e');
-      // Fallback a compartir texto (esta operación sí espera, pero es excepcional)
       await shareText(
         title: text.title(language),
         content: text.content(language),

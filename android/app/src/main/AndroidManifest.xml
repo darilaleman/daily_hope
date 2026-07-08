@@ -10,7 +10,6 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
-    <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     
     <application
@@ -21,7 +20,7 @@
         <!-- ✅ RECEIVER PARA PERSISTIR NOTIFICACIONES AL REINICIAR EL DISPOSITIVO -->
         <receiver 
             android:exported="false" 
-            android:name="com.dexterous.flutterlocalnotifications.scheduled.ScheduledNotificationBootReceiver">
+            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
@@ -33,7 +32,7 @@
         <!-- ✅ RECEIVER PARA RECIBIR NOTIFICACIONES PROGRAMADAS -->
         <receiver 
             android:exported="false" 
-            android:name="com.dexterous.flutterlocalnotifications.scheduled.ScheduledNotificationReceiver"/>
+            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver"/>
         
         <activity
             android:name=".MainActivity"

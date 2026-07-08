@@ -20,9 +20,6 @@ class LanguageNotifier extends StateNotifier<String> {
     if (state == newLanguage) return;
     state = newLanguage;
     await HiveService.setSetting('language', newLanguage);
-    // NO invalidamos el caché porque ahora tenemos ambos idiomas
-    // El DailyScreen solo necesita recargar para leer el texto en el nuevo idioma
-    print('🌍 Idioma cambiado a $newLanguage (cambio instantáneo)');
   }
 
   String get currentLanguageName {

@@ -5,6 +5,7 @@ import '../../features/daily/presentation/screens/history_screen.dart';
 import '../../features/settings/presentation/screens/settings_screen.dart';
 
 class AppRouter {
+  /// Genera las rutas de la aplicación según el nombre proporcionado
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':

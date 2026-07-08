@@ -31,31 +31,26 @@ class _LoadingScreenState extends State<LoadingScreen>
   void initState() {
     super.initState();
 
-    // Rotación del sol (lenta, elegante)
     _rotationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 8),
     )..repeat();
 
-    // Pulso del círculo exterior
     _pulseController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 2000),
     )..repeat(reverse: true);
 
-    // Puntos suspensivos animados
     _dotsController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1500),
     );
 
-    // Transición entre frases
     _phraseController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 800),
     );
 
-    // Timer para los puntos
     _dotsTimer = Timer.periodic(const Duration(milliseconds: 500), (_) {
       if (mounted) {
         setState(() {
@@ -64,7 +59,6 @@ class _LoadingScreenState extends State<LoadingScreen>
       }
     });
 
-    // Timer para rotar frases
     _phraseTimer = Timer.periodic(const Duration(seconds: 3), (_) {
       if (mounted) {
         _phraseController.forward().then((_) {
@@ -99,13 +93,8 @@ class _LoadingScreenState extends State<LoadingScreen>
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Spacer(flex: 2),
-
-          // Sol animado con pulso
           _buildAnimatedSun(),
-
           const SizedBox(height: 40),
-
-          // Título principal
           const Text(
             'ESPERANZA DIARIA',
             style: TextStyle(
@@ -115,25 +104,13 @@ class _LoadingScreenState extends State<LoadingScreen>
               fontWeight: FontWeight.bold,
             ),
           ),
-
           const SizedBox(height: 24),
-
-          // Línea decorativa animada
           _buildAnimatedLine(),
-
           const SizedBox(height: 32),
-
-          // Frase rotativa con fade
           _buildRotatingPhrase(),
-
           const SizedBox(height: 16),
-
-          // Puntos suspensivos animados
           _buildAnimatedDots(),
-
           const Spacer(flex: 3),
-
-          // Pequeño texto inferior
           const Opacity(
             opacity: 0.5,
             child: Text(
@@ -155,11 +132,10 @@ class _LoadingScreenState extends State<LoadingScreen>
     return AnimatedBuilder(
       animation: Listenable.merge([_rotationController, _pulseController]),
       builder: (context, child) {
-        final pulseValue = _pulseController.value; // 0 a 1
+        final pulseValue = _pulseController.value;
         return Stack(
           alignment: Alignment.center,
           children: [
-            // Círculo exterior pulsante
             Container(
               width: 120 + (pulseValue * 20),
               height: 120 + (pulseValue * 20),
@@ -169,7 +145,6 @@ class _LoadingScreenState extends State<LoadingScreen>
                     .withValues(alpha: 0.1 - (pulseValue * 0.05)),
               ),
             ),
-            // Segundo círculo
             Container(
               width: 100 + (pulseValue * 10),
               height: 100 + (pulseValue * 10),
@@ -179,7 +154,6 @@ class _LoadingScreenState extends State<LoadingScreen>
                     .withValues(alpha: 0.15 - (pulseValue * 0.05)),
               ),
             ),
-            // Sol rotando
             Transform.rotate(
               angle: _rotationController.value * 2 * 3.1416,
               child: const Icon(

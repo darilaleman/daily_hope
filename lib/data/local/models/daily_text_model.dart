@@ -9,16 +9,13 @@
 class DailyTextModel {
   final String id;
   final DateTime date;
-  final String source; // 'local' | 'ai' | 'fallback'
-  final String
-      category; // 'motivacion' | 'reflexion' | 'oracion' | 'prayer' | 'reflection'
+  final String source;
+  final String category;
 
-  // Español
   final String titleEs;
   final String contentEs;
   final String? referenceEs;
 
-  // Inglés
   final String titleEn;
   final String contentEn;
   final String? referenceEn;
@@ -36,8 +33,6 @@ class DailyTextModel {
     this.referenceEn,
   });
 
-  // ==================== GETTERS POR IDIOMA ====================
-
   /// Título en el idioma solicitado
   String title(String lang) => lang == 'en' ? titleEn : titleEs;
 
@@ -47,8 +42,7 @@ class DailyTextModel {
   /// Referencia en el idioma solicitado (puede ser null)
   String? reference(String lang) => lang == 'en' ? referenceEn : referenceEs;
 
-  // ==================== SERIALIZACIÓN ====================
-
+  /// Convierte el modelo a JSON
   Map<String, dynamic> toJson() => {
         'id': id,
         'date': date.toIso8601String(),
@@ -63,14 +57,7 @@ class DailyTextModel {
       };
 
   /// Factory con migración automática desde el formato antiguo.
-  ///
-  /// Si el JSON tiene el formato nuevo (titleEs, titleEn, etc.) lo usa directo.
-  /// Si tiene el formato viejo (title, content, language), lo migra:
-  ///   - Si language == 'es' → lo pone en titleEs/contentEs
-  ///   - Si language == 'en' → lo pone en titleEn/contentEn
-  ///   - Los campos del idioma faltante quedan vacíos (se llenarán después)
   factory DailyTextModel.fromJson(Map<String, dynamic> json) {
-    // Detectar formato nuevo
     final bool isNewFormat =
         json.containsKey('titleEs') || json.containsKey('titleEn');
 
@@ -92,7 +79,6 @@ class DailyTextModel {
       );
     }
 
-    // Formato antiguo → migrar
     final String oldLang = json['language'] as String? ?? 'es';
     final String oldTitle = json['title'] as String? ?? '';
     final String oldContent = json['content'] as String? ?? '';
@@ -114,10 +100,7 @@ class DailyTextModel {
     );
   }
 
-  // ==================== HELPERS ====================
-
-  /// Normaliza categorías antiguas (oracion → prayer, reflexion → reflection)
-  /// para mantener consistencia interna.
+  /// Normaliza categorías antiguas para mantener consistencia interna.
   static String _normalizeCategory(String cat) {
     switch (cat.toLowerCase()) {
       case 'oracion':
@@ -138,7 +121,6 @@ class DailyTextModel {
   }
 
   /// Crea una copia con los campos del idioma indicado reemplazados.
-  /// Útil cuando la IA genera solo un idioma y luego queremos agregar el otro.
   DailyTextModel copyWithLang({
     required String lang,
     String? title,

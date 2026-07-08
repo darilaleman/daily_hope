@@ -21,7 +21,7 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
   DailyTextModel? _dailyText;
   bool _isLoading = true;
   int _currentStreak = 0;
-  bool _isSharing = false; // ✅ Flag para evitar múltiples shares
+  bool _isSharing = false;
 
   @override
   void initState() {
@@ -45,10 +45,8 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
     try {
       final text = await _repository.getDailyText();
 
-      // ✅ Marcar hoy como leído (actualiza streak)
       await StreakService.markTodayAsRead();
 
-      // ✅ Cargar el streak actual
       final streak = StreakService.getCurrentStreak();
 
       if (mounted) {
@@ -61,7 +59,6 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
     } catch (e) {
       if (mounted) {
         setState(() {
-          e.toString();
           _isLoading = false;
         });
       }
@@ -152,16 +149,12 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       child: Column(
         children: [
-          // ✅ HEADER CON STREAK SUTIL A LA IZQUIERDA
           Row(
             children: [
-              // Streak sutil a la izquierda (solo si > 0)
               if (_currentStreak > 0)
                 _buildStreakWidget(lang)
               else
                 const SizedBox(width: 1),
-
-              // Espacio flexible para centrar el título
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -184,8 +177,6 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
                   ],
                 ),
               ),
-
-              // Spacer del mismo ancho que el streak para balance visual
               if (_currentStreak > 0)
                 const SizedBox(width: 60)
               else
@@ -309,13 +300,12 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
     );
   }
 
-  /// ✅ Manejo robusto del share con dialog
+  /// Manejo robusto del share con dialog
   Future<void> _handleShare(String lang) async {
     if (_dailyText == null || _isSharing) return;
 
     setState(() => _isSharing = true);
 
-    // Mostrar loading dialog
     if (!mounted) return;
 
     showDialog(
@@ -346,7 +336,6 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
         );
       }
     } finally {
-      // ✅ Cerrar dialog de forma segura
       if (mounted && Navigator.canPop(context)) {
         Navigator.of(context).pop();
       }

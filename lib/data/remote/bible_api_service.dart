@@ -194,14 +194,12 @@ class BibleApiService {
     final random = Random();
     final index = random.nextInt(_popularVerses.length);
     final reference = _popularVerses[index];
-    print('📖 Obteniendo versículo: $reference');
     return getVerse(reference);
   }
 
   /// Obtiene un versículo por referencia y lo traduce al español
   static Future<Map<String, dynamic>?> getVerse(String reference) async {
     try {
-      // SIN parámetro translation (usa WEB por defecto, en inglés)
       final response = await http
           .get(Uri.parse('$_baseUrl/$reference'))
           .timeout(const Duration(seconds: 10));
@@ -213,7 +211,6 @@ class BibleApiService {
 
         if (englishText.isEmpty) return null;
 
-        // Traducir al español usando Pollinations
         final spanishText = await _translateToSpanish(englishText);
         final spanishRef = await _translateReference(englishRef);
 
@@ -223,12 +220,8 @@ class BibleApiService {
           'original_reference': englishRef,
           'original_text': englishText,
         };
-      } else {
-        print('❌ Bible API error: ${response.statusCode}');
       }
-    } catch (e) {
-      print('❌ Bible API exception: $e');
-    }
+    } catch (e) {}
     return null;
   }
 
@@ -260,7 +253,6 @@ class BibleApiService {
 
       return null;
     } catch (e) {
-      print('Error traduciendo: $e');
       return null;
     }
   }
@@ -289,7 +281,6 @@ class BibleApiService {
 
       return null;
     } catch (e) {
-      print('Error traduciendo referencia: $e');
       return null;
     }
   }
@@ -298,12 +289,10 @@ class BibleApiService {
   static String _cleanQuotes(String text) {
     String cleaned = text;
 
-    // Quitar comillas dobles al inicio y final
     if (cleaned.startsWith('"') && cleaned.endsWith('"')) {
       cleaned = cleaned.substring(1, cleaned.length - 1);
     }
 
-    // Quitar comillas simples al inicio y final
     if (cleaned.startsWith("'") && cleaned.endsWith("'")) {
       cleaned = cleaned.substring(1, cleaned.length - 1);
     }

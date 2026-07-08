@@ -18,7 +18,7 @@ class HistoryScreen extends ConsumerStatefulWidget {
 class _HistoryScreenState extends ConsumerState<HistoryScreen> {
   List<DailyTextModel> _history = [];
   bool _isLoading = true;
-  bool _isSharing = false; // ✅ Flag para evitar múltiples shares
+  bool _isSharing = false;
 
   @override
   void initState() {
@@ -271,19 +271,17 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
     );
   }
 
-  /// ✅ Manejo robusto del share con loading dialog
+  /// Manejo robusto del share con loading dialog
   Future<void> _handleShare(
       BuildContext sheetContext, DailyTextModel item, String lang) async {
     if (_isSharing) return;
 
     setState(() => _isSharing = true);
 
-    // Cerrar bottom sheet
     if (mounted) {
       Navigator.of(sheetContext).pop();
     }
 
-    // Mostrar loading dialog
     if (!mounted) return;
 
     showDialog(
@@ -314,7 +312,6 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
         );
       }
     } finally {
-      // ✅ Cerrar dialog de forma segura
       if (mounted && Navigator.canPop(context)) {
         Navigator.of(context).pop();
       }
@@ -324,13 +321,12 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
     }
   }
 
-  /// ✅ Manejo robusto de toggle favorite
+  /// Manejo robusto de toggle favorite
   Future<void> _handleToggleFavorite(BuildContext sheetContext,
       DailyTextModel item, bool isFavorite, String Function(String) t) async {
     await ref.read(favoritesProvider.notifier).toggleFavorite(item);
 
     if (mounted) {
-      // ✅ NO cerrar el bottom sheet, solo mostrar feedback
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(isFavorite

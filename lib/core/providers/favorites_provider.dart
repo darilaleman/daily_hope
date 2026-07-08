@@ -7,10 +7,12 @@ class FavoritesNotifier extends StateNotifier<List<DailyTextModel>> {
     loadFavorites();
   }
 
+  /// Carga los favoritos desde Hive
   void loadFavorites() {
     state = HiveService.getFavorites();
   }
 
+  /// Agrega o elimina un texto de favoritos
   Future<void> toggleFavorite(DailyTextModel text) async {
     final isFav = isFavorite(text.id);
 
@@ -20,10 +22,10 @@ class FavoritesNotifier extends StateNotifier<List<DailyTextModel>> {
       await HiveService.addFavorite(text);
     }
 
-    // Recargar lista
     loadFavorites();
   }
 
+  /// Verifica si un texto es favorito
   bool isFavorite(String id) {
     return state.any((fav) => fav.id == id);
   }

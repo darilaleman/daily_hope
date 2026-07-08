@@ -15,7 +15,7 @@ class FavoritesScreen extends ConsumerStatefulWidget {
 }
 
 class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
-  bool _isSharing = false; // ✅ Flag para evitar múltiples shares
+  bool _isSharing = false;
 
   @override
   Widget build(BuildContext context) {
@@ -218,19 +218,17 @@ class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
     );
   }
 
-  /// ✅ Manejo robusto del share con loading dialog
+  /// Manejo robusto del share con loading dialog
   Future<void> _handleShare(
       BuildContext sheetContext, DailyTextModel item, String lang) async {
     if (_isSharing) return;
 
     setState(() => _isSharing = true);
 
-    // Cerrar bottom sheet
     if (mounted) {
       Navigator.of(sheetContext).pop();
     }
 
-    // Mostrar loading dialog
     if (!mounted) return;
 
     showDialog(
@@ -261,7 +259,6 @@ class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
         );
       }
     } finally {
-      // ✅ Cerrar dialog de forma segura
       if (mounted && Navigator.canPop(context)) {
         Navigator.of(context).pop();
       }
@@ -271,17 +268,15 @@ class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
     }
   }
 
-  /// ✅ Manejo robusto de eliminación
+  /// Manejo robusto de eliminación
   Future<void> _handleRemove(BuildContext sheetContext, DailyTextModel item,
       String lang, String Function(String) t) async {
-    // Cerrar bottom sheet primero
     if (mounted) {
       Navigator.of(sheetContext).pop();
     }
 
     if (!mounted) return;
 
-    // Mostrar diálogo de confirmación
     final confirm = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
@@ -313,7 +308,6 @@ class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
       ),
     );
 
-    // Si confirma, eliminar el favorito
     if (confirm == true && mounted) {
       await ref.read(favoritesProvider.notifier).toggleFavorite(item);
 
